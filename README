@@ -1,0 +1,12 @@
+PYTHON 3
+
+Se necesita instalar la librería libmagic
+En MAC se puede hacer a través de Homebrew: (tambien sirve para Linux)
+https://brew.sh
+
+y una vez instalado:
+brew install libmagic
+
+
+Algunos módulos tiene requirements en sus carpetas correspondientes
+pip3 install -r requirements.txt

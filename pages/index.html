@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+<style>
+.form{
+  width: 100%;
+  padding: 15px;
+  background:#f8f8f8;
+  border:1px solid rgba(0, 0, 0, 0.075);
+  margin-bottom:25px;
+  color:#727272;
+  font-size:13px;
+}
+.center{
+  margin-top:330px;
+}
+.form-btn{
+    width:180px;
+    display: block;
+    height: auto;
+    padding:15px;
+    color:#fff;
+    background:#8BC3A3;
+    border:none;
+    border-radius:3px;
+    outline: none;
+    transition: all 0.3s;
+    margin:auto;
+}
+.form-control-file{
+    height: auto;
+    padding:15px;
+    color:#000;
+    outline: auto;
+    margin:auto;
+}
+#modules{
+    height: auto;
+    padding:15px;
+    color:#000;
+    outline: auto;
+    margin:auto;
+    width: 400px;
+}
+</style>
+</head>
+<script>
+  function getModules(){
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var modules = JSON.parse(this.responseText);
+            domModules = document.getElementById("modules");
+            for (i=0;i<modules.length;i++){
+              module = modules[i];
+              var div = document.createElement("div");
+              div.className = "form-check";
+              //checkbox
+              var input = document.createElement("input");
+              input.setAttribute("type", "checkbox");
+              input.setAttribute("name", module.name);
+              input.setAttribute("value", module.index);
+              input.setAttribute("id", "checkbox-"+module.index);
+              input.checked = true;
+              input.className = "form-check-input";
+              //label
+              var label = document.createElement("label");
+              label.setAttribute("for", module.name);
+              label.innerText = module.name;
+              input.setAttribute("id", "label-"+module.index);
+              label.className = "form-check-label";
+              //text params
+              var inputText = document.createElement("input");
+              inputText.setAttribute("type", "text");
+              inputText.setAttribute("id", "text-"+module.index);
+              params = ""
+              
+              for (var j=0;j<module.params.length;j++){
+                params+=module.params[j]+" "
+              }
+              if (params.length>0){
+                params = params.slice(0,-1);
+              }
+              inputText.setAttribute("value", params);
+              inputText.className = "form-check-text form-control";
+
+              div.appendChild(input);
+              div.appendChild(label);
+              div.appendChild(inputText);
+              domModules.appendChild(div);
+            }
+       }
+    };
+    xhttp.open("GET", "/listModules", true);
+    xhttp.send();
+  }
+  getModules();
+
+  function send(){
+    var values = [];
+    var cbs = document.getElementsByClassName("form-check-input");
+    console.log(cbs);
+    for(var i=0;i<cbs.length;i++){
+      if(cbs[i].checked){
+        values.push(cbs[i].value+":"+document.getElementById("text-"+cbs[i].value).value);  
+      }
+    }
+    form = document.getElementById("submitForm");
+    form.setAttribute("action", "/?values="+values);
+    form.submit();
+  }
+</script>
+<body>
+  <div class="inner">
+    <form id="submitForm" method="post" enctype="multipart/form-data" class="form center">
+      <div class="form-group">
+        <input type="file" class="form-control-file" id="fileToUpload" name="fileToUpload">
+      </div>
+      <div class="form-group" id="modules">
+      </div>
+      <div class="form-group">
+        <button type="button" class="form-btn" name="btnSubmit" onclick="send()">Submit</button>
+      </div>
+    </form>
+</div>
+</body>
+</html>

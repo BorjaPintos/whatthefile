@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"></head>
+<style>
+.form{
+  width: 100%;
+  padding: 15px;
+  background:#f8f8f8;
+  border:1px solid rgba(0, 0, 0, 0.075);
+  margin-bottom:25px;
+  color:#727272;
+  font-size:13px;
+}
+.center{
+  margin-top:330px;
+}
+.form-btn{
+    width:180px;
+    display: block;
+    height: auto;
+    padding:15px;
+    color:#fff;
+    background:#8BC3A3;
+    border:none;
+    border-radius:3px;
+    outline: none;
+    transition: all 0.3s;
+    margin:auto;
+}
+.form-control-file{
+    height: auto;
+    padding:15px;
+    color:#000;
+    outline: auto;
+    margin:auto;
+}
+<!-- comentario
+multiline de html
+y termina aqui -->
+</style>
+<body>
+  <div class="inner">
+    <form method="post" enctype="multipart/form-data" class="form center">
+      <div class="form-group">
+        <input type="file" class="form-control-file" id="fileToUpload" name="fileToUpload">
+      </div>
+      <div class="form-group">
+        <button type="submit" class="form-btn" name="submit">Submit</button>
+      </div>
+    </form>
+</div>
+</body>
+</html>

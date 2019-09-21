@@ -1,0 +1,5 @@
+Linux
+apt install tesseract-ocr
+
+Mac
+brew install tesseract

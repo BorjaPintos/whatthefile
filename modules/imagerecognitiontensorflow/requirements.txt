@@ -1,0 +1,6 @@
+scikit-learn
+virtualenv
+h5py
+tensorflow
+keras
+pillow
