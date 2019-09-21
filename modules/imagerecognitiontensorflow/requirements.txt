@@ -1,6 +1,6 @@
-scikit-learn
-virtualenv
-h5py
-tensorflow
-keras
-pillow
+scikit-learn==0.21.3
+virtualenv==16.7.5
+h5py==2.10.0
+tensorflow==1.14.0
+keras==2.3.0
+pillow==6.1.0
