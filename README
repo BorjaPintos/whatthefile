@@ -10,3 +10,6 @@ brew install libmagic
 
 Algunos módulos tiene requirements en sus carpetas correspondientes
 pip3 install -r requirements.txt
+
+Para ejecutar
+python app
