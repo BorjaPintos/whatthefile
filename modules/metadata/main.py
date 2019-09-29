@@ -10,6 +10,10 @@ def cleanReport(report):
     for key in keyToDel:
         del report[key]
 
+
+def getHelp():
+	return """Module to extract metadata using exiftool"""
+
 def getParams():
   return []
 

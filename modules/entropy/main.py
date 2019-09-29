@@ -27,6 +27,9 @@ def generateReportEntropy(analysingFile):
 def validFor(analysingFile):
 	return True
 
+def getHelp():
+	return """Module to calculate Shannon entropy"""
+
 def getParams():
   return []
 

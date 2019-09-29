@@ -13,23 +13,26 @@ SLASH = "/"
 modules = []
 
 class Module():
-	def __init__(self, name, index, mod, active, params):
-		self.name = name
-		self.index = index
-		self.mod = mod
-		self.active = active
-		self.params = params
+	def __init__(self, name, index, mod, active, params, help):
+		self._name = name
+		self._index = index
+		self._mod = mod
+		self._active = active
+		self._params = params
+		self._help = help
 
 	def getName(self):
-		return self.name
+		return self._name
 	def getIndex(self):
-		return self.index
+		return self._index
 	def getMod(self):
-		return self.mod
+		return self._mod
 	def isActive(self):
-		return self.active
+		return self._active
 	def getParams(self):
-		return self.params
+		return self._params
+	def getHelp(self):
+		return self._help
 
 
 class AnalysingFile():
@@ -62,7 +65,7 @@ def loadModules(path):
 		completePath = os.path.join(MODULESPATH, entry)
 		if not os.path.isfile(completePath):
 			py_mod = imp.load_source(entry, os.path.join(completePath,"main.py"))
-			addModule(Module(entry, index, py_mod, True, py_mod.getParams()))
+			addModule(Module(entry, index, py_mod, True, py_mod.getParams(), py_mod.getHelp()))
 			index += 1
 
 def calculateMD5(binary):
@@ -121,9 +124,10 @@ def getModules():
 	for module in modules:
 		if module.isActive:
 			mod = {}
-			mod['name']=module.name
-			mod['index']=module.index
-			mod['params']=module.params
+			mod['name']=module.getName()
+			mod['index']=module.getIndex()
+			mod['params']=module.getParams()
+			mod['help']=module.getHelp()
 			array.append(mod)
 	return array
 

@@ -7,12 +7,9 @@
   padding: 15px;
   background:#f8f8f8;
   border:1px solid rgba(0, 0, 0, 0.075);
-  margin-bottom:25px;
+  margin-bottom:15px;
   color:#727272;
   font-size:13px;
-}
-.center{
-  margin-top:330px;
 }
 .form-btn{
     width:180px;
@@ -42,6 +39,26 @@
     margin:auto;
     width: 400px;
 }
+/* Tooltip text */
+.help .tooltiptext {
+  visibility: hidden;
+  width: 500px;
+  background-color: #ff7;
+  color: #000;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.help:hover .tooltiptext {
+  visibility: visible;
+}
+
 </style>
 </head>
 <script>
@@ -69,6 +86,16 @@
               label.innerText = module.name;
               input.setAttribute("id", "label-"+module.index);
               label.className = "form-check-label";
+
+              //help
+              spanIconHelp = document.createElement("span")
+              spanIconHelp.className = "glyphicon glyphicon-info-sign help"
+              
+              spanTextHelp = document.createElement("span")
+              spanTextHelp.className = "tooltiptext"
+              spanTextHelp.innerText = module.help
+              spanIconHelp.appendChild(spanTextHelp)
+
               //text params
               var inputText = document.createElement("input");
               inputText.setAttribute("type", "text");
@@ -86,7 +113,9 @@
 
               div.appendChild(input);
               div.appendChild(label);
+              div.appendChild(spanIconHelp)
               div.appendChild(inputText);
+
               domModules.appendChild(div);
             }
        }

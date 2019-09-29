@@ -28,6 +28,11 @@ def validFor(analysingFile):
 		return False
 	return True
 
+
+def getHelp():
+	return """Module to extract strings from file.
+	param: [""" + MIN + """] is the minimum length that the strings must have"""
+
 def getParams():
   return [MIN+"=4"]
 

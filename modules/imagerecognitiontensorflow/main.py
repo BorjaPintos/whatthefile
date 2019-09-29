@@ -31,6 +31,9 @@ def generateReportPredictions(analysingFile):
         predictionsDict[redictionName] = str(probability)
     return predictionsDict
 
+def getHelp():
+	return """Module to predict what is the image using tensorflow"""
+
 def getParams():
   return []
 

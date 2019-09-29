@@ -21,6 +21,9 @@ def generateReportComments(binary):
 	commentsDict['scriptComments'] = getScriptComments(binary)
 	return commentsDict
 
+def getHelp():
+	return """Module to extract commets."""
+
 def getParams():
   return []
 

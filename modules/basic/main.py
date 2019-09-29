@@ -4,6 +4,9 @@ def generateReportBasic(analysingFile):
 	basicDict['filetype'] = analysingFile.getFiletype()
 	return basicDict
 
+def getHelp():
+	return """Module to calculate filetype"""
+
 def getParams():
   return []
 

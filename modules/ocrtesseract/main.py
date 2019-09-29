@@ -28,6 +28,10 @@ def extractImageText(imagepath):
 def getImageText(analysingFile):
     return extractImageText(analysingFile.getCompletePath())
 
+
+def getHelp():
+	return """Module to extract text fom image using ocr tesseract"""
+
 def getParams():
   return []
 

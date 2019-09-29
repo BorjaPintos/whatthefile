@@ -20,6 +20,9 @@ def generateReportVT(analysingFile):
 		virusTotalReport['avDetections'] = 	avDetections
 	return virusTotalReport
 
+def getHelp():
+	return """Module to analyze file using virus total, only the hash will be sumitted."""
+
 def getParams():
   return []
 
