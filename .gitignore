@@ -1,5 +1,7 @@
 .DS_Store
 
+.vscode
+
 analized/
 
 # Byte-compiled / optimized / DLL files
