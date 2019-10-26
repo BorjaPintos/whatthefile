@@ -19,7 +19,7 @@ class ProdConfig(Config):
     """Production configuration."""
     ENV = 'prod'
     DEBUG = False
-    PROTOCOL = "https"
+    PROTOCOL = "http"
     HOST = '0.0.0.0'
     ENDPOINT_SERVER = "URLACCESSERVER"
     PORT = 8443

@@ -26,24 +26,24 @@ cd ..
 
 #install module ocrtesseract
 RUN apt update && apt install -y tesseract-ocr && \
-pip3.7 install -r ./modules/ocrtesseract/requirements.txt
+pip3.7 install -r ./modules/ocrtesseract/requirements.txt --extra-index-url https://www.piwheels.hostedpi.com/simple
 
 #install module imagerecognitiontensorflow
-RUN pip3.7 install -r ./modules/imagerecognitiontensorflow/requirements.txt
+RUN pip3.7 install -r ./modules/imagerecognitiontensorflow/requirements.txt --extra-index-url https://www.piwheels.hostedpi.com/simple
 
 #install module zipextractor
 RUN pip3.7 install -r ./modules/zipextractor/requirements.txt
 
 #install module qrreader
 RUN apt install -y libzbar0 && \
-pip3.7 install -r ./modules/qrreader/requirements.txt
+pip3.7 install -r ./modules/qrbcreader/requirements.txt
 
 #update system
 RUN apt -y upgrade
 
-EXPOSE 8080
+EXPOSE 8443
 
-CMD ["python3.7","app.py"]
+CMD ["python3.7","runpro.py"]
 
 
 

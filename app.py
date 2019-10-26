@@ -29,4 +29,5 @@ def create_app(config_object=DevConfig):
     app.run(host=config_object.HOST, port=config_object.PORT)
 
 
-app = create_app()
+if __name__== "__main__":
+    app = create_app()
