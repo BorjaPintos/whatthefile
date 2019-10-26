@@ -29,7 +29,7 @@ class Constructor(IModule):
                         binary = file.read()
                 except:
                     try:
-                        with AESZipFile('comprimidoConPass.zip', 'r') as zf:
+                        with AESZipFile(targetFile.getCompletePath(), 'r') as zf:
                             zf.pwd = pwd
                             binary = zf.read(info.filename)
                     except:
