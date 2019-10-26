@@ -40,11 +40,14 @@ class LoaderModules():
 
 	def _import_module(self, position : int, entry : str):
 		try:
+			if (entry == "__pycache__"):
+				return False
 			mod = importlib.import_module(MODULESPACKAGE+entry+MODULEMAIN)
 			py_mod = getattr(mod, MODULECONSTRUCTORCLASS)()
 			self._addModule(Module(entry, position, py_mod, True, py_mod.getParams(), py_mod.getHelp()))
 			return True
 		except Exception as e:
+			traceback.print_exc()
 			return False
 		
 

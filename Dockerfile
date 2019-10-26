@@ -31,6 +31,13 @@ pip3.7 install -r ./modules/ocrtesseract/requirements.txt
 #install module imagerecognitiontensorflow
 RUN pip3.7 install -r ./modules/imagerecognitiontensorflow/requirements.txt
 
+#install module zipextractor
+RUN pip3.7 install -r ./modules/zipextractor/requirements.txt
+
+#install module qrreader
+RUN apt install -y libzbar0 && \
+pip3.7 install -r ./modules/qrreader/requirements.txt
+
 #update system
 RUN apt -y upgrade
 

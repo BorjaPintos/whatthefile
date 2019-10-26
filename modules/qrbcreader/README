@@ -1,0 +1,5 @@
+Linux
+apt install libzbar0
+
+Mac
+brew install zbar
