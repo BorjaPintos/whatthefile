@@ -1,28 +1,31 @@
 # -*- coding: utf-8 -*-
 import exiftool
 import os
-
-def cleanReport(report):
-    keyToDel = []
-    for key in report:
-        if (('File' in key) or ('ExifTool' in key)):
-            keyToDel.append(key)
-    for key in keyToDel:
-        del report[key]
+from modules.imodule import IModule
 
 
-def getHelp():
-	return """Module to extract metadata using exiftool"""
+class Constructor(IModule):
 
-def getParams():
-  return []
+    def __init__(self):
+        self._name = "exiftool"
+        self._help = """Module to extract metadata"""
+        self._author = "BorjaPintos"
+        self._params = []
 
-def validFor(analysingFile):
-	return True
+    def _cleanReport(self, report):
+        keyToDel = []
+        for key in report:
+            if (('File' in key) or ('ExifTool' in key)):
+                keyToDel.append(key)
+        for key in keyToDel:
+            del report[key]
 
-def generateReport(analysingFile, params):
-    report = {}
-    with exiftool.ExifTool() as et:
-        report = et.get_metadata(os.path.join(analysingFile.getDirectory(),analysingFile.getName()))
-        cleanReport(report)
-    return report
+    def validFor(self, targetFile):
+        return True
+
+    def generateReport(self, targetFile, params):
+        report = {}
+        with exiftool.ExifTool() as et:
+            report = et.get_metadata(os.path.join(targetFile.getDirectory(),targetFile.getName()))
+            self._cleanReport(report)
+        return report

@@ -36,7 +36,7 @@ RUN apt -y upgrade
 
 EXPOSE 8080
 
-CMD ["python3.7","analisisFicherosServer.py"]
+CMD ["python3.7","app.py"]
 
 
 

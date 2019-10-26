@@ -7,7 +7,7 @@ def addHeaders(app, config_object):
     def add_headers(resp):
         if resp.headers['Content-Type'] is None:
             resp.headers['Content-Type'] = 'application/json'
-        resp.headers['Server'] = 'file-analyzer-server'
+        resp.headers['Server'] = config_object.SERVERNAME
         if (config_object.PROTOCOL is 'https'):
             resp.headers['Strict-Transport-Security'] = 'max-age=31536000; \
                 includeSubDomains'
@@ -23,7 +23,7 @@ def create_app(config_object=DevConfig):
     addHeaders(app, config_object)
 
     """Add routes to app."""
-    routes.importRoutes("/", app)
+    routes.importRoutes("/", app, config_object)
 
     """Run the app"""
     app.run(host=config_object.HOST, port=config_object.PORT)

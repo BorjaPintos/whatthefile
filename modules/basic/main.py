@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
-def generateReportBasic(analysingFile):
-	basicDict = {}
-	basicDict['filetype'] = analysingFile.getFiletype()
-	return basicDict
+from modules.imodule import IModule
 
-def getHelp():
-	return """Module to calculate filetype"""
+class Constructor(IModule):
+	
+	def __init__(self):
+		self._name = "basic"
+		self._help = """Module to calculate filetype"""
+		self._author = "BorjaPintos"
+		self._params = []
+			
 
-def getParams():
-  return []
+	def validFor(self, targetfile):
+		return True
 
-def validFor(analysingFile):
-	return True
-
-def generateReport(analysingFile, params):
-	report = generateReportBasic(analysingFile)
-	return report
+	def generateReport(self, targetfile, params : list):
+		basicDict = {}
+		basicDict['filetype'] = targetfile.getFiletype()
+		return basicDict

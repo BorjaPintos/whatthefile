@@ -1,37 +1,37 @@
 # -*- coding: utf-8 -*-
 import re
+from modules.imodule import IModule
 
 CODECOMMENTS = re.compile("/\*(?:.|[\r\n])*?\*/|(?://.*)")
 HTMLCOMMENTS = re.compile("<!--(?:.|[\r\n])*?-->")
 SCRIPTCOMMENTS = re.compile("(?:#.*)")
 
-def getCodeComments(binary):
-	return re.findall(CODECOMMENTS, binary.decode('utf-8'))
+class Constructor(IModule):
 
-def getHTMLComments(binary):
-	return re.findall(HTMLCOMMENTS, binary.decode('utf-8'))
+	def __init__(self):
+		self._name = "commentextractor"
+		self._help = """Module to extract commets"""
+		self._author = "BorjaPintos"
+		self._params = []
 
-def getScriptComments(binary):
-	return re.findall(SCRIPTCOMMENTS, binary.decode('utf-8'))
+	def _getCodeComments(self, binary):
+		return re.findall(CODECOMMENTS, binary.decode('utf-8'))
 
-def generateReportComments(binary):
-	commentsDict = {}
-	commentsDict['codeComments_//_/**/'] = getCodeComments(binary)
-	commentsDict['htmlComments'] = getHTMLComments(binary)
-	commentsDict['scriptComments'] = getScriptComments(binary)
-	return commentsDict
+	def _getHTMLComments(self, binary):
+		return re.findall(HTMLCOMMENTS, binary.decode('utf-8'))
 
-def getHelp():
-	return """Module to extract commets."""
+	def _getScriptComments(self, binary):
+		return re.findall(SCRIPTCOMMENTS, binary.decode('utf-8'))
 
-def getParams():
-  return []
+	def validFor(self, targetFile):
+		if ("ASCII text" in targetFile.getFiletype()):
+			return True
+		return False
 
-def validFor(analysingFile):
-	if ("ASCII text" in analysingFile.getFiletype()):
-		return True
-	return False
-
-def generateReport(analysingFile, params):
-	report = generateReportComments(analysingFile.getBinary())
-	return report
+	def generateReport(self, targetFile, params):
+		binary = targetFile.getBinary()
+		commentsDict = {}
+		commentsDict['codeComments_//_/**/'] = self._getCodeComments(binary)
+		commentsDict['htmlComments'] = self._getHTMLComments(binary)
+		commentsDict['scriptComments'] = self._getScriptComments(binary)
+		return commentsDict

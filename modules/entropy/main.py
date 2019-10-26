@@ -1,38 +1,37 @@
 # -*- coding: utf-8 -*-
 import math
+from modules.imodule import IModule
 
-def entropy(binary):
-    fileSize = len(binary)
- 
-    # calculate the frequency of each byte value in the file
-    freqList = []
-    for b in range(256):
-        ctr = 0
-        for byte in binary:
-            if byte == b:
-                ctr += 1
-        freqList.append(float(ctr) / fileSize)
- 
-    # Shannon entropy
-    ent = 0.0
-    for freq in freqList:
-        if freq > 0:
-            ent = ent + freq * math.log(freq, 2)
-    ent = -ent
-    return ent
+class Constructor(IModule):
 
-def generateReportEntropy(analysingFile):
-	return entropy(analysingFile.getBinary())
+    def __init__(self):
+        self._name = "entropy"
+        self._help = """Module to calculate Shannon entropy"""
+        self._author = "BorjaPintos"
+        self._params = []
 
-def validFor(analysingFile):
-	return True
+    def _entropy(self, binary):
+        fileSize = len(binary)
+    
+        # calculate the frequency of each byte value in the file
+        freqList = []
+        for b in range(256):
+            ctr = 0
+            for byte in binary:
+                if byte == b:
+                    ctr += 1
+            freqList.append(float(ctr) / fileSize)
+    
+        # Shannon entropy
+        ent = 0.0
+        for freq in freqList:
+            if freq > 0:
+                ent = ent + freq * math.log(freq, 2)
+        ent = -ent
+        return ent
 
-def getHelp():
-	return """Module to calculate Shannon entropy"""
+    def validFor(self, targetFile):
+        return True
 
-def getParams():
-  return []
-
-def generateReport(analysingFile, params):
-	report = generateReportEntropy(analysingFile)
-	return report
+    def generateReport(self, targetFile, params):
+        return self._entropy(targetFile.getBinary())

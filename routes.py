@@ -1,10 +1,15 @@
 """Created on 12-09-2019."""
 import json
 from flask import send_file, request, redirect, abort, jsonify
-import core
+from core import Core
 
-def importRoutes(rootpath, app):
+
+
+def importRoutes(rootpath, app, config_object):
     """Add user routes to app."""
+
+    controller = Core()
+
     @app.route(rootpath, methods=['GET', 'POST'])
     def index_or_upload_file():
         if request.method == 'GET':
@@ -15,8 +20,8 @@ def importRoutes(rootpath, app):
             else:
                 file = request.files['fileToUpload']
                 binary = file.read()
-                modulesToUse = parseValues(request.args.get('values'))
-                ident = core.run(binary, modulesToUse);
+                modulesToUse = _parseValues(request.args.get('values'))
+                ident = controller.run(binary, modulesToUse);
                 return redirect("/"+ident, code=302)
 
     @app.route(rootpath+"favicon.ico", methods=['GET'])
@@ -25,17 +30,24 @@ def importRoutes(rootpath, app):
 
     @app.route(rootpath+"listModules", methods=['GET'])
     def list_modules():
-        return jsonify(core.getModules())
+        return jsonify(controller.getModules())
 
     @app.route(rootpath+"<hash>", methods=['GET'])
     def get_report(hash):
-        report = core.viewReport(hash)
+        report = controller.viewReport(hash)
         if report is None:
             abort(404)
         return jsonify(report)
 
+    @app.route(rootpath+"<hash>"+"/"+"<name>", methods=['GET'])
+    def get_generated_file(hash, name):
+        filepath  = controller.getFilePath(hash, name)
+        if filepath is None:
+            abort(404)
+        return send_file(filepath, mimetype='application/octet-stream')
 
-def parseValues(values):
+
+def _parseValues(values):
     modulesToUse = []
     try:
         unparserModulesToUse = values.split(",")

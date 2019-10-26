@@ -5,49 +5,50 @@ import argparse
 import cv2
 import os
 
-#acondiciono el tamaño de la imagen para ict3  la cargo desde la ruta del agumento de linea de comandos y la meto en un array en la variable x
+from modules.imodule import IModule
 
-def extractImageText(imagepath):
-    image = cv2.imread(imagepath)
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+class Constructor(IModule):
 
-    # check to see if we should apply thresholding to preprocess the
-    # image
-    imageText = {}
-    grayThresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
+    def __init__(self):
+        self._name = "ocrtesseract"
+        self._help = """Module to extract text fom image using ocr tesseract"""
+        self._author = "BorjaPintos"
+        self._params = []
 
-    # make a check to see if median blurring should be done to remove
-    # noise
-    grayBlur = cv2.medianBlur(gray, 3)
+    #acondiciono el tamaño de la imagen para ict3  la cargo desde la ruta del agumento de linea de comandos y la meto en un array en la variable x
+    def _extractImageText(self, imagepath):
+        image = cv2.imread(imagepath)
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    imageText['Thresh'] = pytesseract.image_to_string(grayThresh)
-    print (pytesseract.image_to_string(grayThresh))
-    imageText['Blur'] = pytesseract.image_to_string(grayBlur)
-    return imageText
+        # check to see if we should apply thresholding to preprocess the
+        # image
+        imageText = {}
+        grayThresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
 
-def getImageText(analysingFile):
-    return extractImageText(analysingFile.getCompletePath())
+        # make a check to see if median blurring should be done to remove
+        # noise
+        grayBlur = cv2.medianBlur(gray, 3)
 
+        imageText['Thresh'] = pytesseract.image_to_string(grayThresh)
+        imageText['Blur'] = pytesseract.image_to_string(grayBlur)
+        return imageText
 
-def getHelp():
-	return """Module to extract text fom image using ocr tesseract"""
+    def _getImageText(self, targetFile):
+        return self._extractImageText(targetFile.getCompletePath())
 
-def getParams():
-  return []
+    def validFor(self, targetFile):
+        if ("JPEG image data" in targetFile.getFiletype()):
+            return True
+        elif ("PNG image data" in targetFile.getFiletype()):
+            return True
+        elif ("bitmap" in targetFile.getFiletype()):
+            return True
+        elif ("GIF image data" in targetFile.getFiletype()):
+            return True
 
-def validFor(analysingFile):
-    if ("JPEG image data" in analysingFile.getFiletype()):
-        return True
-    elif ("PNG image data" in analysingFile.getFiletype()):
-        return True
-    elif ("bitmap" in analysingFile.getFiletype()):
-        return True
-    elif ("GIF image data" in analysingFile.getFiletype()):
-        return True
+        return False
 
-    return False
-
-def generateReport(analysingFile, params):
-    report = {}
-    report['extractedText'] = getImageText(analysingFile)
-    return report
+    def generateReport(self, targetFile, params):
+        report = {}
+        report['extractedText'] = self._getImageText(targetFile)
+        return report

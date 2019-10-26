@@ -12,8 +12,7 @@ class Config(object):
     PORT = 8080
     PROTOCOL = "http"
     HOST = 'localhost'
-    DB_ENGINE = 'sqlite'
-    DB_URL = '/data/database.sqlite3'
+    SERVERNAME = 'whatthefile-server'
 
 
 class ProdConfig(Config):
@@ -24,12 +23,6 @@ class ProdConfig(Config):
     HOST = '0.0.0.0'
     ENDPOINT_SERVER = "URLACCESSERVER"
     PORT = 8443
-    DB_USER = os.environ.get('DB_USER')
-    DB_PASSWORD = os.environ.get('DB_PASSWORD')
-    """Las de root no se usan"""
-    DB_ROOT_USER = ''
-    DB_ROOT_PASSWORD = ''
-
 
 class DevConfig(Config):
     """Development configuration."""
@@ -39,22 +32,3 @@ class DevConfig(Config):
     PORT = 8080
     HOST = 'localhost'
     ENDPOINT_SERVER = "localhost"
-    DB_USER = 'devuser'
-    DB_PASSWORD = 'devuserpassword'
-    DB_ROOT_USER = ''
-    DB_ROOT_PASSWORD = ''
-
-
-class CIConfig(Config):
-    """Continuous integration configuration."""
-
-    ENV = 'test'
-    TESTING = True
-    DEBUG = True
-    HOST = '0.0.0.0'
-    ENDPOINT_SERVER = "localhost"
-    PORT = 9090
-    DB_USER = 'devuser'
-    DB_PASSWORD = 'devuserpassword'
-    DB_ROOT_USER = ''
-    DB_ROOT_PASSWORD = ''
