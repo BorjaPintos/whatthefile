@@ -13,10 +13,10 @@ class TargetFile():
 		self._name = self._calculateMD5(binary)
 		self._filetype = self._getFiletype(binary)
 		self._directory = os.path.join(directory,self._name)
-		self._generated_files_directory = os.path.join(self._directory, "files")
-		if not os.path.exists(directory):
-			os.mkdir(self._generated_files_directory)
 		self._createFile()
+		self._generated_files_directory = os.path.join(self._directory, "files")
+		if not os.path.exists(self._generated_files_directory):
+			os.mkdir(self._generated_files_directory)
 		
 
 	def getBinary(self):

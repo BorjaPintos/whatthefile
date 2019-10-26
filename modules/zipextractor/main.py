@@ -38,7 +38,7 @@ class Constructor(IModule):
 
                 pathToSave = os.path.join(targetFile.getGeneratedFilesDirectory(), info.filename)
 
-                with open(pathToSave, "wb") as file:
+                with open(pathToSave, "wb+") as file:
                     file.write(binary)
                 reportZip[info.filename] = os.path.join(targetFile.getName(), info.filename)
                 
