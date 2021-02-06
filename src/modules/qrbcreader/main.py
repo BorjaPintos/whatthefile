@@ -9,10 +9,10 @@ from pyzbar.pyzbar import decode
 class Constructor(IModule):
 
     def __init__(self):
+        super().__init__()
         self._name = "qrbcreader"
         self._help = """Module to read QR and Barcodes in jpg and png images"""
         self._author = "BorjaPintos"
-        self._params = None
 
     def is_valid_for(self, target_file: TargetPath):
         if target_file.is_file():
@@ -24,7 +24,7 @@ class Constructor(IModule):
                 return True
         return False
 
-    def run(self, target_file: TargetFile, params: dict = None):
+    def run(self, target_file: TargetFile):
         decoded_list = decode(Image.open(target_file.get_path()))
         i = 0
         result = {}

@@ -27,11 +27,16 @@ class WhatTheFileConfiguration:
     def get_property_int(self, section_name : str, property_name) -> int:
         return self._config.getint(section_name, property_name)
 
+    def get_property_list(self, section_name : str, property_name) -> list:
+        return self._config.get(section_name, property_name).split(",")
+
     def get_section(self, section_name : str) ->dict:
-        return self._config[section_name]
+        if section_name in self._config:
+            return dict(self._config.items(section_name))
+        return {}
 
     def get_whatthefile_secction(self):
-        return self._config["whatthefile"]
+        return dict(self._config.items("whatthefile"))
 
     def get_modules_section_names(self):
         modules_names = []

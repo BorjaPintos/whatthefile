@@ -9,11 +9,11 @@ from src.modules.imodule import IModule
 class Constructor(IModule):
 
     def __init__(self):
+        super().__init__()
         self._name = "entropy"
         self._help = """Module to calculate Shannon entropy"""
         self._author = "BorjaPintos"
-        self._params = None
-
+        
     def _shannon_entropy(self, binary):
         file_size = len(binary)
         if file_size == 0:
@@ -41,5 +41,5 @@ class Constructor(IModule):
             return True
         return False
 
-    def run(self, target_file: TargetFile, params: dict = None):
+    def run(self, target_file: TargetFile):
         return {"shannon": self._shannon_entropy(target_file.get_binary())}

@@ -13,6 +13,7 @@ BASHCOMMENTS = re.compile("(?:#.*)")
 class Constructor(IModule):
 
     def __init__(self):
+        super().__init__()
         self._name = "commentextractor"
         self._help = """Module to extract commets"""
         self._author = "BorjaPintos"
@@ -33,7 +34,7 @@ class Constructor(IModule):
                 return True
         return False
 
-    def run(self, target_file: TargetFile, params: dict = None):
+    def run(self, target_file: TargetFile):
         """TODO Filtrar por excensiones conocidas."""
         binary = target_file.get_binary()
         result = {'codeComments_//_/**/': self._getCodeComments(binary),

@@ -12,10 +12,10 @@ from src.modules.imodule import IModule
 class Constructor(IModule):
 
     def __init__(self):
+        super().__init__()
         self._name = "imagerecognitiontensorflow"
         self._help = """Module to predict what is the image using tensorflow"""
         self._author = "BorjaPintos"
-        self._params = None
 
     def _get_predictions(self, image_path: str):
         x = image.img_to_array(image.load_img(image_path, target_size=(299, 299)))
@@ -43,7 +43,7 @@ class Constructor(IModule):
                 return True
         return False
 
-    def run(self, target_file: TargetFile, params: dict = None):
+    def run(self, target_file: TargetFile):
         predictions_response = self._get_predictions(target_file.get_path())
         result = {}
         for other, prediction_name, probability in predictions_response[0]:

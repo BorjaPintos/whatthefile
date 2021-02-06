@@ -10,10 +10,10 @@ from src.modules.imodule import IModule
 class Constructor(IModule):
 
     def __init__(self):
+        super().__init__()
         self._name = "ocrtesseract"
         self._help = """Module to extract text fom image using ocr tesseract"""
         self._author = "BorjaPintos"
-        self._params = None
 
     # acondiciono el tamaño de la imagen para ict3  la cargo desde la ruta del agumento de linea de comandos y la meto en un array en la variable x
     def _extract_image_text(self, imagepath):
@@ -45,6 +45,6 @@ class Constructor(IModule):
                 return True
         return False
 
-    def run(self, target_file: TargetFile, params: dict = None):
+    def run(self, target_file: TargetFile):
         result = self._extract_image_text(target_file.get_path())
         return result
