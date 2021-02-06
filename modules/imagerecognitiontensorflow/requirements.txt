@@ -1,7 +1,0 @@
-scikit-learn==0.21.3
-virtualenv==16.7.5
-h5py==2.10.0
-tensorflow==2.4.1
-keras==2.4.3
-pillow==8.1.0
-numpy==1.16.4

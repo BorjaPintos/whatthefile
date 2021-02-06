@@ -27,3 +27,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+
+# file that unzip in testmode
+tests/examples/Surprise.txt
+tests/examples/Surprise2.txt
