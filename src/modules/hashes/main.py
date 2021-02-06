@@ -115,7 +115,6 @@ class Constructor(IModule):
             'SHA3_512': self._calculateSHA3_512,
             # 'SSDEEP' : self._calculateSsdeep
         }
-        print(self.get_params())
         for hash in self._get_hashes_param(self.get_params()):
             hashes_dict[hash] = switcher.get(hash, self._unkonw_hash)(target_file.get_binary())
         return hashes_dict
