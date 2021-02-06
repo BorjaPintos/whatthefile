@@ -4,6 +4,7 @@ from zipfile import ZipFile
 from pyzipper import AESZipFile
 
 from src.domain.targetfile import TargetFile
+from src.domain.targetpath import TargetPath
 from src.modules.imodule import IModule
 
 PARAM_PWD = 'pwd'
@@ -18,7 +19,7 @@ class Constructor(IModule):
         self._author = "BorjaPintos"
         self._params = {PARAM_PWD: "<password>"}
 
-    def _run(self, target_file : TargetFile, pwd):
+    def _run(self, target_file : TargetPath, pwd):
         result = {}
         binary = None
         with ZipFile(target_file.get_path(), 'r') as zip:
@@ -48,9 +49,10 @@ class Constructor(IModule):
         if PARAM_PWD in params:
             return params[PARAM_PWD]
 
-    def is_valid_for(self, target_file: TargetFile):
-        if ("Zip archive data" in target_file.get_filetype()):
-            return True
+    def is_valid_for(self, target_file: TargetPath):
+        if target_file.is_file():
+            if ("Zip archive data" in target_file.get_type()):
+                return True
         return False
 
     def run(self, target_file: TargetFile, params: dict = None):

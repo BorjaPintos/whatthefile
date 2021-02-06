@@ -1,6 +1,8 @@
 import json
 import unittest
+
 from src.domain.targetfile import TargetFile
+from src.domain.targetpath import TargetPath
 from src.modules.virustotal.main import Constructor
 from src.modules.virustotal import virustotalapiv2 as virustotalapi
 
@@ -13,6 +15,7 @@ class VirusTotalTest(unittest.TestCase):
         path = "./tests/examples/collie.jpg"
         target_file = TargetFile(path)
         module = Constructor()
+        self.assertTrue(module.is_valid_for(target_file))
         result = module.run(target_file)
         self.assertEqual(result["error"], "apikey is required")
 
@@ -20,17 +23,33 @@ class VirusTotalTest(unittest.TestCase):
         path = "./tests/examples/collie.jpg"
         target_file = TargetFile(path)
         module = Constructor()
+        self.assertTrue(module.is_valid_for(target_file))
         result = module.run(target_file, params)
         self.assertEqual(result["error"], "Invalid API KEY")
 
-    def test_with_virus(self):
+    def test_virus(self):
         path = "./tests/examples/Ransomware.WannaCry.zip"
         target_file = TargetFile(path)
         module = Constructor()
+        self.assertTrue(module.is_valid_for(target_file))
+        #I wan't use mocks...
+        do_request_backup = virustotalapi._do_request
+        get_MD5_backup = virustotalapi.get_MD5_hash
+
         virustotalapi._do_request = mock_response_virus_total_wannacry
         virustotalapi.get_MD5_hash = mock_hash_wannacry
         result = module.run(target_file, params)
         self.assertEqual(result["positives"], 67)
+
+        #restoring for another tests
+        virustotalapi._do_request = do_request_backup
+        virustotalapi.get_MD5_hash = get_MD5_backup
+
+    def test_invalid_file(self):
+        path = "./tests/examples"
+        target_file = TargetPath(path)
+        module = Constructor()
+        self.assertFalse(module.is_valid_for(target_file))
 
 
 def mock_hash_wannacry(binary: bytes):

@@ -1,72 +1,50 @@
 # -*- coding: utf-8 -*-
-import os
-import json
+from typing import List
+
 from src.domain.loadermodules import LoaderModules
+from src.domain.targetdirectory import TargetDirectory
 from src.domain.targetfile import TargetFile
+from src.domain.targetpath import TargetPath
+from src.domain.whatthefileconfiguration import WhatTheFileConfiguration
+import os
 
+from src.output.ioutput import IOutput
+from src.output.listoutput import ListOutput
+from src.output.printoutput import PrintOutput
 
-REPORTNAME = "report.txt"
-REPORTDIRECTORY = "./analyzed/"
 
 class Core:
 
-	def __init__(self):
-		self.__modules = LoaderModules().get_modules()
+    def __init__(self, config: WhatTheFileConfiguration, output: IOutput):
+        self._config = config
+        self._modules = LoaderModules(config).get_modules()
+        self._output = output
 
-	def _generateReport(self, targetFile : TargetFile, modulesToUse: list):
-		report = {}
-		for moduleToUse in modulesToUse:
-			module = self.__modules[moduleToUse["id"]]
-			if (module.isActive() and module.getMod().validFor(targetFile)):
-				report[module.getName()] = module.getMod().generateReport(targetFile, moduleToUse["params"])
-		return report
+    def run(self, input: str):
+        if os.path.exists(input):
+            if os.path.isfile(input):
+                self._output.dump(self._analyze_file(input))
+            elif os.path.isdir(input):
+                self._output.dump(self._analyze_dir(input))
+                for element in os.listdir(input):
+                    self.run(os.path.join(input, element))
+            else:
+                target_path = TargetPath(input)
+                self._output.dump(target_path.get_info())
 
-	def _getExistingReport(self, directory : str):
-		report = {}
-		with open(os.path.join(directory, REPORTNAME),"r") as file:
-			report = file.read()
-		return json.loads(report)
+    def _analyze_dir(self, dir_path: str) -> dict:
+        target_directory = TargetDirectory(dir_path)
+        result = target_directory.get_info()
+        for module in self._modules:
+            if module.get_mod().is_valid_for(target_directory):
+                result[module.get_name()] = module.get_mod().run(target_directory)
+        return result
 
-	def _saveReport(self, targetFile : TargetFile, report : dict):
-		with open(os.path.join(targetFile.getDirectory(), REPORTNAME),"w") as file:
-			file.write(json.dumps(report))
-
-	def _createReport(self, targetFile: TargetFile, modulesToUse : list):
-		report = self._generateReport(targetFile, modulesToUse)
-		self._saveReport(targetFile, report)
-		return report
-
-	def run(self, binary: bytes, modulesToUse: list):
-		targetFile = TargetFile(REPORTDIRECTORY, binary)
-		self._createReport(targetFile, modulesToUse)
-		return targetFile.getName()
-
-	def viewReport(self, name: str):
-		directory = os.path.join(REPORTDIRECTORY,name)
-		if not os.path.exists(directory):
-			return None
-		else:
-			return self._getExistingReport(directory)
-	
-	def getFilePath(self, hash, name):
-		directory = os.path.join(REPORTDIRECTORY,hash)
-		directoryfiles = os.path.join(directory,"files")
-		filePath = os.path.join(directoryfiles, name)
-		if not os.path.exists(filePath):
-			return None
-		else:
-			return filePath
-
-	def getModules(self):
-		array = []
-		for module in self.__modules:
-			if module.isActive:
-				mod = {}
-				mod['name']=module.getName()
-				mod['index']=module.getIndex()
-				mod['params']=module.getParams()
-				mod['help']=module.getHelp()
-				array.append(mod)
-		return array
-
+    def _analyze_file(self, file_path: str) -> dict:
+        target_file = TargetFile(file_path)
+        result = target_file.get_info()
+        for module in self._modules:
+            if module.get_mod().is_valid_for(target_file):
+                result[module.get_name()] = module.get_mod().run(target_file)
+        return result
 

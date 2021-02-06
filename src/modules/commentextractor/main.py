@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import re
-from src.modules.imodule import IModule
+
 from src.domain.targetfile import TargetFile
+from src.modules.imodule import IModule
+from src.domain.targetpath import TargetPath
 
 CODECOMMENTS = re.compile("/\*(?:.|[\r\n])*?\*/|(?://.*)")
 HTMLCOMMENTS = re.compile("<!--(?:.|[\r\n])*?-->")
@@ -25,14 +27,16 @@ class Constructor(IModule):
     def _getScriptComments(self, binary):
         return re.findall(BASHCOMMENTS, binary.decode('utf-8'))
 
-    def is_valid_for(self, target_file: TargetFile):
-        if "ASCII text" in target_file.get_filetype():
-            return True
+    def is_valid_for(self, target_file: TargetPath):
+        if target_file.is_file():
+            if "ASCII text" in target_file.get_type():
+                return True
         return False
 
     def run(self, target_file: TargetFile, params: dict = None):
+        """TODO Filtrar por excensiones conocidas."""
         binary = target_file.get_binary()
         result = {'codeComments_//_/**/': self._getCodeComments(binary),
-                        'htmlComments': self._getHTMLComments(binary),
-                        'bashComments': self._getScriptComments(binary)}
+                  'htmlComments': self._getHTMLComments(binary),
+                  'bashComments': self._getScriptComments(binary)}
         return result

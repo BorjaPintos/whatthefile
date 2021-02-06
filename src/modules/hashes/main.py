@@ -2,6 +2,7 @@
 import hashlib
 #import ssdeep
 from src.domain.targetfile import TargetFile
+from src.domain.targetpath import TargetPath
 from src.modules.imodule import IModule
 
 class Constructor(IModule):
@@ -78,10 +79,13 @@ class Constructor(IModule):
         return ssdeep.hash(binary)
     """
 
-    def is_valid_for(self, target_file: TargetFile):
-        return True
+    def is_valid_for(self, target_file: TargetPath):
+        if target_file.is_file():
+            return True
+        return False
 
     def run(self, target_file: TargetFile, params: dict = None):
+        """TODO obtener los haches de la configuracion."""
         hashes_dict = {}
         hashes_dict['MD5'] = self._calculateMD5(target_file.get_binary())
         hashes_dict['SHA1'] = self._calculateSHA1(target_file.get_binary())

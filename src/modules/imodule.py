@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from src.domain.targetfile import TargetFile
+from src.domain.targetpath import TargetPath
 
 
 class IModule(ABC):
@@ -8,21 +8,24 @@ class IModule(ABC):
         self._help = """Description for modules"""
         self._author = "Author"
         self._name = "ModuleName"
-        self._params = []
+        self._params = {}
 
     @abstractmethod
-    def is_valid_for(self, target_file: TargetFile):
+    def is_valid_for(self, target_file: TargetPath) -> bool:
         pass
 
     @abstractmethod
-    def run(self, target_file: TargetFile, params: dict = None):
+    def run(self, target_file: TargetPath, params: dict = None) -> {}:
         pass
 
-    def get_help(self):
+    def get_help(self) -> str:
         return self._help
 
-    def get_params(self):
+    def get_params(self) -> dict:
         return self._params
 
-    def get_name(self):
+    def set_params(self, params: dict) -> None:
+        self._params = params
+
+    def get_name(self) -> str:
         return self._name

@@ -2,6 +2,7 @@
 import string
 
 from src.domain.targetfile import TargetFile
+from src.domain.targetpath import TargetPath
 from src.modules.imodule import IModule
 
 MIN = "charMin"
@@ -33,16 +34,20 @@ class Constructor(IModule):
             result = ""
         return words
 
-    def is_valid_for(self, target_file: TargetFile):
-        if "ASCII text" in target_file.get_filetype():
-            return False
-        return True
+    def is_valid_for(self, target_file: TargetPath):
+        if target_file.is_file():
+            if "ASCII text" in target_file.get_type():
+                """To much strings"""
+                return False
+            return True
+        return False
 
     def _get_min_param(self, params: dict):
         if MIN in params:
             return params[MIN]
 
     def run(self, target_file: TargetFile, params: dict = None):
+        result = {}
         if params is None:
             params = self._params
         try:

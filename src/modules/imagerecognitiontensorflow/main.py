@@ -5,6 +5,7 @@ from keras.preprocessing import image
 import os
 
 from src.domain.targetfile import TargetFile
+from src.domain.targetpath import TargetPath
 from src.modules.imodule import IModule
 
 
@@ -30,15 +31,16 @@ class Constructor(IModule):
         # imprimo por pantalla resultado de la predición
         return decode_predictions(y)
 
-    def is_valid_for(self, target_file: TargetFile):
-        if "JPEG image data" in target_file.get_filetype():
-            return True
-        elif "PNG image data" in target_file.get_filetype():
-            return True
-        elif "bitmap" in target_file.get_filetype():
-            return True
-        elif "GIF image data" in target_file.get_filetype():
-            return True
+    def is_valid_for(self, target_file: TargetPath):
+        if target_file.is_file():
+            if "JPEG image data" in target_file.get_type():
+                return True
+            elif "PNG image data" in target_file.get_type():
+                return True
+            elif "bitmap" in target_file.get_type():
+                return True
+            elif "GIF image data" in target_file.get_type():
+                return True
         return False
 
     def run(self, target_file: TargetFile, params: dict = None):

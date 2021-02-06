@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from src.domain.targetfile import TargetFile
+from src.domain.targetpath import TargetPath
 from src.modules.imodule import IModule
 from src.modules.virustotal import virustotalapiv2 as virustotalapi
 
@@ -15,10 +15,12 @@ class Constructor(IModule):
         self._author = "BorjaPintos"
         self._params = {}
 
-    def is_valid_for(self, target_file: TargetFile):
-        return True
+    def is_valid_for(self, target_file: TargetPath):
+        if target_file.is_file():
+            return True
+        return False
 
-    def run(self, target_file: TargetFile, params: dict = None):
+    def run(self, target_file: TargetPath, params: dict = None):
         if params is None or APIKEY not in params:
             return {"error" : APIKEY + " is required"}
         virus_total_report = virustotalapi.check_hash(params[APIKEY],

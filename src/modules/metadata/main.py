@@ -3,6 +3,7 @@ import exiftool
 import os
 
 from src.domain.targetfile import TargetFile
+from src.domain.targetpath import TargetPath
 from src.modules.imodule import IModule
 
 
@@ -22,8 +23,10 @@ class Constructor(IModule):
         for key in key_to_del:
             del result[key]
 
-    def is_valid_for(self, target_file: TargetFile):
-        return True
+    def is_valid_for(self, target_file: TargetPath):
+        if target_file.is_file():
+            return True
+        return False
 
     def run(self, target_file: TargetFile, params: dict = None):
         result = {}
