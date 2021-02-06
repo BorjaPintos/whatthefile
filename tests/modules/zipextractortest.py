@@ -19,7 +19,8 @@ class ZipExtractorTest(unittest.TestCase):
         target_file = TargetFile(path)
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
-        result = module.run(target_file, params)
+        module.set_params(params)
+        result = module.run(target_file)
         self.assertTrue(os.path.exists(final_file))
         self.assertEqual(result["Surprise.txt"], final_file)
         os.remove(final_file)
@@ -34,8 +35,9 @@ class ZipExtractorTest(unittest.TestCase):
         params = {"pwd": "surprise"}
         target_file = TargetFile(path)
         module = Constructor()
+        module.set_params(params)
         self.assertTrue(module.is_valid_for(target_file))
-        result = module.run(target_file, params)
+        result = module.run(target_file)
         self.assertEqual(result["Surprise2.txt"], final_file)
         self.assertTrue(os.path.exists(final_file))
         os.remove(final_file)
@@ -50,8 +52,9 @@ class ZipExtractorTest(unittest.TestCase):
         params = {"pwd": "surpriseaaaa"}
         target_file = TargetFile(path)
         module = Constructor()
+        module.set_params(params)
         self.assertTrue(module.is_valid_for(target_file))
-        result = module.run(target_file, params)
+        result = module.run(target_file)
         self.assertEqual("Bad password or wrong decrypted algorithm", result["error"])
 
     def test_invalid_file(self):

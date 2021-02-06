@@ -29,9 +29,10 @@ class WhatTheFileConfigurationTest(unittest.TestCase):
     def get_conf_dict(self):
         return {"whatthefile": {"modules_package": "src.modules"},
                          "module.commentextractor": {"active": True}, "module.entropy": {"active": True},
-                         "module.hashes": {"active": True}, "module.imagerecognitiontensorflow": {"active": True},
+                         "module.hashes": {"active": True, 'hashes_to_calculate' : "MD5,SHA1,SHA256"},
+                        "module.imagerecognitiontensorflow": {"active": True},
                          "module.metadata": {"active": True}, "module.ocrtesseract": {"active": True},
-                         "module.qrbcreader": {"active": True}, "module.strings": {"active": True},
+                         "module.qrbcreader": {"active": True}, "module.strings": {"active": True, "char_min" : 4},
                          "module.virustotal": {"active": True}, "module.zipextractor": {"active": True}}
 
 
@@ -45,6 +46,7 @@ class WhatTheFileConfigurationTest(unittest.TestCase):
         active = true
         [module.hashes]
         active = true
+        hashes_to_calculate = MD5,SHA1,SHA256
         [module.imagerecognitiontensorflow]
         active = true
         [module.metadata]
@@ -55,6 +57,7 @@ class WhatTheFileConfigurationTest(unittest.TestCase):
         active = true
         [module.strings]
         active = true
+        char_min = 4
         [module.virustotal]
         active = true
         [module.zipextractor]

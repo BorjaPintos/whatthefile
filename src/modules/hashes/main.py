@@ -1,18 +1,22 @@
 # -*- coding: utf-8 -*-
 import hashlib
-#import ssdeep
+# import ssdeep
 from src.domain.targetfile import TargetFile
 from src.domain.targetpath import TargetPath
 from src.modules.imodule import IModule
 
+HASHES = "hashes_to_calculate"
+
+
 class Constructor(IModule):
 
     def __init__(self):
+        super().__init__()
         self._name = "hashes"
         self._help = """Module to calculate hashes: 
-		MD5, SHA1, SHA224, SHA156, SHA384, SHA512, SHA3_224, SHA3_256, SHA3_384, SHA3_512."""
+		MD5, SHA1, SHA224, SHA156, SHA384, SHA512, SHA3_224, SHA3_256, SHA3_384, SHA3_512. The param "hashes_to_calculate, is a list of hashes, default is MD5 and SHA1"""
         self._author = "BorjaPintos"
-        self._params = None
+        self._default_params = {HASHES: "MD5,SHA1"}
 
     def _calculateMD5(self, binary):
         hasher = hashlib.md5()
@@ -73,6 +77,7 @@ class Constructor(IModule):
         hasher.update(binary)
         hash = hasher.hexdigest()
         return hash
+
     """
     Parece ser que de momento esto solo funciona para linux, tengo que hacer más pruebas para ver como lo instalo en mac
     def _calculateSsdeep(self, binary):
@@ -84,18 +89,33 @@ class Constructor(IModule):
             return True
         return False
 
-    def run(self, target_file: TargetFile, params: dict = None):
-        """TODO obtener los haches de la configuracion."""
+    def _get_hashes_param(self, params: dict):
+        if params is None:
+            params = self._default_params
+        if HASHES in params:
+            return params[HASHES].split(",")
+        else:
+            return self._default_params[HASHES].split(",")
+
+    def _unkonw_hash(self, target_file: TargetFile):
+        return "Hash not suported"
+
+    def run(self, target_file: TargetFile):
         hashes_dict = {}
-        hashes_dict['MD5'] = self._calculateMD5(target_file.get_binary())
-        hashes_dict['SHA1'] = self._calculateSHA1(target_file.get_binary())
-        hashes_dict['SHA224'] = self._calculateSHA224(target_file.get_binary())
-        hashes_dict['SHA256'] = self._calculateSHA256(target_file.get_binary())
-        hashes_dict['SHA384'] = self._calculateSHA384(target_file.get_binary())
-        hashes_dict['SHA512'] = self._calculateSHA512(target_file.get_binary())
-        hashes_dict['SHA3_224'] = self._calculateSHA3_224(target_file.get_binary())
-        hashes_dict['SHA3_256'] = self._calculateSHA3_256(target_file.get_binary())
-        hashes_dict['SHA3_384'] = self._calculateSHA3_384(target_file.get_binary())
-        hashes_dict['SHA3_512'] = self._calculateSHA3_512(target_file.get_binary())
-        #hashesDict['SSDEEP'] = self._calculateSsdeep(target_file.get_binary())
+        switcher = {
+            'MD5': self._calculateMD5,
+            'SHA1': self._calculateSHA1,
+            'SHA224': self._calculateSHA224,
+            'SHA256': self._calculateSHA256,
+            'SHA384': self._calculateSHA384,
+            'SHA512': self._calculateSHA512,
+            'SHA3_224': self._calculateSHA3_224,
+            'SHA3_256': self._calculateSHA3_256,
+            'SHA3_384': self._calculateSHA3_384,
+            'SHA3_512': self._calculateSHA3_512,
+            # 'SSDEEP' : self._calculateSsdeep
+        }
+        print(self.get_params())
+        for hash in self._get_hashes_param(self.get_params()):
+            hashes_dict[hash] = switcher.get(hash, self._unkonw_hash)(target_file.get_binary())
         return hashes_dict

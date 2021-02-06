@@ -13,11 +13,11 @@ PARAM_PWD = 'pwd'
 class Constructor(IModule):
 
     def __init__(self):
+        super().__init__()
         self._name = "zipextractor"
         self._help = """Extract files from zip:
 		Params: {'""" + PARAM_PWD + """': <password>] password to extract files"""
         self._author = "BorjaPintos"
-        self._params = {PARAM_PWD: "<password>"}
 
     def _run(self, target_file : TargetPath, pwd):
         result = {}
@@ -55,7 +55,7 @@ class Constructor(IModule):
                 return True
         return False
 
-    def run(self, target_file: TargetFile, params: dict = None):
-        pwd = self._get_pwd_param(params)
+    def run(self, target_file: TargetFile):
+        pwd = self._get_pwd_param(self.get_params())
         report = self._run(target_file, pwd.encode())
         return report

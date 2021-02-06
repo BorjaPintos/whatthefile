@@ -10,10 +10,10 @@ from src.modules.imodule import IModule
 class Constructor(IModule):
 
     def __init__(self):
+        super().__init__()
         self._name = "exiftool"
         self._help = """Module to extract metadata"""
         self._author = "BorjaPintos"
-        self._params = None
 
     def _clean(self, result):
         key_to_del = []
@@ -28,7 +28,7 @@ class Constructor(IModule):
             return True
         return False
 
-    def run(self, target_file: TargetFile, params: dict = None):
+    def run(self, target_file: TargetFile):
         result = {}
         with exiftool.ExifTool() as et:
             result = et.get_metadata(target_file.get_path())

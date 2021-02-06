@@ -7,10 +7,7 @@ from src.domain.targetfile import TargetFile
 from src.domain.targetpath import TargetPath
 from src.domain.whatthefileconfiguration import WhatTheFileConfiguration
 import os
-
 from src.output.ioutput import IOutput
-from src.output.listoutput import ListOutput
-from src.output.printoutput import PrintOutput
 
 
 class Core:
