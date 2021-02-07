@@ -105,6 +105,9 @@ class Constructor(IModule):
         extracted_output_path = self._get_extracted_output_path(self.get_params())
         if not extracted_output_path:
             return {"error" : "property: " + EXTRACTED_OUTPUT_PATH + " is required for unzip"}
+        else:
+            if not os.path.exists(extracted_output_path):
+                os.mkdir(extracted_output_path)
         pwd_list = self._get_password_list(self.get_params())
         report = self._run(target_file, extracted_output_path, pwd_list)
         return report

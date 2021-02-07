@@ -40,6 +40,8 @@ class WhatTheFileConfigurationTest(unittest.TestCase):
         return """
         [whatthefile]
         modules_package = "src.modules"
+        extracted_output_path = ./tests/examples/safe_directory
+        output = print
         [module.commentextractor]
         active = true
         [module.entropy]
@@ -62,4 +64,5 @@ class WhatTheFileConfigurationTest(unittest.TestCase):
         active = true
         [module.zipextractor]
         active = true
+        extracted_output_path = ${whatthefile:extracted_output_path}/zipextractor
         """

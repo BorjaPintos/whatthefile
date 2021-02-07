@@ -39,8 +39,6 @@ class ZipExtractorTest(unittest.TestCase):
         module.set_params(params)
         self.assertTrue(module.is_valid_for(target_file))
         result = module.run(target_file)
-        print(result)
-        print(final_file)
         self.assertEqual(result["Surprise2.txt"], final_file)
         self.assertEqual(result["password"], "surprise")
         self.assertTrue(os.path.exists(final_file))
