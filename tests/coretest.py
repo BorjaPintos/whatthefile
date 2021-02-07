@@ -26,24 +26,24 @@ class CoreTest(unittest.TestCase):
 
     def test_run_zipextractor(self):
         conf = WhatTheFileConfiguration()
+        output_safe_directory = "./tests/examples/safe_directory"
         conf.parse_string("""
         [whatthefile]
         modules_package = src.modules
-        extracted_output_path = ./tests/examples/safe_directory
+        extracted_output_path = """ + output_safe_directory +"""
         output = list
         [module.zipextractor]
         active = true
         extracted_output_path = ${whatthefile:extracted_output_path}/zipextractor
         """)
 
-        final_file = "./tests/examples/safe_directory/zipextractor/collie.jpg"
-        dir_file = os.path.dirname(final_file)
+        final_file = "./tests/examples/safe_directory/zipextractor/tests/examples/collie.jpg.zip/collie.jpg"
+
         if os.path.exists(final_file):
             os.remove(final_file)
-        if os.path.exists(dir_file):
-            os.rmdir(dir_file)
-        self.assertFalse(os.path.exists(final_file))
+        self._remove_test_folders(output_safe_directory, final_file)
 
+        self.assertFalse(os.path.exists(final_file))
         path = "./tests/examples/collie.jpg.zip"
         output = OutputFactory.get_output(conf)
         core = Core(conf, output)
@@ -52,7 +52,7 @@ class CoreTest(unittest.TestCase):
         self.assertEqual(output.get_list()[-1]["path"], final_file)
 
         os.remove(final_file)
-        os.rmdir(dir_file)
+        self._remove_test_folders(output_safe_directory, final_file)
 
     def test_run_hashes(self):
         conf = WhatTheFileConfiguration()
@@ -107,3 +107,17 @@ class CoreTest(unittest.TestCase):
         core = Core(conf, output)
         core.run(path)
         self.assertEqual("collie" in output.get_list()[0]["imagerecognitiontensorflow"])
+
+
+    def _remove_test_folders(self, output_safe_path, final_file):
+            if output_safe_path not in final_file:
+                raise Exception("output_path no contenido en final_file, no se hacen modificaciones")
+            subpaths = []
+            subpath = final_file
+            while subpath != output_safe_path:
+                if subpath != ".":
+                    subpaths.append(subpath)
+                subpath = os.path.dirname(subpath)
+            for path in subpaths:
+                if os.path.exists(path):
+                    os.rmdir(path)
