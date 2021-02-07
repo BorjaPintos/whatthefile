@@ -19,7 +19,8 @@ class CoreTest(unittest.TestCase):
         output = OutputFactory.get_output(conf)
         core = Core(conf, output)
         core.run(path)
-        self.assertEqual(len(output.get_list()[0]["strings"]), 3)
+        self.assertEqual(len(output.get_list()[0]["strings"][">=10"]), 3)
+        self.assertEqual(output.get_list()[0]["strings"]["n_elements"], 3)
 
     def test_run_hashes(self):
         conf = WhatTheFileConfiguration()
@@ -34,7 +35,11 @@ class CoreTest(unittest.TestCase):
         output = OutputFactory.get_output(conf)
         core = Core(conf, output)
         core.run(path)
-        self.assertEqual(len(output.get_list()[0]["hashes"]), 3)
+        self.assertTrue("SHA256" in output.get_list()[0]["hashes"])
+        self.assertTrue("start_module" in output.get_list()[0]["hashes"])
+        self.assertTrue("end_module" in output.get_list()[0]["hashes"])
+        self.assertTrue("begin_analysis" in output.get_list()[0])
+        self.assertTrue("end_analysis" in output.get_list()[0])
 
     def a_test_run_directory(self):
         conf = WhatTheFileConfiguration()

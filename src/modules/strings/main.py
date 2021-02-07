@@ -18,7 +18,7 @@ class Constructor(IModule):
         self._author = "BorjaPintos"
         self._default_params = {MIN: 4}
 
-    def _strings(self, binary: bytes, min_chars: int):
+    def _strings(self, binary: bytes, min_chars: int) -> list:
         bytes_printables = []
         for char in string.printable:
             bytes_printables.append(char.encode("utf-8"))
@@ -51,13 +51,13 @@ class Constructor(IModule):
         else:
             return self._default_params[MIN]
 
-    def run(self, target_file: TargetFile):
+    def run(self, target_file: TargetFile) -> dict:
         result = {}
         try:
-            print(self.get_params())
             min_chars = int(self._get_min_param(self.get_params()))
             if min_chars:
-                result = self._strings(target_file.get_binary(), min_chars)
+                result = { ">=" + str(min_chars) : self._strings(target_file.get_binary(), min_chars)}
+                result["n_elements"] = len(result[">=" + str(min_chars)])
         except:
             result = {"error": "invalid argument for module"}
         return result

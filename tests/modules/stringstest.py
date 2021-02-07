@@ -14,7 +14,8 @@ class StringsTest(unittest.TestCase):
         self.assertTrue(module.is_valid_for(target_file))
         module.set_params({"char_min": 9})
         result = module.run(target_file)
-        self.assertEqual(result, ["collie.jpg", "&AtyRf!}\x0c", "7TzYid2c<", "TJ'np'C:K\x0c", 'collie.jpg\n'])
+        self.assertEqual(result[">=9"], ["collie.jpg", "&AtyRf!}\x0c", "7TzYid2c<", "TJ'np'C:K\x0c", 'collie.jpg\n'])
+        self.assertEqual(result["n_elements"], 5)
 
     def test_string_more_than_5_characters(self):
         path = "./tests/examples/barcode.gif"
@@ -23,7 +24,8 @@ class StringsTest(unittest.TestCase):
         self.assertTrue(module.is_valid_for(target_file))
         module.set_params({"char_min": 5})
         result = module.run(target_file)
-        self.assertEqual(len(result), 12)
+        self.assertEqual(len(result[">=5"]), 12)
+        self.assertEqual(result["n_elements"], 12)
 
     def test_string_more_than_8_characters(self):
         path = "./tests/examples/winexe.exe"
@@ -32,8 +34,9 @@ class StringsTest(unittest.TestCase):
         self.assertTrue(module.is_valid_for(target_file))
         module.set_params({"char_min": 8})
         result = module.run(target_file)
-        self.assertEqual(len(result), 2072)
-        self.assertEqual("!This program cannot be run in DOS mode.\r\r\n$", result[0])
+        self.assertEqual(len(result[">=8"]), 2072)
+        self.assertEqual(result["n_elements"], 2072)
+        self.assertEqual("!This program cannot be run in DOS mode.\r\r\n$", result[">=8"][0])
 
     def test_invalid_file(self):
         path = "./tests/examples"
