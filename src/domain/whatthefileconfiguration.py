@@ -4,7 +4,7 @@ import configparser
 class WhatTheFileConfiguration:
 
     def __init__(self):
-        self._config = configparser.ConfigParser()
+        self._config = configparser.ConfigParser(interpolation=configparser.ExtendedInterpolation())
 
     def parse_file(self, file_paht) -> None:
         self._config.read(file_paht)

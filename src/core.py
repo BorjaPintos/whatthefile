@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from typing import List
-
 from src.domain.loadermodules import LoaderModules
 from src.domain.targetdirectory import TargetDirectory
 from src.domain.targetfile import TargetFile
@@ -19,6 +17,16 @@ class Core:
         self._output = output
 
     def run(self, input: str):
+        #comprobamos el directorio de extracción para saber si cambia
+        output_safe_directory = self._config.get_property("whatthefile", "extracted_output_path")
+        size = os.path.getsize(output_safe_directory)
+        self._run(input)
+        #tanalizamos directorio de extracción también
+        size2 = os.path.getsize(output_safe_directory)
+        if size2 != size:
+            self._run(output_safe_directory)
+
+    def _run(self, input:str):
         if os.path.exists(input):
             if os.path.isfile(input):
                 self._output.dump(self._analyze_file(input))

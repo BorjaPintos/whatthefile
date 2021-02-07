@@ -1,3 +1,4 @@
+import os
 import unittest
 from src.core import Core
 from src.domain.whatthefileconfiguration import WhatTheFileConfiguration
@@ -8,7 +9,8 @@ class CoreTest(unittest.TestCase):
 
     def test_run_strings(self):
         conf = WhatTheFileConfiguration()
-        conf.parse_dict({"whatthefile": {"modules_package": "src.modules", "output": "list"},
+        conf.parse_dict({"whatthefile": {"modules_package": "src.modules", "output": "list",
+                                         "extracted_output_path": "./tests/examples/safe_directory"},
                          "module.commentextractor": {"active": True}, "module.entropy": {"active": False},
                          "module.hashes": {"active": False,'hashes_to_calculate' : "MD5,SHA1,SHA256"},
                          "module.imagerecognitiontensorflow": {"active": False},
@@ -22,9 +24,40 @@ class CoreTest(unittest.TestCase):
         self.assertEqual(len(output.get_list()[0]["strings"][">=10"]), 3)
         self.assertEqual(output.get_list()[0]["strings"]["n_elements"], 3)
 
+    def test_run_zipextractor(self):
+        conf = WhatTheFileConfiguration()
+        conf.parse_string("""
+        [whatthefile]
+        modules_package = src.modules
+        extracted_output_path = ./tests/examples/safe_directory
+        output = list
+        [module.zipextractor]
+        active = true
+        extracted_output_path = ${whatthefile:extracted_output_path}/zipextractor
+        """)
+
+        final_file = "./tests/examples/safe_directory/zipextractor/collie.jpg"
+        dir_file = os.path.dirname(final_file)
+        if os.path.exists(final_file):
+            os.remove(final_file)
+        if os.path.exists(dir_file):
+            os.rmdir(dir_file)
+        self.assertFalse(os.path.exists(final_file))
+
+        path = "./tests/examples/collie.jpg.zip"
+        output = OutputFactory.get_output(conf)
+        core = Core(conf, output)
+        core.run(path)
+        self.assertTrue(os.path.exists(final_file))
+        self.assertEqual(output.get_list()[-1]["path"], final_file)
+
+        os.remove(final_file)
+        os.rmdir(dir_file)
+
     def test_run_hashes(self):
         conf = WhatTheFileConfiguration()
-        conf.parse_dict({"whatthefile": {"modules_package": "src.modules", "output": "list"},
+        conf.parse_dict({"whatthefile": {"modules_package": "src.modules", "output": "list",
+                                         "extracted_output_path": "./tests/examples/safe_directory"},
                          "module.commentextractor": {"active": True}, "module.entropy": {"active": False},
                          "module.hashes": {"active": True,'hashes_to_calculate' : "MD5,SHA1,SHA256"},
                          "module.imagerecognitiontensorflow": {"active": False},
@@ -43,7 +76,8 @@ class CoreTest(unittest.TestCase):
 
     def a_test_run_directory(self):
         conf = WhatTheFileConfiguration()
-        conf.parse_dict({"whatthefile": {"modules_package": "src.modules", "output": "list"},
+        conf.parse_dict({"whatthefile": {"modules_package": "src.modules", "output": "list",
+                                         "extracted_output_path": "./tests/examples/safe_directory"},
                          "module.commentextractor": {"active": True}, "module.entropy": {"active": True},
                          "module.hashes": {"active": True, 'hashes_to_calculate' : "MD5,SHA1,SHA256"},
                          "module.imagerecognitiontensorflow": {"active": True},
@@ -60,7 +94,8 @@ class CoreTest(unittest.TestCase):
 
     def a_test_run_all(self):
         conf = WhatTheFileConfiguration()
-        conf.parse_dict({"whatthefile": {"modules_package": "src.modules", "output": "list"},
+        conf.parse_dict({"whatthefile": {"modules_package": "src.modules", "output": "list",
+                                         "extracted_output_path": "./tests/examples/safe_directory"},
                          "module.commentextractor": {"active": True}, "module.entropy": {"active": True},
                          "module.hashes": {"active": True, 'hashes_to_calculate': "MD5,SHA1,SHA256"},
                          "module.imagerecognitiontensorflow": {"active": True},
