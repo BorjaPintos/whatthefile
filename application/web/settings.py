@@ -13,6 +13,8 @@ class Config(object):
     PROTOCOL = "http"
     HOST = 'localhost'
     SERVERNAME = 'whatthefile-server'
+    TEMPORAL_DIRECTORY = os.path.join(APP_DIR, "temp")
+    WHATTHEFILECONFIGFILE = os.path.join(APP_DIR, "whatthefile.ini")
 
 
 class ProdConfig(Config):

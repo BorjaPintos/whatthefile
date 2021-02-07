@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask
 from application.web.settings import DevConfig
 from application.web import routes
@@ -19,6 +21,9 @@ def create_app(config_object=DevConfig):
     """Create flask app."""
     app = Flask(__name__)
     app.config.from_object(config_object)
+
+    if not os.path.exists(config_object.TEMPORAL_DIRECTORY):
+        os.mkdir(config_object.TEMPORAL_DIRECTORY)
 
     """Customize headers response"""
     addHeaders(app, config_object)

@@ -44,7 +44,7 @@ RUN apt -y upgrade
 
 EXPOSE 8443
 
-CMD ["python3.7","application/web/runpro.py"]
+CMD ["python3.7","runserverpro.py"]
 
 
 
