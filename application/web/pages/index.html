@@ -17,7 +17,7 @@
     height: auto;
     padding:15px;
     color:#fff;
-    background:#8BC3A3;
+    background:#237553;
     border:none;
     border-radius:3px;
     outline: none;
@@ -31,124 +31,17 @@
     outline: auto;
     margin:auto;
 }
-#modules{
-    height: auto;
-    padding:15px;
-    color:#000;
-    outline: auto;
-    margin:auto;
-    width: 400px;
-}
-/* Tooltip text */
-.help .tooltiptext {
-  visibility: hidden;
-  width: 500px;
-  background-color: #ff7;
-  color: #000;
-  text-align: center;
-  padding: 5px 0;
-  border-radius: 6px;
- 
-  /* Position the tooltip text - see examples below! */
-  position: absolute;
-  z-index: 1;
-}
-
-/* Show the tooltip text when you mouse over the tooltip container */
-.help:hover .tooltiptext {
-  visibility: visible;
-}
 
 </style>
 </head>
-<script>
-  function getModules(){
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            var modules = JSON.parse(this.responseText);
-            domModules = document.getElementById("modules");
-            for (i=0;i<modules.length;i++){
-              module = modules[i];
-              var div = document.createElement("div");
-              div.className = "form-check";
-              //checkbox
-              var input = document.createElement("input");
-              input.setAttribute("type", "checkbox");
-              input.setAttribute("name", module.name);
-              input.setAttribute("value", module.index);
-              input.setAttribute("id", "checkbox-"+module.index);
-              input.checked = false;
-              input.className = "form-check-input";
-              //label
-              var label = document.createElement("label");
-              label.setAttribute("for", module.name);
-              label.innerText = module.name;
-              input.setAttribute("id", "label-"+module.index);
-              label.className = "form-check-label";
-
-              //help
-              spanIconHelp = document.createElement("span")
-              spanIconHelp.className = "glyphicon glyphicon-info-sign help"
-              
-              spanTextHelp = document.createElement("span")
-              spanTextHelp.className = "tooltiptext"
-              spanTextHelp.innerText = module.help
-              spanIconHelp.appendChild(spanTextHelp)
-
-              //text params
-              var inputText = document.createElement("input");
-              inputText.setAttribute("type", "text");
-              inputText.setAttribute("id", "text-"+module.index);
-              params = ""
-              
-              for (var j=0;j<module.params.length;j++){
-                params+=module.params[j]+" "
-              }
-              if (params.length>0){
-                params = params.slice(0,-1);
-              }
-              inputText.setAttribute("value", params);
-              inputText.className = "form-check-text form-control";
-
-              div.appendChild(input);
-              div.appendChild(label);
-              div.appendChild(spanIconHelp)
-              div.appendChild(inputText);
-
-              domModules.appendChild(div);
-            }
-       }
-    };
-    xhttp.open("GET", "/listModules", true);
-    xhttp.send();
-  }
-  getModules();
-
-  function send(){
-    var values = [];
-    var cbs = document.getElementsByClassName("form-check-input");
-    console.log(cbs);
-    for(var i=0;i<cbs.length;i++){
-      if(cbs[i].checked){
-        values.push(cbs[i].value+":"+document.getElementById("text-"+cbs[i].value).value);  
-      }
-    }
-    form = document.getElementById("submitForm");
-    form.setAttribute("action", "/?values="+values);
-    form.submit();
-  }
-</script>
 <body>
   <div class="inner">
     <form id="submitForm" method="post" enctype="multipart/form-data" class="form center">
       <div class="form-group">
         <input type="file" class="form-control-file" id="fileToUpload" name="fileToUpload">
       </div>
-      <div class="form-group" id="modules">
-      </div>
       <div class="form-group">
-        <button type="button" class="form-btn" name="btnSubmit" onclick="send()">Submit</button>
+        <button type="submit" class="form-btn" name="btnSubmit">Submit</button>
       </div>
     </form>
 </div>
