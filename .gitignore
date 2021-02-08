@@ -29,4 +29,6 @@ env.bak/
 venv.bak/
 
 # file that unzip in testmode
+./tests/examples/safe_directory/*
+
 output.txt
