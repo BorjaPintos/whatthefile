@@ -48,10 +48,10 @@ jobs:
         
         #install module ocrtesseract
         sudo apt-get install -y tesseract-ocr
-        pip install -r ./src/modules/ocrtesseract/requirements.txt --extra-index-url https://www.piwheels.hostedpi.com/simple
+        pip install -r ./src/modules/ocrtesseract/requirements.txt
 
         #install module imagerecognitiontensorflow
-        pip install -r ./src/modules/imagerecognitiontensorflow/requirements.txt --extra-index-url https://www.piwheels.hostedpi.com/simple
+        pip install -r ./src/modules/imagerecognitiontensorflow/requirements.txt
 
         #install module zipextractor
         pip install -r ./src/modules/zipextractor/requirements.txt
