@@ -62,10 +62,14 @@ class TargetPath:
         result["st_size"] = stat.st_size
         result["st_mode"] = stat.st_mode
         result["st_device"] = stat.st_dev
-        result["st_flags"] = stat.st_flags
         try:
             #it depends on SO
             result["st_birthtime"] = stat.st_birthtime
+        except:
+            pass
+        try:
+            #it depends on SO
+            result["st_flags"] = stat.st_flags
         except:
             pass
         return result
