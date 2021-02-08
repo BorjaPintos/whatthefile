@@ -1,1 +1,0 @@
-Este directorio representa un directorio con permisos de escritura para volcar la información obtenida de evidencias sin modificar la fuente original
