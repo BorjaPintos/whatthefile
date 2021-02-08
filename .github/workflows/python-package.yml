@@ -1,0 +1,64 @@
+# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Python package
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7, 3.8, 3.9]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies Console
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirementsunix.txt
+    
+    - name: install modules dependencies
+      run: | 
+        #ENV EXIFTOOL_VERSION 12.17
+        wget https://www.sno.phy.queensu.ca/~phil/exiftool/Image-ExifTool-12-17.tar.gz
+        tar -xf Image-ExifTool-${EXIFTOOL_VERSION}.tar.gz
+        cd Image-ExifTool-${EXIFTOOL_VERSION}
+        perl Makefile.PL
+        make
+        make test
+        make install
+        cd ..
+        git clone git://github.com/smarnach/pyexiftool.git
+        cd ./pyexiftool
+        python ./setup.py install
+        cd ..
+        
+        #install module ocrtesseract
+        apt update && apt install -y tesseract-ocr
+        pip install -r ./src/modules/ocrtesseract/requirements.txt --extra-index-url https://www.piwheels.hostedpi.com/simple
+
+        #install module imagerecognitiontensorflow
+        pip install -r ./src/modules/imagerecognitiontensorflow/requirements.txt --extra-index-url https://www.piwheels.hostedpi.com/simple
+
+        #install module zipextractor
+        pip install -r ./src/modules/zipextractor/requirements.txt
+
+        #install module qrreader
+        apt install -y libzbar0
+        pip install -r ./src/modules/qrbcreader/requirements.txt
+        
+        
+    - name: Test with pytest
+      run: |
+        python -m pytest
