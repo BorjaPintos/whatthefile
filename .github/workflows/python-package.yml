@@ -19,7 +19,7 @@ jobs:
       matrix:
         python-version: [3.7]
         #macOS-latest multiply 10 the minutes
-        os: [macOS-latest]
+        os: [ubuntu-latest]
 
     steps:
     - uses: actions/checkout@v2
