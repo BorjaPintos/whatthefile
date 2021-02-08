@@ -30,22 +30,8 @@ jobs:
     
     - name: install modules dependencies
       run: | 
-        #ENV EXIFTOOL_VERSION 12.17
-        wget https://www.sno.phy.queensu.ca/~phil/exiftool/Image-ExifTool-12-17.tar.gz
-        tar -xf Image-ExifTool-12.17.tar.gz
-        cd Image-ExifTool-12.17
-        perl Makefile.PL
-        make
-        make test
-        make install
-        cd ..
-        git clone git://github.com/smarnach/pyexiftool.git
-        cd ./pyexiftool
-        python ./setup.py install
-        cd ..
-        
         #install module ocrtesseract
-        apt update && apt install -y tesseract-ocr
+        sudo apt-get install -y tesseract-ocr
         pip install -r ./src/modules/ocrtesseract/requirements.txt --extra-index-url https://www.piwheels.hostedpi.com/simple
 
         #install module imagerecognitiontensorflow
@@ -55,7 +41,7 @@ jobs:
         pip install -r ./src/modules/zipextractor/requirements.txt
 
         #install module qrreader
-        apt install -y libzbar0
+        sudo apt-get install -y libzbar0
         pip install -r ./src/modules/qrbcreader/requirements.txt
         
         
