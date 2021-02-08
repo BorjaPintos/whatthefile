@@ -33,7 +33,7 @@ jobs:
     - name: install modules dependencies
       run: | 
         
-        wget https://www.sno.phy.queensu.ca/~phil/exiftool/Image-ExifTool-$EXIFTOOL_VERSION.tar.gz
+        wget https://falcon.phy.queensu.ca/SNO/~phil/exiftool/Image-ExifTool-$EXIFTOOL_VERSION.tar.gz
         tar -xf Image-ExifTool-$EXIFTOOL_VERSION.tar.gz
         cd Image-ExifTool-$EXIFTOOL_VERSION
         perl Makefile.PL
