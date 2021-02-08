@@ -53,7 +53,7 @@ class CoreTest(unittest.TestCase):
         paths = []
         for element in output.get_list():
             paths.append(element["path"])
-        self.assertEqual(len(paths), 8)
+        self.assertEqual(len(paths), 7)
         self.assertTrue(final_file in paths)
 
         os.remove(final_file)
