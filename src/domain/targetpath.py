@@ -55,7 +55,6 @@ class TargetPath:
         result["st_atime"] = stat.st_atime
         result["st_ctime"] = stat.st_ctime
         result["st_mtime"] = stat.st_mtime
-        result["st_birthtime"] = stat.st_birthtime
         result["st_blksize"] = stat.st_blksize
         result["st_blocks"] = stat.st_blocks
         result["st_gid"] = stat.st_gid
@@ -64,6 +63,11 @@ class TargetPath:
         result["st_mode"] = stat.st_mode
         result["st_device"] = stat.st_dev
         result["st_flags"] = stat.st_flags
+        try:
+            #it depends on SO
+            result["st_birthtime"] = stat.st_birthtime
+        except:
+            pass
         return result
 
     @abstractmethod
