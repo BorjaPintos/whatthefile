@@ -18,6 +18,7 @@ jobs:
     strategy:
       matrix:
         python-version: [3.7]
+        #macOS-latest multiply 10 the minutes
         os: [macOS-latest]
 
     steps:
