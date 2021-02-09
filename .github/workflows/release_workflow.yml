@@ -35,6 +35,6 @@ jobs:
         uses: ./.github/actions/modules
 
       - name: Test with pytest
-      run: |
+        run: |
         pip install -r requirementstest.txt
         python -m pytest
