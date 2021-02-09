@@ -10,7 +10,6 @@ class TargetPathTest(unittest.TestCase):
         self.assertEqual(target_path.get_path(), path)
         self.assertEqual(target_path.get_directory(), "./tests/examples")
         info = target_path.get_info()
-        self.assertEqual(info["st_size"], 128)
         self.assertTrue("st_atime" in info)
         self.assertTrue("st_ctime" in info)
         self.assertTrue("st_mtime" in info)

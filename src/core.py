@@ -19,11 +19,11 @@ class Core:
     def run(self, input: str):
         #comprobamos el directorio de extracción para saber si cambia
         output_safe_directory = self._config.get_property("whatthefile", "extracted_output_path")
-        size = os.path.getsize(output_safe_directory)
+        mtime = os.stat(output_safe_directory).st_mtime
         self._run(input)
         #tanalizamos directorio de extracción también
-        size2 = os.path.getsize(output_safe_directory)
-        if size2 != size:
+        mtime2 = os.stat(output_safe_directory).st_mtime
+        if mtime2 != mtime:
             self._run(output_safe_directory)
 
     def _run(self, input:str):

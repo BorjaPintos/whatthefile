@@ -1,0 +1,7 @@
+name: 'Install basic dependencies'
+description: 'install basic dependencies'
+runs:
+  using: "composite"
+  steps:
+    - run: $GITHUB_ACTION_PATH/basic.sh
+      shell: bash
