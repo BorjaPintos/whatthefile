@@ -29,7 +29,7 @@ class VirusTotalTest(unittest.TestCase):
         self.assertEqual(result["error"], "Invalid API KEY")
 
     def test_virus(self):
-        path = "./tests/examples/Ransomware.WannaCry.zip"
+        path = "./tests/examples/collie.jpg"
         target_file = TargetFile(path)
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))

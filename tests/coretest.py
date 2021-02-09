@@ -49,7 +49,12 @@ class CoreTest(unittest.TestCase):
         core = Core(conf, output)
         core.run(path)
         self.assertTrue(os.path.exists(final_file))
-        self.assertEqual(output.get_list()[-1]["path"], final_file)
+
+        paths = []
+        for element in output.get_list():
+            paths.append(element["path"])
+        self.assertEqual(len(paths), 8)
+        self.assertTrue(final_file in paths)
 
         os.remove(final_file)
         self._remove_test_folders(output_safe_directory, final_file)

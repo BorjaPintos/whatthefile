@@ -13,7 +13,8 @@ class MetadataTest(unittest.TestCase):
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
         result = module.run(target_file)
-        self.assertEqual(result["Composite:ImageSize"], "200x273")
+        self.assertTrue("200" in result["Composite:ImageSize"])
+        self.assertTrue("273" in result["Composite:ImageSize"])
 
     def test_pdf(self):
         path = "./tests/examples/EstrellaGalicia.pdf"

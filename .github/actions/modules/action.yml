@@ -1,0 +1,7 @@
+name: 'Install modules'
+description: 'install modules'
+runs:
+  using: "composite"
+  steps:
+    - run: $GITHUB_ACTION_PATH/modules.sh
+      shell: bash
