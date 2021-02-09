@@ -3,5 +3,5 @@ description: 'install basic dependencies'
 runs:
   using: "composite"
   steps:
-    - run: $GITHUB_ACTION_PATH/basic/basic.sh
+    - run: $GITHUB_ACTION_PATH/basic.sh
       shell: bash
