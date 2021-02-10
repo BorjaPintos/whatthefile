@@ -1,9 +1,19 @@
 # whatthefile
 
-![](https://img.shields.io/badge/python-3.7-blue)
-
 Extrae información de archivos pasando varios módulos especializados.
 Pensado para forensics o CTFs
+
+# Info shields
+
+![](https://img.shields.io/github/issues-raw/borjapintos/whatthefile)
+
+![](https://img.shields.io/github/last-commit/borjapintos/whatthefile)
+
+![](https://img.shields.io/github/workflow/status/borjapintos/whatthefile/Master%20Workflow)
+
+![](https://img.shields.io/badge/python-3.7-blue)
+![](https://img.shields.io/badge/python-3.8-blue)
+
 
 # Módulos
 - **Básico**: Datos específicos del archivo, tipo, tamaño, uid, gid...
@@ -11,6 +21,7 @@ Pensado para forensics o CTFs
 - **entropy**: Calcula la entropia de shannon
 - **hashes**: Realiza diversos hashes
 - **imagerecognitiontensorflow**: reconocimiento de imágenes usando tensorflow.
+- **infoextractor**: extracción de emails, urls, iban de ficheros de texto.
 - **metadata**: extracción de metadatos con Exiftool
 - **ocrtesseract**: Extrae texto que se visualice en imágenes
 - **qrbcreader**: Lector de código QR y Códigos de Barras
@@ -78,6 +89,7 @@ Para ejecutar el servidor web
 
 Los módulos deben estar siempre bajo la carpeta de `src/modules`
 Tendrá su carpeta con un fichero llamado `main.py`
+La clasedeberá llamarse `Constructor` y deberá implementar la interfaz `IModule`.
 
 ```python
 # -*- coding: utf-8 -*-

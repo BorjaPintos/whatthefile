@@ -1,0 +1,15 @@
+Esto es un fichero con un email cosa@cosa.com
+cosita2@cosita.com y cosita3@pron.com
+
+también podemos encontrar uls como http://google.es http://facebook.com
+incluso ftp://localhost:2222
+mysql://host:puerto/database y este es un ejemplo de un servicio de mysql
+
+
+números de cuenta:
+
+ES12 3456 7890 1234 5678 9012 este es uno
+
+Este otro ES1234567890123456789012
+
+ y aquí intento engañar con este verdadero ES12-3456-7890-1234-5678-9011 y este falso ES12-3456-7890-1234-5678-901
