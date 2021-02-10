@@ -21,6 +21,7 @@ Pensado para forensics o CTFs
 - **entropy**: Calcula la entropia de shannon
 - **hashes**: Realiza diversos hashes
 - **imagerecognitiontensorflow**: reconocimiento de imágenes usando tensorflow.
+- **infoextractor**: extracción de emails, urls, iban de ficheros de texto.
 - **metadata**: extracción de metadatos con Exiftool
 - **ocrtesseract**: Extrae texto que se visualice en imágenes
 - **qrbcreader**: Lector de código QR y Códigos de Barras
