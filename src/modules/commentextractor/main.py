@@ -32,10 +32,11 @@ class Constructor(IModule):
         if target_file.is_file():
             if "ASCII text" in target_file.get_type():
                 return True
+            if "UTF-8 Unicode text" in target_file.get_type():
+                return True
         return False
 
     def run(self, target_file: TargetFile):
-        """TODO Filtrar por excensiones conocidas."""
         binary = target_file.get_binary()
         result = {}
         if target_file.get_extension() in [".c", ".cpp", ".java", ".js", ".php", ".sql"]:

@@ -37,9 +37,6 @@ class Constructor(IModule):
 
     def is_valid_for(self, target_file: TargetPath):
         if target_file.is_file():
-            if "ASCII text" in target_file.get_type():
-                """To much strings"""
-                return False
             return True
         return False
 
