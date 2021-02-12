@@ -40,7 +40,9 @@ class LoaderModules:
             mod = importlib.import_module(
                 conf.get_property("whatthefile", "modules_package") + "." + module_name + ".main")
             py_mod = getattr(mod, "Constructor")()
-            py_mod.set_params(conf.get_section(module_section_name))
+            configuration = conf.get_whatthefile_secction()
+            configuration.update(conf.get_section(module_section_name))
+            py_mod.set_params(configuration)
             return Module(module_name, position, py_mod)
         except:
             traceback.print_exc()

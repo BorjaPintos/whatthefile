@@ -21,6 +21,8 @@ class Constructor(IModule):
 
     def _run(self, target_file : TargetFile, extracted_output_path:str, pwd_list: list):
         result = {}
+        result["new_files"] = []
+        result["new_path_files"] = []
         binary = None
         decripted_password = None
         with ZipFile(target_file.get_path(), 'r') as zip:
@@ -58,7 +60,8 @@ class Constructor(IModule):
                     safe_name = info.filename.replace("..", ".")
                     path_to_save = self._get_path_to_save(extracted_output_path, target_file.get_path(), safe_name)
                     self._create_folders(extracted_output_path, target_file.get_path(), safe_name)
-                    result[info.filename] = path_to_save
+                    result["new_files"].append(info.filename)
+                    result["new_path_files"].append(path_to_save)
                     if decripted_password:
                         result["password"] = decripted_password.decode()
                     with open(path_to_save, "wb+") as file:
@@ -109,20 +112,20 @@ class Constructor(IModule):
 
     def _create_folders(self, output_extracted_path, zip_path: str, filename : str):
         subpaths = []
-        subpath = os.path.join(zip_path, os.path.dirname(filename)).replace("/./", "/")
+        subpath = os.path.join(zip_path, os.path.dirname(filename)).replace("/./", "/").replace("/../", "/")
         while subpath != "":
             if subpath != ".":
                 subpaths.append(subpath)
             subpath = os.path.dirname(subpath)
         subpaths.reverse()
         for path in subpaths:
-            path_to_create = os.path.join(output_extracted_path, path).replace("/./", "/")
+            path_to_create = os.path.join(output_extracted_path, path).replace("/./", "/").replace("/../", "/")
             if not os.path.exists(path_to_create):
                 os.mkdir(path_to_create)
 
     def _get_path_to_save(self, output_extracted_path, zip_path: str, filename : str):
-        output_folder_path = os.path.join(output_extracted_path, zip_path).replace("/./", "/")
-        final_path = os.path.join(output_folder_path, filename).replace("/./", "/")
+        output_folder_path = os.path.join(output_extracted_path, zip_path).replace("/./", "/").replace("/../", "/")
+        final_path = os.path.join(output_folder_path, filename).replace("/./", "/").replace("/../", "/")
         return final_path
 
 

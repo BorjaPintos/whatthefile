@@ -2,6 +2,8 @@
 import os
 from abc import abstractmethod
 
+from src.utils.Time import Time
+
 
 class TargetPath:
 
@@ -52,9 +54,9 @@ class TargetPath:
     def get_stat_info(self):
         stat = os.stat(self._path)
         result = {}
-        result["st_atime"] = stat.st_atime
-        result["st_ctime"] = stat.st_ctime
-        result["st_mtime"] = stat.st_mtime
+        result["st_atime"] = Time.change_output_date_format_from_epoch(stat.st_atime)
+        result["st_ctime"] = Time.change_output_date_format_from_epoch(stat.st_ctime)
+        result["st_mtime"] = Time.change_output_date_format_from_epoch(stat.st_mtime)
         result["st_blksize"] = stat.st_blksize
         result["st_blocks"] = stat.st_blocks
         result["st_gid"] = stat.st_gid

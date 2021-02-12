@@ -11,10 +11,13 @@ class TargetFile(TargetPath):
     def __init__(self, path: str):
         super().__init__(path)
         self._validate_path()
-        self._type = self._get_filetype_from_path(self._path)
         self._extension = os.path.splitext(self._path)[1]
         "lazy"
         self._binary = None
+        try:
+            self._type = self._get_filetype_from_path(self._path)
+        except:
+            self._type = self._get_filetype_from_binary(self.get_binary())
 
     def _validate_path(self):
         if not self.is_file():
@@ -45,9 +48,10 @@ class TargetFile(TargetPath):
                 if not chunk:
                     break
                 all_binary = all_binary + chunk
+
         return all_binary
 
+
     def _get_other_info(self) -> dict:
-        result = {}
-        result["extension"] = self._extension
+        result = {"extension": self._extension}
         return result
