@@ -39,7 +39,8 @@ class ZipExtractorTest(unittest.TestCase):
         module.set_params(params)
         result = module.run(target_file)
         self.assertTrue(os.path.exists(final_file))
-        self.assertEqual(result["Surprise.txt"], final_file)
+        self.assertTrue("Surprise.txt" in result["new_files"])
+        self.assertTrue(final_file in result["new_path_files"])
 
         os.remove(final_file)
         self._remove_test_folders(output_safe_directory, final_file)
@@ -62,7 +63,8 @@ class ZipExtractorTest(unittest.TestCase):
         module.set_params(params)
         self.assertTrue(module.is_valid_for(target_file))
         result = module.run(target_file)
-        self.assertEqual(result["Surprise2.txt"], final_file)
+        self.assertTrue("Surprise2.txt" in result["new_files"])
+        self.assertTrue(final_file in result["new_path_files"])
         self.assertEqual(result["password"], "surprise")
         self.assertTrue(os.path.exists(final_file))
 
@@ -98,7 +100,8 @@ class ZipExtractorTest(unittest.TestCase):
         module.set_params(params)
         result = module.run(target_file)
         self.assertTrue(os.path.exists(final_file))
-        self.assertEqual(result["surprise_folder/Surprise.txt"], final_file)
+        self.assertTrue("surprise_folder/Surprise.txt" in result["new_files"])
+        self.assertTrue(final_file in result["new_path_files"])
 
         os.remove(final_file)
         self._remove_test_folders(output_safe_directory, final_file)

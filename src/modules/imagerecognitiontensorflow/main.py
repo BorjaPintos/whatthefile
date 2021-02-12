@@ -46,6 +46,11 @@ class Constructor(IModule):
     def run(self, target_file: TargetFile):
         predictions_response = self._get_predictions(target_file.get_path())
         result = {}
+        predictions_names = []
+        probabilites = []
         for other, prediction_name, probability in predictions_response[0]:
-            result[prediction_name] = str(probability)
+            predictions_names.append(prediction_name)
+            probabilites.append(probability)
+        result["prediction_names"] = predictions_names
+        result["probabilites"] = probabilites
         return result

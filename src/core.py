@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import traceback
+
 from src.domain.loadermodules import LoaderModules
 from src.domain.targetdirectory import TargetDirectory
 from src.domain.targetfile import TargetFile
@@ -8,11 +10,14 @@ import os
 from src.output.ioutput import IOutput
 from datetime import datetime
 
+from src.utils.Time import Time
+
 
 class Core:
 
     def __init__(self, config: WhatTheFileConfiguration, output: IOutput):
         self._config = config
+        Time.configure(config)
         self._modules = LoaderModules(config).get_modules()
         self._output = output
 
@@ -27,45 +32,60 @@ class Core:
             self._run(output_safe_directory)
 
     def _run(self, input:str):
-        if os.path.exists(input):
-            if os.path.isfile(input):
-                self._output.dump(self._analyze_file(input))
-            elif os.path.isdir(input):
-                self._output.dump(self._analyze_dir(input))
-                for element in os.listdir(input):
-                    self.run(os.path.join(input, element))
-            else:
-                target_path = TargetPath(input)
-                self._output.dump(target_path.get_info())
+        try:
+            if os.path.exists(input):
+                begin_analysis = self.get_utc_timestamp()
+                analysis = {}
+                if os.path.isfile(input):
+                    analysis = self._analyze_file(input)
+                elif os.path.isdir(input):
+                    analysis = self._analyze_dir(input)
+                    for element in os.listdir(input):
+                        self._run(os.path.join(input, element))
+                else:
+                    target_path = TargetPath(input)
+                    analysis = target_path.get_info()
+
+                end_analysis = self.get_utc_timestamp()
+                analysis["begin_analysis"] = Time.change_output_date_format_from_epoch(begin_analysis)
+                analysis["end_analysis"] = Time.change_output_date_format_from_epoch(end_analysis)
+                analysis["total_analysis_duration"] = end_analysis - begin_analysis
+                self._output.dump(analysis)
+        except:
+            traceback.print_exc()
+            print("error en path:" + input)
+
 
     def _analyze_dir(self, dir_path: str) -> dict:
-        begin_analysis = self.get_utc_timestamp()
+
         target_directory = TargetDirectory(dir_path)
         result = target_directory.get_info()
-
-        for module in self._modules:
-            if module.get_mod().is_valid_for(target_directory):
-                start_module = self.get_utc_timestamp()
-                result[module.get_name()] = module.get_mod().run(target_directory)
-                result[module.get_name()]["start_module"] = start_module
-                result[module.get_name()]["end_module"] = self.get_utc_timestamp()
-        result["begin_analysis"] = begin_analysis
-        result["end_analysis"] = self.get_utc_timestamp()
+        result.update(self._run_modules(target_directory))
         return result
 
     def _analyze_file(self, file_path: str) -> dict:
-        begin_analysis = self.get_utc_timestamp()
         target_file = TargetFile(file_path)
         result = target_file.get_info()
-        for module in self._modules:
-            if module.get_mod().is_valid_for(target_file):
-                start_module = self.get_utc_timestamp()
-                result[module.get_name()] = module.get_mod().run(target_file)
-                result[module.get_name()]["start_module"] = start_module
-                result[module.get_name()]["end_module"] = self.get_utc_timestamp()
-        result["begin_analysis"] = begin_analysis
-        result["end_analysis"] = self.get_utc_timestamp()
+        result.update(self._run_modules(target_file))
         return result
+
+
+    def _run_modules(self, target : TargetPath):
+        result = {}
+        for module in self._modules:
+            if module.get_mod().is_valid_for(target):
+                start_module = self.get_utc_timestamp()
+                try:
+                    result[module.get_name()] = {}
+                    result[module.get_name()] = module.get_mod().run(target)
+                except Exception as e:
+                    result[module.get_name()]["error"] = str(e)
+                end_module = self.get_utc_timestamp()
+                result[module.get_name()]["start_module"] = Time.change_output_date_format_from_epoch(start_module)
+                result[module.get_name()]["end_module"] = Time.change_output_date_format_from_epoch(end_module)
+                result[module.get_name()]["total_module_duration"] = end_module - start_module
+        return result
+
 
     def get_utc_timestamp(self) -> float:
         return datetime.utcnow().timestamp()

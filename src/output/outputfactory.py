@@ -1,4 +1,5 @@
 from src.domain.whatthefileconfiguration import WhatTheFileConfiguration
+from src.output.elasticsearchoutput import ElasticsearchOutput
 from src.output.listoutput import ListOutput
 from src.output.printoutput import PrintOutput
 from src.output.fileoutput import FileOutput
@@ -16,4 +17,6 @@ class OutputFactory:
                 return ListOutput(conf)
             if output == "file":
                 return FileOutput(conf)
+            if output == "elasticsearch":
+                return ElasticsearchOutput(conf)
         return PrintOutput(conf)

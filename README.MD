@@ -57,6 +57,15 @@ Dentro de cada módulo se explican las instrucciones de sus dependencias, por lo
 
 Algunos necesitan instalar algun software adicional de sistema operativo. Por ejemplo, exiftools
 
+### Salidas disponibles
+
+Existen varios tipos de salida del programa para obtener los resultados:
+
+- **print**: salida normal por pantalla
+- **file**: volcado a un fichero
+- **list**: el resultado se mantiene en un objecto lista, ideal para exportar a otra librería
+- **elasticsearch**: los resultados se envían a un elasticsearch
+
 ### Requisitos para servidor
 
 `pip install -r requirementsweb.txt`
