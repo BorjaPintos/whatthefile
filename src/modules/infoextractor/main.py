@@ -6,7 +6,7 @@ from src.modules.imodule import IModule
 from src.domain.targetpath import TargetPath
 
 EMAILS = re.compile(r"\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,4}")
-URLS = re.compile(r"((\S+://){1}\S+)")
+URLS = re.compile(r"""(([a-zA-Z]+://){1}[^'"\s]+)""")
 IBAN = re.compile(
     r"[A-Z]{2}\d{22}|[A-Z]{2}\d{2}[ ]\d{4}[ ]\d{4}[ ]\d{4}[ ]\d{4}[ ]\d{4}|[A-Z]{2}\d{2}[-]\d{4}[-]\d{4}[-]\d{4}[-]\d{4}[-]\d{4}")
 
@@ -40,9 +40,17 @@ class Constructor(IModule):
                 return True
         return False
 
+    def _clean(self, result: dict) -> dict:
+        properties = ["emails", "URLs", "IBANs"]
+        for property in properties:
+            if len(result[property]) == 0:
+                del result[property]
+        return result
+
     def run(self, target_file: TargetFile):
         binary = target_file.get_binary()
         result = {"emails": self._get_emails(binary),
                   "URLs": self._get_urls(binary),
                   "IBANs": self._get_ibans(binary)}
-        return result
+
+        return self._clean(result)
