@@ -40,9 +40,17 @@ class Constructor(IModule):
                 return True
         return False
 
+    def _clean(self, result: dict) -> dict:
+        properties = ["emails", "URLs", "IBANs"]
+        for property in properties:
+            if len(result[property]) == 0:
+                del result[property]
+        return result
+
     def run(self, target_file: TargetFile):
         binary = target_file.get_binary()
         result = {"emails": self._get_emails(binary),
                   "URLs": self._get_urls(binary),
                   "IBANs": self._get_ibans(binary)}
-        return result
+
+        return self._clean(result)
