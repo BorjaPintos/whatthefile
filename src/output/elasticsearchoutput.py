@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import ssl
+
 from src.domain.whatthefileconfiguration import WhatTheFileConfiguration
 from src.output.ioutput import IOutput
 from elasticsearch import Elasticsearch
@@ -18,9 +20,12 @@ class ElasticsearchOutput(IOutput):
         port = self._elasticsearch_config["port"]
         scheme = self._elasticsearch_config["scheme"]
         context = None
+        verify_certs = False
         try:
             path_to_cafile_pem = self._elasticsearch_config["ssl_certificate_path"]
             context = create_default_context(cafile=path_to_cafile_pem)
+            context.check_hostname = False if self._elasticsearch_config["check_hostname"] == 'False' or 'false' or 0 else True
+            context.verify_mode = ssl.CERT_NONE if self._elasticsearch_config["verify_certs"] == 'False' or 'false' or 0 else ssl.CERT_REQUIRED
         except KeyError:
             pass
         http_auth = None
