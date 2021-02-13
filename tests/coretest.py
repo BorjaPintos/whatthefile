@@ -85,12 +85,12 @@ class CoreTest(unittest.TestCase):
         output = OutputFactory.get_output(conf)
         core = Core(conf, output)
         core.run(path)
-        self.assertTrue(os.path.exists(temporal_zip))
-        self.assertTrue(os.path.exists(final_file))
 
         paths = []
         for element in output.get_list():
             paths.append(element["path"])
+
+        self.assertTrue(temporal_zip in paths)
         self.assertTrue(final_file in paths)
 
         os.remove(final_file)
