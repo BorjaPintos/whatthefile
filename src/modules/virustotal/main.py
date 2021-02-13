@@ -22,6 +22,14 @@ class Constructor(IModule):
         return False
 
     def run(self, target_file: TargetFile):
+        if target_file.get_extension() in ["", ".sh", ".py", ".rb", ".java", ".class",
+                                           ".pl", ".exe", ".out", ".ps", ".bat", ".air",
+                                           ".scr", ".vb", ".com", ".dll", ".bin", ".apk",
+                                           ".app", ".cgi", ".cmd", ".wsf", ".ipa", ".pif",
+                                           ".gadget", ".docm", ".dotm", ".xlsm", ".xltm",
+                                           ".pptm", "potm"]:
+            return {"skipped:", "extension not interesting to analyse"}
+
         if self.get_params() is None or APIKEY not in self.get_params():
             return {"error": APIKEY + " is required"}
         virus_total_report = virustotalapi.check_hash(self.get_params()[APIKEY],
