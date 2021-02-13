@@ -6,6 +6,7 @@ from pyzipper import AESZipFile
 from src.domain.targetfile import TargetFile
 from src.domain.targetpath import TargetPath
 from src.modules.imodule import IModule
+from src.utils.safe import Safe
 
 PARAM_PWD_DICT = 'pwd_dict'
 EXTRACTED_OUTPUT_PATH = 'extracted_output_path'
@@ -19,7 +20,7 @@ class Constructor(IModule):
         self._help = """Extract files from zip"""
         self._author = "BorjaPintos"
 
-    def _run(self, target_file : TargetFile, extracted_output_path:str, pwd_list: list):
+    def _run(self, target_file : TargetFile, pwd_list: list):
         result = {}
         result["new_files"] = []
         result["new_path_files"] = []
@@ -57,15 +58,11 @@ class Constructor(IModule):
                         except:
                             pass
                 if binary:
-                    safe_name = info.filename.replace("..", ".")
-                    path_to_save = self._get_path_to_save(extracted_output_path, target_file.get_path(), safe_name)
-                    self._create_folders(extracted_output_path, target_file.get_path(), safe_name)
+                    path_saved = Safe.create_file(os.path.join("./zipextractor", os.path.join(target_file.get_path(), info.filename)),  binary)
                     result["new_files"].append(info.filename)
-                    result["new_path_files"].append(path_to_save)
+                    result["new_path_files"].append(path_saved)
                     if decripted_password:
                         result["password"] = decripted_password.decode()
-                    with open(path_to_save, "wb+") as file:
-                        file.write(binary)
                 else:
                     result["error"] = "Bad password or wrong decrypted algorithm"
 
@@ -104,39 +101,8 @@ class Constructor(IModule):
 
         return list
 
-    def _get_extracted_output_path(self, params):
-        if not EXTRACTED_OUTPUT_PATH in params:
-            return None
-        return params[EXTRACTED_OUTPUT_PATH]
-
-
-    def _create_folders(self, output_extracted_path, zip_path: str, filename : str):
-        subpaths = []
-        subpath = os.path.join(zip_path, os.path.dirname(filename)).replace("/./", "/").replace("/../", "/")
-        while subpath != "":
-            if subpath != ".":
-                subpaths.append(subpath)
-            subpath = os.path.dirname(subpath)
-        subpaths.reverse()
-        for path in subpaths:
-            path_to_create = os.path.join(output_extracted_path, path).replace("/./", "/").replace("/../", "/")
-            if not os.path.exists(path_to_create):
-                os.mkdir(path_to_create)
-
-    def _get_path_to_save(self, output_extracted_path, zip_path: str, filename : str):
-        output_folder_path = os.path.join(output_extracted_path, zip_path).replace("/./", "/").replace("/../", "/")
-        final_path = os.path.join(output_folder_path, filename).replace("/./", "/").replace("/../", "/")
-        return final_path
-
-
 
     def run(self, target_file: TargetFile):
-        extracted_output_path = self._get_extracted_output_path(self.get_params())
-        if not extracted_output_path:
-            return {"error" : "property: " + EXTRACTED_OUTPUT_PATH + " is required for unzip"}
-        else:
-            if not os.path.exists(extracted_output_path):
-                os.mkdir(extracted_output_path)
         pwd_list = self._get_password_list(self.get_params())
-        report = self._run(target_file, extracted_output_path, pwd_list)
+        report = self._run(target_file, pwd_list)
         return report

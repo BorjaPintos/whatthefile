@@ -10,7 +10,8 @@ import os
 from src.output.ioutput import IOutput
 from datetime import datetime
 
-from src.utils.Time import Time
+from src.utils.safe import Safe
+from src.utils.time import Time
 
 
 class Core:
@@ -18,18 +19,22 @@ class Core:
     def __init__(self, config: WhatTheFileConfiguration, output: IOutput):
         self._config = config
         Time.configure(config)
+        Safe.configure(config)
         self._modules = LoaderModules(config).get_modules()
         self._output = output
 
     def run(self, input: str):
         #comprobamos el directorio de extracción para saber si cambia
-        output_safe_directory = self._config.get_property("whatthefile", "extracted_output_path")
-        mtime = os.stat(output_safe_directory).st_mtime
+        safe_output_path = Safe.safe_output_path
+        mtime = os.stat(safe_output_path).st_mtime
         self._run(input)
         #tanalizamos directorio de extracción también
-        mtime2 = os.stat(output_safe_directory).st_mtime
+        mtime2 = os.stat(safe_output_path).st_mtime
         if mtime2 != mtime:
-            self._run(output_safe_directory)
+            Safe.next_rotation()
+            self.run(safe_output_path)
+        else:
+            os.rmdir(Safe.safe_output_path)
 
     def _run(self, input:str):
         try:
