@@ -27,10 +27,12 @@ class Core:
         #comprobamos el directorio de extracción para saber si cambia
         safe_output_path = Safe.safe_output_path
         mtime = os.stat(safe_output_path).st_mtime
+        n_elements_inside = len(os.listdir(safe_output_path))
         self._run(input)
         #tanalizamos directorio de extracción también
         mtime2 = os.stat(safe_output_path).st_mtime
-        if mtime2 != mtime:
+        n_elements_inside2 = len(os.listdir(safe_output_path))
+        if mtime2 != mtime or n_elements_inside2 != n_elements_inside:
             Safe.next_rotation()
             self.run(safe_output_path)
         else:
