@@ -2,7 +2,7 @@
 import os
 from abc import abstractmethod
 
-from src.utils.Time import Time
+from src.utils.time import Time
 
 
 class TargetPath:

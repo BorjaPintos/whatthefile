@@ -5,6 +5,8 @@ from src.domain.targetpath import TargetPath
 from src.modules.zipextractor.main import Constructor
 import os
 
+from src.utils.safe import Safe
+
 
 class ZipExtractorTest(unittest.TestCase):
 
@@ -24,7 +26,8 @@ class ZipExtractorTest(unittest.TestCase):
     def test_unzip(self):
 
         output_safe_directory = "./tests/examples/safe_directory"
-        final_file = "./tests/examples/safe_directory/tests/examples/Surprise.txt.zip/Surprise.txt"
+        Safe.safe_output_path = output_safe_directory
+        final_file = "./tests/examples/safe_directory/zipextractor/tests/examples/Surprise.txt.zip/Surprise.txt"
 
         if os.path.exists(final_file):
             os.remove(final_file)
@@ -35,9 +38,9 @@ class ZipExtractorTest(unittest.TestCase):
         target_file = TargetFile(path)
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
-        params = {"extracted_output_path": output_safe_directory}
-        module.set_params(params)
+
         result = module.run(target_file)
+        print(result)
         self.assertTrue(os.path.exists(final_file))
         self.assertTrue("Surprise.txt" in result["new_files"])
         self.assertTrue(final_file in result["new_path_files"])
@@ -48,7 +51,8 @@ class ZipExtractorTest(unittest.TestCase):
     def test_unzip_with_password(self):
 
         output_safe_directory = "./tests/examples/safe_directory"
-        final_file = "./tests/examples/safe_directory/tests/examples/Surprise2.txt.zip/Surprise2.txt"
+        Safe.safe_output_path = output_safe_directory
+        final_file = "./tests/examples/safe_directory/zipextractor/tests/examples/Surprise2.txt.zip/Surprise2.txt"
 
         if os.path.exists(final_file):
             os.remove(final_file)
@@ -58,8 +62,7 @@ class ZipExtractorTest(unittest.TestCase):
         path = "./tests/examples/Surprise2.txt.zip"
         target_file = TargetFile(path)
         module = Constructor()
-        params = {"extracted_output_path": output_safe_directory,
-                  "pwd_dict": "./tests/examples/wordlist.txt"}
+        params = {"pwd_dict": "./tests/examples/wordlist.txt"}
         module.set_params(params)
         self.assertTrue(module.is_valid_for(target_file))
         result = module.run(target_file)
@@ -72,8 +75,7 @@ class ZipExtractorTest(unittest.TestCase):
         self._remove_test_folders(output_safe_directory, final_file)
 
     def test_error_password(self):
-        params = {"extracted_output_path": "./tests/examples/safe_directory",
-                  "pwd_dict": "./tests/examples/Prueba.c"}
+        params = {"pwd_dict": "./tests/examples/Prueba.c"}
         path = "./tests/examples/Surprise2.txt.zip"
         target_file = TargetFile(path)
         module = Constructor()
@@ -85,7 +87,8 @@ class ZipExtractorTest(unittest.TestCase):
     def test_unzip_with_folder_inside(self):
 
         output_safe_directory = "./tests/examples/safe_directory"
-        final_file = "./tests/examples/safe_directory/tests/examples/surprise_folder.zip/surprise_folder/Surprise.txt"
+        Safe.safe_output_path = output_safe_directory
+        final_file = "./tests/examples/safe_directory/zipextractor/tests/examples/surprise_folder.zip/surprise_folder/Surprise.txt"
 
         if os.path.exists(final_file):
             os.remove(final_file)
@@ -96,8 +99,6 @@ class ZipExtractorTest(unittest.TestCase):
         target_file = TargetFile(path)
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
-        params = {"extracted_output_path": output_safe_directory}
-        module.set_params(params)
         result = module.run(target_file)
         self.assertTrue(os.path.exists(final_file))
         self.assertTrue("surprise_folder/Surprise.txt" in result["new_files"])

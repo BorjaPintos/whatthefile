@@ -10,7 +10,7 @@ class CoreTest(unittest.TestCase):
     def test_run_strings(self):
         conf = WhatTheFileConfiguration()
         conf.parse_dict({"whatthefile": {"modules_package": "src.modules", "output": "list",
-                                         "extracted_output_path": "./tests/examples/safe_directory"},
+                                         "safe_output_path": "./tests/examples/safe_directory"},
                          "module.commentextractor": {"active": True}, "module.entropy": {"active": False},
                          "module.hashes": {"active": False,'hashes_to_calculate' : "MD5,SHA1,SHA256"},
                          "module.imagerecognitiontensorflow": {"active": False},
@@ -30,14 +30,13 @@ class CoreTest(unittest.TestCase):
         conf.parse_string("""
         [whatthefile]
         modules_package = src.modules
-        extracted_output_path = """ + output_safe_directory +"""
+        safe_output_path = """ + output_safe_directory +"""
         output = list
         [module.zipextractor]
         active = true
-        extracted_output_path = ${whatthefile:extracted_output_path}/zipextractor
         """)
 
-        final_file = "./tests/examples/safe_directory/zipextractor/tests/examples/collie.jpg.zip/collie.jpg"
+        final_file = "./tests/examples/safe_directory/1/zipextractor/tests/examples/collie.jpg.zip/collie.jpg"
 
         if os.path.exists(final_file):
             os.remove(final_file)
@@ -53,16 +52,57 @@ class CoreTest(unittest.TestCase):
         paths = []
         for element in output.get_list():
             paths.append(element["path"])
-        self.assertEqual(len(paths), 8)
+        self.assertEqual(len(paths), 7)
         self.assertTrue(final_file in paths)
 
         os.remove(final_file)
         self._remove_test_folders(output_safe_directory, final_file)
 
+    def test_zipextractor_unzip_with_zip_inside(self):
+
+        output_safe_directory = "./tests/examples/safe_directory"
+        final_file = "./tests/examples/safe_directory/2/" \
+                     "zipextractor/tests/examples/safe_directory/1/" \
+                     "zipextractor/tests/examples/folderzip.zip/folderzip/Surprisezip.txt.zip/Surprisezip.txt"
+        temporal_zip = "./tests/examples/safe_directory/1/" \
+                     "zipextractor/tests/examples/folderzip.zip/folderzip/Surprisezip.txt.zip"
+        conf = WhatTheFileConfiguration()
+        conf.parse_string("""
+                [whatthefile]
+                modules_package = src.modules
+                safe_output_path = """ + output_safe_directory + """
+                output = list
+                [module.zipextractor]
+                active = true
+                """)
+
+        if os.path.exists(final_file):
+            os.remove(final_file)
+        self._remove_test_folders(output_safe_directory, final_file)
+
+        self.assertFalse(os.path.exists(final_file))
+        path = "./tests/examples/folderzip.zip"
+        output = OutputFactory.get_output(conf)
+        core = Core(conf, output)
+        core.run(path)
+
+        paths = []
+        for element in output.get_list():
+            paths.append(element["path"])
+
+        self.assertTrue(temporal_zip in paths)
+        self.assertTrue(final_file in paths)
+
+        os.remove(final_file)
+        self._remove_test_folders(output_safe_directory, final_file)
+
+        os.remove(temporal_zip)
+        self._remove_test_folders(output_safe_directory, temporal_zip)
+
     def test_run_hashes(self):
         conf = WhatTheFileConfiguration()
         conf.parse_dict({"whatthefile": {"modules_package": "src.modules", "output": "list",
-                                         "extracted_output_path": "./tests/examples/safe_directory"},
+                                         "safe_output_path": "./tests/examples/safe_directory"},
                          "module.commentextractor": {"active": True}, "module.entropy": {"active": False},
                          "module.hashes": {"active": True,'hashes_to_calculate' : "MD5,SHA1,SHA256"},
                          "module.imagerecognitiontensorflow": {"active": False},
@@ -82,7 +122,7 @@ class CoreTest(unittest.TestCase):
     def a_test_run_directory(self):
         conf = WhatTheFileConfiguration()
         conf.parse_dict({"whatthefile": {"modules_package": "src.modules", "output": "list",
-                                         "extracted_output_path": "./tests/examples/safe_directory"},
+                                         "safe_output_path": "./tests/examples/safe_directory"},
                          "module.commentextractor": {"active": True}, "module.entropy": {"active": True},
                          "module.hashes": {"active": True, 'hashes_to_calculate' : "MD5,SHA1,SHA256"},
                          "module.imagerecognitiontensorflow": {"active": True},
@@ -100,7 +140,7 @@ class CoreTest(unittest.TestCase):
     def a_test_run_all(self):
         conf = WhatTheFileConfiguration()
         conf.parse_dict({"whatthefile": {"modules_package": "src.modules", "output": "list",
-                                         "extracted_output_path": "./tests/examples/safe_directory"},
+                                         "safe_output_path": "./tests/examples/safe_directory"},
                          "module.commentextractor": {"active": True}, "module.entropy": {"active": True},
                          "module.hashes": {"active": True, 'hashes_to_calculate': "MD5,SHA1,SHA256"},
                          "module.imagerecognitiontensorflow": {"active": True},

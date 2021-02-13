@@ -10,7 +10,8 @@ import os
 from src.output.ioutput import IOutput
 from datetime import datetime
 
-from src.utils.Time import Time
+from src.utils.safe import Safe
+from src.utils.time import Time
 
 
 class Core:
@@ -18,18 +19,28 @@ class Core:
     def __init__(self, config: WhatTheFileConfiguration, output: IOutput):
         self._config = config
         Time.configure(config)
+        Safe.configure(config)
         self._modules = LoaderModules(config).get_modules()
         self._output = output
 
     def run(self, input: str):
         #comprobamos el directorio de extracción para saber si cambia
-        output_safe_directory = self._config.get_property("whatthefile", "extracted_output_path")
-        mtime = os.stat(output_safe_directory).st_mtime
+        safe_output_path = Safe.safe_output_path
+        mtime = os.stat(safe_output_path).st_mtime
+        n_elements_inside = len(os.listdir(safe_output_path))
         self._run(input)
         #tanalizamos directorio de extracción también
-        mtime2 = os.stat(output_safe_directory).st_mtime
-        if mtime2 != mtime:
-            self._run(output_safe_directory)
+        mtime2 = os.stat(safe_output_path).st_mtime
+        n_elements_inside2 = len(os.listdir(safe_output_path))
+        if mtime2 != mtime or n_elements_inside2 != n_elements_inside:
+            Safe.next_rotation()
+            self.run(safe_output_path)
+        else:
+            try:
+                os.rmdir(Safe.safe_output_path)
+            except:
+                "tampoco es una obligación borrarlo sino se puede"
+                pass
 
     def _run(self, input:str):
         try:
