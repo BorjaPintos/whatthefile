@@ -17,7 +17,9 @@ class TargetFile(TargetPath):
         try:
             self._type = self._get_filetype_from_path(self._path)
         except:
-            self._type = self._get_filetype_from_binary(self.get_binary())
+            "hay un bug en la libreria magic y este es el workarround"
+            self._type = self._get_filetype_from_binary(self.get_utf_8_binary(self.get_binary()))
+
 
     def _validate_path(self):
         if not self.is_file():
@@ -38,6 +40,21 @@ class TargetFile(TargetPath):
     @staticmethod
     def _get_filetype_from_binary(binary: bytes) -> str:
         return magic.from_buffer(binary)
+
+    @staticmethod
+    def get_utf_8_binary(binary: bytes) -> bytes:
+        try:
+            binary.decode("utf-8")
+        except:
+            types = ["latin-1",  "utf-16", "utf-32", "mbcs"]
+            for type in types:
+                try:
+                    return binary.decode(type).encode("utf-8")
+                except:
+                    pass
+                    "try next type"
+
+        return binary
 
     @staticmethod
     def _read_file(path: str) -> bytes:
