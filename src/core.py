@@ -34,7 +34,11 @@ class Core:
             Safe.next_rotation()
             self.run(safe_output_path)
         else:
-            os.rmdir(Safe.safe_output_path)
+            try:
+                os.rmdir(Safe.safe_output_path)
+            except:
+                "tampoco es una obligación borrarlo sino se puede"
+                pass
 
     def _run(self, input:str):
         try:
