@@ -11,7 +11,7 @@ class TikaParserTest(unittest.TestCase):
         target_file = TargetFile(path)
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
-        module.set_params({"tika_server_url": "http://192.168.0.13:9998"})
+        #module.set_params({"tika_server_url": "http://192.168.0.13:9998"})
         result = module.run(target_file)
         self.assertTrue(len(result["content"]) != 0)
 
