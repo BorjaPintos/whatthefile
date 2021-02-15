@@ -24,6 +24,11 @@ class TargetFileTest(unittest.TestCase):
         self.assertEqual(target_file.get_extension(), "")
         self.assertTrue("ASCII" in target_file.get_type())
 
+    def test_load_mayus_extension(self):
+        collie_path = "./tests/examples/samecollie.JPG"
+        target_file = TargetFile(collie_path)
+        self.assertEqual(target_file.get_extension(), ".jpg")
+
     def test_expect_error_load_directory_as_file(self):
         directory_path = "./tests/examples/"
         with pytest.raises(BaseException):

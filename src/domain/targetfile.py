@@ -11,7 +11,7 @@ class TargetFile(TargetPath):
     def __init__(self, path: str):
         super().__init__(path)
         self._validate_path()
-        self._extension = os.path.splitext(self._path)[1]
+        self._extension = os.path.splitext(self._path)[1].lower()
         "lazy"
         self._binary = None
         try:
