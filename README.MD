@@ -26,6 +26,7 @@ Pensado para forensics o CTFs
 - **ocrtesseract**: Extrae texto que se visualice en imágenes
 - **qrbcreader**: Lector de código QR y Códigos de Barras
 - **strings**: extracción de strings
+- **tikaparser**: Obtención del texto de documentos offimáticos, pdfs...
 - **virustotal**: Comprobación de infección enviando el hash a virustotal
 - **zipextractor**: Extrae los ficheros de un zip, incluso aplicando fuerza bruta.
 
@@ -64,7 +65,7 @@ Existen varios tipos de salida del programa para obtener los resultados:
 - **print**: salida normal por pantalla
 - **file**: volcado a un fichero
 - **list**: el resultado se mantiene en un objecto lista, ideal para exportar a otra librería
-- **elasticsearch**: los resultados se envían a un elasticsearch
+- **elasticsearch**: los resultados se envían a un elasticsearch o opendistro
 
 ### Requisitos para servidor
 

@@ -10,12 +10,13 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     env:
       EXIFTOOL_VERSION: 12.17
     strategy:
       matrix:
         python-version: [3.7, 3.8]
+        os: [ubuntu-latest, macOS-latest]
 
     steps:
     - uses: actions/checkout@v2
