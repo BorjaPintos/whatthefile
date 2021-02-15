@@ -38,6 +38,9 @@ pip install -r ./src/modules/imagerecognitiontensorflow/requirements.txt
 #install module zipextractor
 pip install -r ./src/modules/zipextractor/requirements.txt
 
+#install module tikaparser
+pip install -r ./src/modules/tikaparser/requirements.txt
+
 #install module qrreader
 if [ "$RUNNER_OS" == "Linux" ]; then
   sudo apt-get install -y libzbar0

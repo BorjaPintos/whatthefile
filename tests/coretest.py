@@ -146,7 +146,8 @@ class CoreTest(unittest.TestCase):
                          "module.imagerecognitiontensorflow": {"active": True},
                          "module.metadata": {"active": True}, "module.ocrtesseract": {"active": True},
                          "module.qrbcreader": {"active": True}, "module.strings": {"active": True, "char_min": 4},
-                         "module.virustotal": {"active": True}, "module.zipextractor": {"active": True}})
+                         "module.virustotal": {"active": True}, "module.zipextractor": {"active": True},
+                         "module.tikaparser": {"active": True}})
         path = "./tests/examples/collie.jpg"
         output = OutputFactory.get_output(conf)
         core = Core(conf, output)
