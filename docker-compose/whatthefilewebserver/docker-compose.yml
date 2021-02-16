@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+    webserver:
+        build: .
+        volumes:
+            - ../..:/whatthefile
+        container_name: webserver
+        ports:
+            - 8443:8443/tcp
+        networks:
+            - whatthefile
+    tika:
+        image: logicalspark/docker-tikaserver
+        container_name: tika
+        ports:
+            - 9998:9998/tcp
+        networks:
+            - whatthefile
+networks:
+  whatthefile:

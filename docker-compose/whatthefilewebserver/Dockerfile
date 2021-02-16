@@ -7,12 +7,14 @@ RUN git clone https://github.com/BorjaPintos/whatthefile.git
 
 WORKDIR /whatthefile
 
+
+RUN pip3.7 install --upgrade pip
 #install basics requirements
 RUN pip3.7 install -r requirementsunix.txt
 
 #install module exiftool
 ENV EXIFTOOL_VERSION 12.17
-RUN wget https://www.sno.phy.queensu.ca/~phil/exiftool/Image-ExifTool-${EXIFTOOL_VERSION}.tar.gz && \
+RUN wget https://falcon.phy.queensu.ca/SNO/~phil/exiftool/Image-ExifTool-${EXIFTOOL_VERSION}.tar.gz && \
 tar -xf Image-ExifTool-${EXIFTOOL_VERSION}.tar.gz && \
 cd Image-ExifTool-${EXIFTOOL_VERSION} && \
 perl Makefile.PL && \
@@ -35,12 +37,15 @@ RUN pip3.7 install -r ./src/modules/imagerecognitiontensorflow/requirements.txt
 #install module zipextractor
 RUN pip3.7 install -r ./src/modules/zipextractor/requirements.txt
 
-#install module zipextractor
+#install module tikaparser
 RUN pip3.7 install -r ./src/modules/tikaparser/requirements.txt
 
 #install module qrreader
 RUN apt install -y libzbar0 && \
 pip3.7 install -r ./src/modules/qrbcreader/requirements.txt
+
+#webserver depencencies
+RUN pip3.7 install -r ./application/web/requirementsweb.txt
 
 #update system
 RUN apt -y upgrade
