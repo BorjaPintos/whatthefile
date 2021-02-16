@@ -8,17 +8,20 @@ services:
             - 9998:9998/tcp
         networks:
             - whatthefile
-            
     webserver:
         build: .
         volumes:
-            - ../..:/whatthefile
+            - ./temp:/temp
+            - ./safe_directory:/safe_directory
+            - ./settings.py:/whatthefile/application/web/settings.py
+            - ./whatthefile.ini:/whatthefile/application/web/whatthefile.ini
+            - ./entrypoint.sh:/whatthefile/entrypoint.sh
         container_name: webserver
         ports:
             - 8443:8443/tcp
         networks:
             - whatthefile
-        dedends_on:
+        depends_on:
             - tika
 networks:
   whatthefile:

@@ -53,7 +53,7 @@ RUN apt -y upgrade
 EXPOSE 8443
 # uncomment if you dont use tika
 #CMD ["python3.7","whatthefile.py", "whatthefile.ini", "/input"]
-# waiting for tika
+# uncomment if you use tika
 CMD ["sh", "entrypoint.sh"] 
 
 

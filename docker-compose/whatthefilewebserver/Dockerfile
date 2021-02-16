@@ -52,7 +52,9 @@ RUN apt -y upgrade
 
 EXPOSE 8443
 
-CMD ["python3.7","runserverpro.py"]
-
+#uncoomenet if you do not use tika
+#CMD ["python3.7","runserverpro.py"]
+# uncomment if you use tika
+CMD ["sh", "entrypoint.sh"] 
 
 
