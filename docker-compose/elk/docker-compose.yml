@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+    elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
+        container_name: elasticsearch
+        env_file:
+            - elasticsearch/elasticsearch.env
+        volumes:
+            - ./data:/usr/share/elasticsearch/data
+        ports:
+            - 9200:9200/tcp
+            - 9300:9300/tcp
+        networks:
+            - elk
+            
+    kibana: 
+        image: docker.elastic.co/kibana/kibana:7.11.0
+        container_name: kibana
+        ports:
+            - 5601:5601
+        env_file:
+            - kibana/kibana.env
+        networks:
+            - elk
+
+networks:
+  elk:

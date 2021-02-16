@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+    elasticsearch:
+        image: amazon/opendistro-for-elasticsearch:1.12.0
+        container_name: opendistro-elasticsearch
+        env_file:
+            - elasticsearch/elasticsearch.env
+        volumes:
+            - ./data:/usr/share/elasticsearch/data
+        ports:
+            - 9200:9200/tcp
+            - 9300:9300/tcp
+        networks:
+            - opendistro-net
+            
+    kibana:
+        image: amazon/opendistro-for-elasticsearch-kibana:1.12.0
+        container_name: opendistro-kibana
+        ports:
+            - 5601:5601
+        env_file:
+            - kibana/kibana.env
+        networks:
+            - opendistro-net
+
+networks:
+  opendistro-net:
