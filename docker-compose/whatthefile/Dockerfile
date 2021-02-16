@@ -14,7 +14,7 @@ RUN pip3.7 install -r requirementsunix.txt
 
 #install module exiftool
 ENV EXIFTOOL_VERSION 12.17
-RUN wget https://falcon.phy.queensu.ca/SNO/~phil/exiftool/Image-ExifTool-${EXIFTOOL_VERSION}.tar.gz && \
+RUN wget https://exiftool.org/Image-ExifTool-${EXIFTOOL_VERSION}.tar.gz && \
 tar -xf Image-ExifTool-${EXIFTOOL_VERSION}.tar.gz && \
 cd Image-ExifTool-${EXIFTOOL_VERSION} && \
 perl Makefile.PL && \
