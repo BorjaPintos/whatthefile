@@ -51,8 +51,9 @@ RUN pip3.7 install -r ./application/web/requirementsweb.txt
 RUN apt -y upgrade
 
 EXPOSE 8443
-
-CMD ["python3.7","whatthefile.py", "whatthefile.ini", "/input"]
-
+# uncomment if you dont use tika
+#CMD ["python3.7","whatthefile.py", "whatthefile.ini", "/input"]
+# waiting for tika
+CMD ["sh", "entrypoint.sh"] 
 
 
