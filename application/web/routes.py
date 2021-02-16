@@ -2,7 +2,8 @@
 import os
 import uuid
 
-from flask import send_file, request, redirect, abort, jsonify
+from flask import send_file, request, redirect, abort, Response
+import json
 
 from application.web.settings import Config
 from src.core import Core
@@ -30,15 +31,16 @@ def importRoutes(rootpath, app, config_object: Config):
                 binary = file.read()
                 if len(binary) != 0:
                     path = _write_file(config_object, binary, os.path.basename(file.filename))
-                    output.get_list()
+                    output.get_list().clear()
                     core.run(path)
                     _remove_file(path)
+                    core.clean_safe_output_path()
                     result = output.get_list()
                     remove_internal_info(result)
-                    return jsonify(result)
+                    return Response(json.dumps(result, default=str), 200, mimetype='application/json')
                 else:
-                    return jsonify({"error": "invalid file"})
-
+                    return Response(json.dumps({"error": "invalid file"}, default=str), 400,  mimetype='application/json')
+                    
     @app.route(rootpath + "favicon.ico", methods=['GET'])
     def get_favicon():
         return send_file("images/favicon.png", mimetype='image/png')

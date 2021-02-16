@@ -1,15 +1,6 @@
 version: '3'
 
 services:
-    webserver:
-        build: .
-        volumes:
-            - ../..:/whatthefile
-        container_name: webserver
-        ports:
-            - 8443:8443/tcp
-        networks:
-            - whatthefile
     tika:
         image: logicalspark/docker-tikaserver
         container_name: tika
@@ -17,5 +8,20 @@ services:
             - 9998:9998/tcp
         networks:
             - whatthefile
+    webserver:
+        build: .
+        volumes:
+            - ./temp:/temp
+            - ./safe_directory:/safe_directory
+            - ./settings.py:/whatthefile/application/web/settings.py
+            - ./whatthefile.ini:/whatthefile/application/web/whatthefile.ini
+            - ./entrypoint.sh:/whatthefile/entrypoint.sh
+        container_name: webserver
+        ports:
+            - 8443:8443/tcp
+        networks:
+            - whatthefile
+        depends_on:
+            - tika
 networks:
   whatthefile:

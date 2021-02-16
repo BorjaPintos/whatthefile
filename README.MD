@@ -120,3 +120,7 @@ class Constructor(IModule):
 
 - El método `is_valid_for` se debe implementar para saber cuándo se puede ejecutar el módulo, por ejemplo, solo para ficheros de tipo jpg, etc.
 - El método `run` es la ejecución del módulo, y recibiendo ya un objecto adecuado, es decir, no es necesario volver a validarlo.
+
+
+## Docker
+Para fácil ejecución, existe una carpeta con docker-compose para desplegar herramientas externas así como una versión del servidor web y una de la versión normal.

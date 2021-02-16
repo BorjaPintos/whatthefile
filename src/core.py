@@ -65,7 +65,10 @@ class Core:
         except:
             traceback.print_exc()
             print("error en path:" + input)
-
+            
+            
+    def clean_safe_output_path(self):
+        Safe.reset(self._config)
 
     def _analyze_dir(self, dir_path: str) -> dict:
 

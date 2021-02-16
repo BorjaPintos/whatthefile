@@ -1,10 +1,10 @@
 #!/bin/bash
 #install module metadata
-EXIFTOOL_VERSION=12.17
+EXIFTOOL_VERSION=12.18
 if [ "$RUNNER_OS" == "Windows" ]; then
   echo "TODO for windows"
 else
-  wget https://falcon.phy.queensu.ca/SNO/~phil/exiftool/Image-ExifTool-$EXIFTOOL_VERSION.tar.gz
+  wget https://exiftool.org/Image-ExifTool-$EXIFTOOL_VERSION.tar.gz --no-check-certificate
   tar -xf Image-ExifTool-$EXIFTOOL_VERSION.tar.gz
   cd Image-ExifTool-$EXIFTOOL_VERSION
   sudo perl Makefile.PL
