@@ -46,3 +46,22 @@ class Safe:
             path_to_create = os.path.join(Safe.safe_output_path, path).replace("/./", "/").replace("/../", "/")
             if not os.path.exists(path_to_create):
                 os.mkdir(path_to_create)
+                
+    @staticmethod
+    def reset(conf: WhatTheFileConfiguration):
+        safe_output_path = conf.get_property("whatthefile", "safe_output_path")
+        for element in os.listdir(safe_output_path):
+            Safe._delete(os.path.join(safe_output_path, "./" + str(element)))
+        Safe.configure(conf)
+        
+            
+    @staticmethod 
+    def _delete(path:str):
+        if os.path.isdir(path):
+            for element in os.listdir(path):
+                Safe._delete(os.path.join(path, "./" + str(element)).replace("/./", "/").replace("/../", "/"))
+            os.rmdir(path)
+        else:
+            os.remove(path)
+        
+        
