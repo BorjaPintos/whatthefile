@@ -12,6 +12,13 @@ RUN pip3.7 install --upgrade pip
 #install basics requirements
 RUN pip3.7 install -r requirementsunix.txt
 
+
+#install module certificatereader
+RUN pip3.7 install -r ./src/modules/certificatereader/requirements.txt
+
+#install module imagerecognitiontensorflow
+RUN pip3.7 install -r ./src/modules/imagerecognitiontensorflow/requirements.txt
+
 #install module exiftool
 ENV EXIFTOOL_VERSION 12.17
 RUN wget https://exiftool.org/Image-ExifTool-${EXIFTOOL_VERSION}.tar.gz && \
@@ -31,18 +38,15 @@ cd ..
 RUN apt update && apt install -y tesseract-ocr && \
 pip3.7 install -r ./src/modules/ocrtesseract/requirements.txt
 
-#install module imagerecognitiontensorflow
-RUN pip3.7 install -r ./src/modules/imagerecognitiontensorflow/requirements.txt
-
-#install module zipextractor
-RUN pip3.7 install -r ./src/modules/zipextractor/requirements.txt
+#install module qrreader
+RUN apt install -y libzbar0 && \
+pip3.7 install -r ./src/modules/qrbcreader/requirements.txt
 
 #install module tikaparser
 RUN pip3.7 install -r ./src/modules/tikaparser/requirements.txt
 
-#install module qrreader
-RUN apt install -y libzbar0 && \
-pip3.7 install -r ./src/modules/qrbcreader/requirements.txt
+#install module zipextractor
+RUN pip3.7 install -r ./src/modules/zipextractor/requirements.txt
 
 #webserver depencencies
 RUN pip3.7 install -r ./application/web/requirementsweb.txt

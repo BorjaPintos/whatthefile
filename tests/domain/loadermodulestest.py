@@ -19,11 +19,19 @@ class LoaderModulesTest(unittest.TestCase):
 
     def get_config_dict(self):
         return {"whatthefile": {"modules_package": "src.modules"},
-                "module.commentextractor": {"active": True}, "module.entropy": {"active": True},
-                "module.hashes": {"active": True}, "module.imagerecognitiontensorflow": {"active": True},
-                "module.metadata": {"active": True}, "module.ocrtesseract": {"active": True},
-                "module.qrbcreader": {"active": True}, "module.strings": {"active": True},
-                "module.virustotal": {"active": True}, "module.zipextractor": {"active": True}}
+                "module.certificatereader": {"active": True},
+                "module.commentextractor": {"active": True},
+                "module.entropy": {"active": True},
+                "module.hashes": {"active": True},
+                "module.imagerecognitiontensorflow": {"active": True},
+                "module.infoextractor": {"active": True},
+                "module.metadata": {"active": True},
+                "module.ocrtesseract": {"active": True},
+                "module.qrbcreader": {"active": True},
+                "module.strings": {"active": True},
+                "module.tikaparser": {"active": True},
+                "module.virustotal": {"active": True},
+                "module.zipextractor": {"active": True}}
 
     def get_simple_config_dict(self):
         return {"whatthefile": {"modules_package": "src.modules"},
