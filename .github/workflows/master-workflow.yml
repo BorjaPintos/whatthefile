@@ -47,9 +47,9 @@ jobs:
       if: ${{always()}}
 
     - name: Upload cobertura results
-        uses: actions/upload-artifact@v2
-        with:
-          name: html-${{matrix.os}}-${{matrix.python-version}}.zip
-          path: html-${{matrix.os}}-${{matrix.python-version}}.zip
-        # Use always() to always run this step to publish test results when there are test failures
-        if: ${{always()}}
+      uses: actions/upload-artifact@v2
+      with:
+        name: html-${{matrix.os}}-${{matrix.python-version}}.zip
+        path: html-${{matrix.os}}-${{matrix.python-version}}.zip
+      # Use always() to always run this step to publish test results when there are test failures
+      if: ${{always()}}
