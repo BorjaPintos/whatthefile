@@ -119,7 +119,7 @@ class CoreTest(unittest.TestCase):
         self.assertTrue("begin_analysis" in output.get_list()[0])
         self.assertTrue("end_analysis" in output.get_list()[0])
 
-    def a_test_run_directory(self):
+    def test_run_directory(self):
         conf = WhatTheFileConfiguration()
         conf.parse_dict({"whatthefile": {"modules_package": "src.modules", "output": "list",
                                          "safe_output_path": "./tests/examples/safe_directory"},
@@ -135,7 +135,6 @@ class CoreTest(unittest.TestCase):
         core = Core(conf, output)
         core.run(path)
         self.assertEqual(len(output.get_list()), 3)
-        self.assertEqual(output.get_list()[0]["st_size"], 128)
 
     def a_test_run_all(self):
         conf = WhatTheFileConfiguration()
