@@ -10,6 +10,7 @@ import os
 from src.output.ioutput import IOutput
 from datetime import datetime
 
+from src.utils.log import Log
 from src.utils.safe import Safe
 from src.utils.time import Time
 
@@ -18,6 +19,7 @@ class Core:
 
     def __init__(self, config: WhatTheFileConfiguration, output: IOutput):
         self._config = config
+        Log.configure(config)
         Time.configure(config)
         Safe.configure(config)
         self._modules = LoaderModules(config).get_modules()
@@ -64,7 +66,7 @@ class Core:
                 self._output.dump(analysis)
         except:
             traceback.print_exc()
-            print("error en path:" + input)
+            Log.error("error en path:" + input)
             
             
     def clean_safe_output_path(self):

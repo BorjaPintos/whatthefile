@@ -37,5 +37,4 @@ class TargetFileTest(unittest.TestCase):
     def test_load_filetype_from_binary(self):
         collie_path = "./tests/examples/collie.jpg"
         target_file = TargetFile(collie_path)
-        print(TargetFile._get_filetype_from_binary(target_file.get_binary()))
         self.assertTrue("JPEG" in TargetFile._get_filetype_from_binary(target_file.get_binary()))

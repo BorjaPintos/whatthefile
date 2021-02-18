@@ -1,6 +1,9 @@
 #!/bin/bash
 
 python -m pip install --upgrade pip
+
+pip install -r requirements.txt
+
 if [ "$RUNNER_OS" == "Windows" ]; then
   pip install -r requirementswindows.txt
 elif [ "$RUNNER_OS" == "macOS" ]; then
