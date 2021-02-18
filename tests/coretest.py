@@ -9,10 +9,10 @@ class CoreTest(unittest.TestCase):
 
     def test_run_strings(self):
         conf = WhatTheFileConfiguration()
-        conf.parse_dict({"whatthefile": {"modules_package": "src.modules", "output": "list",
+        conf.parse_dict({"whatthefile": {"modules_package": "src.modules", "output": "list", "log_output": "stdout",
                                          "safe_output_path": "./tests/examples/safe_directory"},
                          "module.commentextractor": {"active": True}, "module.entropy": {"active": False},
-                         "module.hashes": {"active": False,'hashes_to_calculate' : "MD5,SHA1,SHA256"},
+                         "module.hashes": {"active": False, 'hashes_to_calculate': "MD5,SHA1,SHA256"},
                          "module.imagerecognitiontensorflow": {"active": False},
                          "module.metadata": {"active": False}, "module.ocrtesseract": {"active": False},
                          "module.qrbcreader": {"active": False}, "module.strings": {"active": True, "char_min": 10},
@@ -30,8 +30,9 @@ class CoreTest(unittest.TestCase):
         conf.parse_string("""
         [whatthefile]
         modules_package = src.modules
-        safe_output_path = """ + output_safe_directory +"""
+        safe_output_path = """ + output_safe_directory + """
         output = list
+        log_output = stdout
         [module.zipextractor]
         active = true
         """)
@@ -65,13 +66,14 @@ class CoreTest(unittest.TestCase):
                      "zipextractor/tests/examples/safe_directory/1/" \
                      "zipextractor/tests/examples/folderzip.zip/folderzip/Surprisezip.txt.zip/Surprisezip.txt"
         temporal_zip = "./tests/examples/safe_directory/1/" \
-                     "zipextractor/tests/examples/folderzip.zip/folderzip/Surprisezip.txt.zip"
+                       "zipextractor/tests/examples/folderzip.zip/folderzip/Surprisezip.txt.zip"
         conf = WhatTheFileConfiguration()
         conf.parse_string("""
                 [whatthefile]
                 modules_package = src.modules
                 safe_output_path = """ + output_safe_directory + """
                 output = list
+                log_output = stdout
                 [module.zipextractor]
                 active = true
                 """)
@@ -101,10 +103,10 @@ class CoreTest(unittest.TestCase):
 
     def test_run_hashes(self):
         conf = WhatTheFileConfiguration()
-        conf.parse_dict({"whatthefile": {"modules_package": "src.modules", "output": "list",
+        conf.parse_dict({"whatthefile": {"modules_package": "src.modules", "output": "list", "log_output": "stdout",
                                          "safe_output_path": "./tests/examples/safe_directory"},
                          "module.commentextractor": {"active": True}, "module.entropy": {"active": False},
-                         "module.hashes": {"active": True,'hashes_to_calculate' : "MD5,SHA1,SHA256"},
+                         "module.hashes": {"active": True, 'hashes_to_calculate': "MD5,SHA1,SHA256"},
                          "module.imagerecognitiontensorflow": {"active": False},
                          "module.metadata": {"active": False}, "module.ocrtesseract": {"active": False},
                          "module.qrbcreader": {"active": False}, "module.strings": {"active": False, "char_min": 10},
@@ -121,10 +123,10 @@ class CoreTest(unittest.TestCase):
 
     def test_run_directory(self):
         conf = WhatTheFileConfiguration()
-        conf.parse_dict({"whatthefile": {"modules_package": "src.modules", "output": "list",
+        conf.parse_dict({"whatthefile": {"modules_package": "src.modules", "output": "list", "log_output": "stdout",
                                          "safe_output_path": "./tests/examples/safe_directory"},
                          "module.commentextractor": {"active": True}, "module.entropy": {"active": True},
-                         "module.hashes": {"active": True, 'hashes_to_calculate' : "MD5,SHA1,SHA256"},
+                         "module.hashes": {"active": True, 'hashes_to_calculate': "MD5,SHA1,SHA256"},
                          "module.imagerecognitiontensorflow": {"active": True},
                          "module.metadata": {"active": True}, "module.ocrtesseract": {"active": True},
                          "module.qrbcreader": {"active": True}, "module.strings": {"active": True, "char_min": 4},
@@ -138,7 +140,7 @@ class CoreTest(unittest.TestCase):
 
     def a_test_run_all(self):
         conf = WhatTheFileConfiguration()
-        conf.parse_dict({"whatthefile": {"modules_package": "src.modules", "output": "list",
+        conf.parse_dict({"whatthefile": {"modules_package": "src.modules", "output": "list", "log_output": "stdout",
                                          "safe_output_path": "./tests/examples/safe_directory"},
                          "module.commentextractor": {"active": True}, "module.entropy": {"active": True},
                          "module.hashes": {"active": True, 'hashes_to_calculate': "MD5,SHA1,SHA256"},
@@ -153,16 +155,15 @@ class CoreTest(unittest.TestCase):
         core.run(path)
         self.assertEqual("collie" in output.get_list()[0]["imagerecognitiontensorflow"])
 
-
     def _remove_test_folders(self, output_safe_path, final_file):
-            if output_safe_path not in final_file:
-                raise Exception("output_path no contenido en final_file, no se hacen modificaciones")
-            subpaths = []
-            subpath = final_file
-            while subpath != output_safe_path:
-                if subpath != ".":
-                    subpaths.append(subpath)
-                subpath = os.path.dirname(subpath)
-            for path in subpaths:
-                if os.path.exists(path):
-                    os.rmdir(path)
+        if output_safe_path not in final_file:
+            raise Exception("output_path no contenido en final_file, no se hacen modificaciones")
+        subpaths = []
+        subpath = final_file
+        while subpath != output_safe_path:
+            if subpath != ".":
+                subpaths.append(subpath)
+            subpath = os.path.dirname(subpath)
+        for path in subpaths:
+            if os.path.exists(path):
+                os.rmdir(path)

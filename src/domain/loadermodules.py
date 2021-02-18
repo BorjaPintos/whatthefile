@@ -4,6 +4,7 @@ import importlib
 import traceback
 
 from src.domain.whatthefileconfiguration import WhatTheFileConfiguration
+from src.utils.log import Log
 
 """Cargará todos los modulos que se llamen main y tengan una clase llamada 'Constructor' 
 del path que se le pase como parámetro
@@ -24,14 +25,14 @@ class LoaderModules:
         module_index = 0
         for module_section_name in conf.get_modules_section_names():
             if conf.get_property_boolean(module_section_name, "active"):
-                print("Loading module: [" + module_section_name + "]")
+                Log.info("Loading module: [" + module_section_name + "]")
                 mod = self._import_module(conf, module_section_name, module_index)
                 if mod is not None:
                     module_index += 1
                     self.__modules.append(mod)
-                    print("Module loaded successfully: [" + str(mod.get_index()) + "] - " + mod.get_name())
+                    Log.info("Module loaded successfully: [" + str(mod.get_index()) + "] - " + mod.get_name())
                 else:
-                    print("Error loading module: [" + module_section_name + "]")
+                    Log.error("Error loading module: [" + module_section_name + "]")
 
     @staticmethod
     def _import_module(conf: WhatTheFileConfiguration, module_section_name, position: int) -> Module:

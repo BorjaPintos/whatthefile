@@ -40,7 +40,6 @@ class ZipExtractorTest(unittest.TestCase):
         self.assertTrue(module.is_valid_for(target_file))
 
         result = module.run(target_file)
-        print(result)
         self.assertTrue(os.path.exists(final_file))
         self.assertTrue("Surprise.txt" in result["new_files"])
         self.assertTrue(final_file in result["new_path_files"])

@@ -10,6 +10,7 @@ WORKDIR /whatthefile
 
 RUN pip3.7 install --upgrade pip
 #install basics requirements
+RUN pip3.7 install -r requirements.txt
 RUN pip3.7 install -r requirementsunix.txt
 
 
