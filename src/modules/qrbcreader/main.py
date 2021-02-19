@@ -24,7 +24,7 @@ class Constructor(IModule):
                 return True
         return False
 
-    def run(self, target_file: TargetFile):
+    def run(self, target_file: TargetFile, result_of_previos_modules: dict) -> dict:
         decoded_list = decode(Image.open(target_file.get_path()))
         i = 0
         result = {}

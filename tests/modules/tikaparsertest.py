@@ -12,7 +12,7 @@ class TikaParserTest(unittest.TestCase):
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
         #module.set_params({"tika_server_url": "http://192.168.0.13:9998"})
-        result = module.run(target_file)
+        result = module.run(target_file, {})
         self.assertTrue(len(result["content"]) != 0)
 
 
@@ -22,7 +22,7 @@ class TikaParserTest(unittest.TestCase):
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
         #module.set_params({"tika_server_url": "http://192.168.0.13:9998"})
-        result = module.run(target_file)
+        result = module.run(target_file, {})
         self.assertTrue(len(result["content"]) != 0)
 
     def test_parser_excel(self):
@@ -31,7 +31,7 @@ class TikaParserTest(unittest.TestCase):
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
         #module.set_params({"tika_server_url": "http://192.168.0.13:9998"})
-        result = module.run(target_file)
+        result = module.run(target_file, {})
         self.assertTrue("Prueba de texto en excel" in result["content"])
 
     def test_parser_word(self):
@@ -40,7 +40,7 @@ class TikaParserTest(unittest.TestCase):
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
         #module.set_params({"tika_server_url": "http://192.168.0.13:9998"})
-        result = module.run(target_file)
+        result = module.run(target_file, {})
         self.assertTrue("Esto es un documento de work" in result["content"])
 
     def test_invalid_file(self):

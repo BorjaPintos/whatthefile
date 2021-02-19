@@ -48,13 +48,13 @@ class Constructor(IModule):
         else:
             return self._default_params[MIN]
 
-    def run(self, target_file: TargetFile) -> dict:
+    def run(self, target_file: TargetFile, result_of_previos_modules: dict) -> dict:
         result = {}
         try:
             min_chars = int(self._get_min_param(self.get_params()))
             if min_chars:
-                result = { ">=" + str(min_chars) : self._strings(target_file.get_binary(), min_chars)}
-                result["n_elements"] = len(result[">=" + str(min_chars)])
+                result = {"elements": self._strings(target_file.get_binary(), min_chars), ">=": min_chars}
+                result["n_elements"] = len(result["elements"])
         except:
             result = {"error": "invalid argument for module"}
         return result

@@ -16,7 +16,7 @@ class VirusTotalTest(unittest.TestCase):
         target_file = TargetFile(path)
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
-        result = module.run(target_file)
+        result = module.run(target_file, {})
         self.assertEqual(result["error"], "apikey is required")
 
     def test_with_invalid_apikey(self):
@@ -25,7 +25,7 @@ class VirusTotalTest(unittest.TestCase):
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
         module.set_params(params)
-        result = module.run(target_file)
+        result = module.run(target_file, {})
         self.assertEqual(result["error"], "Invalid API KEY")
 
     def test_virus(self):
@@ -40,7 +40,7 @@ class VirusTotalTest(unittest.TestCase):
         virustotalapi._do_request = mock_response_virus_total_wannacry
         virustotalapi.get_MD5_hash = mock_hash_wannacry
         module.set_params(params)
-        result = module.run(target_file)
+        result = module.run(target_file, {})
         self.assertEqual(result["positives"], 67)
 
         #restoring for another tests

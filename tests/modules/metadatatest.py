@@ -12,7 +12,7 @@ class MetadataTest(unittest.TestCase):
         target_file = TargetFile(path)
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
-        result = module.run(target_file)
+        result = module.run(target_file, {})
         self.assertTrue("Composite:ImageSize" in result["keys"])
         #Depende de la librería instalada en el Sistema operativo, por eso puede dar dos valores
         self.assertTrue("200x273" in result["values"] or "200 273" in result["values"])
@@ -22,7 +22,7 @@ class MetadataTest(unittest.TestCase):
         target_file = TargetFile(path)
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
-        result = module.run(target_file)
+        result = module.run(target_file, {})
         self.assertTrue("PDF:Author:PPAEZ" in result["key_values"])
         self.assertTrue("PDF:Creator:PDFsam Basic v3.3.0" in result["key_values"])
         self.assertTrue("PDF:Title:Microsoft Word - MI-126 ESTRELLA GALICIA CERVECEROS DESDE 1906" in result["key_values"])

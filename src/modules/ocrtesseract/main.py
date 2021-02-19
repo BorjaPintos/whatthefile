@@ -45,6 +45,6 @@ class Constructor(IModule):
                 return True
         return False
 
-    def run(self, target_file: TargetFile):
+    def run(self, target_file: TargetFile, result_of_previos_modules: dict) -> dict:
         result = self._extract_image_text(target_file.get_path())
         return result

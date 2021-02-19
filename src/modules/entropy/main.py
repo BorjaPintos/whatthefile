@@ -41,5 +41,5 @@ class Constructor(IModule):
             return True
         return False
 
-    def run(self, target_file: TargetFile):
+    def run(self, target_file: TargetFile, result_of_previos_modules: dict) -> dict:
         return {"shannon": self._shannon_entropy(target_file.get_binary())}

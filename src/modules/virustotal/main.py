@@ -21,7 +21,7 @@ class Constructor(IModule):
             return True
         return False
 
-    def run(self, target_file: TargetFile):
+    def run(self, target_file: TargetFile, result_of_previos_modules: dict) -> dict:
         if target_file.get_extension() in ["", ".sh", ".py", ".rb", ".java", ".class",
                                            ".pl", ".exe", ".out", ".ps", ".bat", ".air",
                                            ".scr", ".vb", ".com", ".dll", ".bin", ".apk",

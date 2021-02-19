@@ -15,7 +15,7 @@ class IModule(ABC):
         pass
 
     @abstractmethod
-    def run(self, target_file: TargetPath) -> dict:
+    def run(self, target_file: TargetPath, result_of_previos_modules: dict) -> dict:
         pass
 
     def get_help(self) -> str:

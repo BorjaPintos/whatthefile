@@ -102,7 +102,7 @@ class Constructor(IModule):
         return list
 
 
-    def run(self, target_file: TargetFile):
+    def run(self, target_file: TargetFile, result_of_previos_modules: dict) -> dict:
         pwd_list = self._get_password_list(self.get_params())
         report = self._run(target_file, pwd_list)
         return report

@@ -45,5 +45,5 @@ class Constructor(IModule):
             return self.get_params()[TIKA_SERVER_URL]
         return None
 
-    def run(self, target_file: TargetFile):
+    def run(self, target_file: TargetFile, result_of_previos_modules: dict) -> dict:
         return {"content":self._extract_text(target_file.get_path(), self._get_server_param())}

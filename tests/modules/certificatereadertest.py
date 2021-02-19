@@ -12,7 +12,7 @@ class CertificateReaderTest(unittest.TestCase):
         target_file = TargetFile(path)
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
-        result = module.run(target_file)
+        result = module.run(target_file, {})
         self.assertTrue("GeoTrust Global CA" in result["issuer"])
         self.assertTrue("GeoTrust Global CA" in result["subject"])
 
@@ -21,7 +21,7 @@ class CertificateReaderTest(unittest.TestCase):
         target_file = TargetFile(path)
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
-        result = module.run(target_file)
+        result = module.run(target_file, {})
         self.assertTrue("Santiago de Compostela" in result["issuer"])
         self.assertTrue("Santiago de Compostela" in result["subject"])
 

@@ -93,7 +93,7 @@ class Core:
                 start_module = self.get_utc_timestamp()
                 try:
                     result[module.get_name()] = {}
-                    result[module.get_name()] = module.get_mod().run(target)
+                    result[module.get_name()] = module.get_mod().run(target, result)
                 except Exception as e:
                     result[module.get_name()]["error"] = str(e)
                 end_module = self.get_utc_timestamp()

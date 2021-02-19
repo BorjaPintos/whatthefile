@@ -12,7 +12,7 @@ class OcrTeseractTest(unittest.TestCase):
         target_file = TargetFile(path)
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
-        result = module.run(target_file)
+        result = module.run(target_file, {})
         TEXT = "UN SABIO DIJO:\nNo tengas miedo de perder a\n\nquien no se siente afortunado\nde tenerte.\n"
         self.assertTrue(TEXT in result["Thresh"])
         self.assertTrue(TEXT in result["Blur"])
