@@ -43,7 +43,7 @@ class Constructor(IModule):
                 return True
         return False
 
-    def run(self, target_file: TargetFile):
+    def run(self, target_file: TargetFile, result_of_previos_modules: dict) -> dict:
         predictions_response = self._get_predictions(target_file.get_path())
         result = {}
         predictions_names = []

@@ -12,7 +12,7 @@ class QRBCReader_Test(unittest.TestCase):
         target_file = TargetFile(qr_path)
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
-        result = module.run(target_file)
+        result = module.run(target_file, {})
         self.assertEqual(result['0'], "HOLA")
 
     def test_BC(self):
@@ -20,7 +20,7 @@ class QRBCReader_Test(unittest.TestCase):
         target_file = TargetFile(bc_path)
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
-        result = module.run(target_file)
+        result = module.run(target_file, {})
         self.assertEqual(result['0'], "1234-1234-1234")
 
     def test_invalid_file(self):
@@ -29,13 +29,13 @@ class QRBCReader_Test(unittest.TestCase):
         module = Constructor()
         self.assertFalse(module.is_valid_for(target_file))
 
-    def test_invalid_file(self):
+    def test_invalid_file2(self):
         path = "./tests/examples/Prueba.c"
         target_file = TargetFile(path)
         module = Constructor()
         self.assertFalse(module.is_valid_for(target_file))
 
-    def test_invalid_file2(self):
+    def test_invalid_file3(self):
         path = "./tests/examples"
         target_file = TargetPath(path)
         module = Constructor()

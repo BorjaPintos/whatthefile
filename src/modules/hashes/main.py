@@ -100,7 +100,7 @@ class Constructor(IModule):
     def _unkonw_hash(self, target_file: TargetFile):
         return "Hash not suported"
 
-    def run(self, target_file: TargetFile):
+    def run(self, target_file: TargetFile, result_of_previos_modules: dict) -> dict:
         hashes_dict = {}
         switcher = {
             'MD5': self._calculateMD5,

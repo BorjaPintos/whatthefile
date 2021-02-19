@@ -44,7 +44,7 @@ class Constructor(IModule):
                 del result[property]
         return result
 
-    def run(self, target_file: TargetFile):
+    def run(self, target_file: TargetFile, result_of_previos_modules: dict) -> dict:
         binary = target_file.get_binary()
         result = {}
         if target_file.get_extension() in [".c", ".cpp", ".java", ".js", ".php", ".sql"]:

@@ -12,7 +12,7 @@ class CommentExtractorTest(unittest.TestCase):
         target_file = TargetFile(path)
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
-        result = module.run(target_file)
+        result = module.run(target_file, {})
         self.assertEqual(result["//_/**/_comments"], ['/* comentario multilinea\n* que termina\naqui */', '//prueba de comentario', '//otro comentario'])
 
     def test_code_bash(self):
@@ -20,7 +20,7 @@ class CommentExtractorTest(unittest.TestCase):
         target_file = TargetFile(path)
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
-        result = module.run(target_file)
+        result = module.run(target_file, {})
         self.assertEqual(result["#_comments"], ['#!/bin/bash', '#rutas internas de la red'])
 
     def test_code_html(self):
@@ -28,7 +28,7 @@ class CommentExtractorTest(unittest.TestCase):
         target_file = TargetFile(path)
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
-        result = module.run(target_file)
+        result = module.run(target_file, {})
         self.assertEqual(result["<!--->Comments"], ["<!-- comentario\r\nmultiline de html\r\ny termina aqui -->"])
 
     def test_invalid_file(self):

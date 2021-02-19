@@ -115,12 +115,13 @@ class Constructor(IModule):
     """También se admite la firma: 
     def run(self, target_file: TargetFile) -> dict:
     """
-    def run(self, target_path: TargetPath) -> dict:
+    def run(self, target_path: TargetPath, result_of_previos_modules: dict) -> dict:
         pass
 ```
 
 - El método `is_valid_for` se debe implementar para saber cuándo se puede ejecutar el módulo, por ejemplo, solo para ficheros de tipo jpg, etc.
-- El método `run` es la ejecución del módulo, y recibiendo ya un objecto adecuado, es decir, no es necesario volver a validarlo.
+- El método `run` es la ejecución del módulo, y recibiendo ya un objeto adecuado, es decir, no es necesario volver a validarlo.
+- También en el método `run`, se recibe el resultado de los anteriores módulos ejecutados en ese fichero, de tal forma que seacompatible con otros módulos. Por ejemplo infoextractor, que busca información en el resultado de otros módulos ya que por la naturaleza del fichero no se ejecutaría, por ejemplo: un pdf, que al pasar por tika tiene un contenido que luego es analizado finalmente por infoextractor.
 
 
 ## Docker

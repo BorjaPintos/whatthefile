@@ -12,7 +12,7 @@ class EntropyTest(unittest.TestCase):
         target_file = TargetFile(path)
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
-        result = module.run(target_file)
+        result = module.run(target_file, {})
         self.assertEqual(result["shannon"], 7.959996962590177)
 
     def test_gun(self):
@@ -20,7 +20,7 @@ class EntropyTest(unittest.TestCase):
         target_file = TargetFile(path)
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
-        result = module.run(target_file)
+        result = module.run(target_file, {})
         self.assertEqual(result["shannon"], 7.779575538213808)
 
     def test_invalid_file(self):

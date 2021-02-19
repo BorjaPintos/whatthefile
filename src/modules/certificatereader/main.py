@@ -74,6 +74,6 @@ class Constructor(IModule):
                     return True
         return False
 
-    def run(self, target_file: TargetFile):
+    def run(self, target_file: TargetFile, result_of_previos_modules: dict) -> dict:
         binary = target_file.get_binary()
         return self._get_info(binary)
