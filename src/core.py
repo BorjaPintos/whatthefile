@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import traceback
 
+from src.domain.ignoreanalysisexception import IgnoreAnalysisException
 from src.domain.loadermodules import LoaderModules
 from src.domain.targetdirectory import TargetDirectory
 from src.domain.targetfile import TargetFile
@@ -26,12 +27,12 @@ class Core:
         self._output = output
 
     def run(self, input: str):
-        #comprobamos el directorio de extracción para saber si cambia
+        # comprobamos el directorio de extracción para saber si cambia
         safe_output_path = Safe.safe_output_path
         mtime = os.stat(safe_output_path).st_mtime
         n_elements_inside = len(os.listdir(safe_output_path))
         self._run(input)
-        #tanalizamos directorio de extracción también
+        # tanalizamos directorio de extracción también
         mtime2 = os.stat(safe_output_path).st_mtime
         n_elements_inside2 = len(os.listdir(safe_output_path))
         if mtime2 != mtime or n_elements_inside2 != n_elements_inside:
@@ -44,7 +45,7 @@ class Core:
                 "tampoco es una obligación borrarlo sino se puede"
                 pass
 
-    def _run(self, input:str):
+    def _run(self, input: str):
         try:
             if os.path.exists(input):
                 begin_analysis = self.get_utc_timestamp()
@@ -64,11 +65,13 @@ class Core:
                 analysis["end_analysis"] = Time.change_output_date_format_from_epoch(end_analysis)
                 analysis["total_analysis_duration"] = end_analysis - begin_analysis
                 self._output.dump(analysis)
-        except:
+        except IgnoreAnalysisException:
+            "ignore and get next targetpath"
+            pass
+        except Exception:
             traceback.print_exc()
             Log.error("error en path:" + input)
-            
-            
+
     def clean_safe_output_path(self):
         Safe.reset(self._config)
 
@@ -85,8 +88,7 @@ class Core:
         result.update(self._run_modules(target_file))
         return result
 
-
-    def _run_modules(self, target : TargetPath):
+    def _run_modules(self, target: TargetPath):
         result = {}
         for module in self._modules:
             if module.get_mod().is_valid_for(target):
@@ -94,6 +96,8 @@ class Core:
                 try:
                     result[module.get_name()] = {}
                     result[module.get_name()] = module.get_mod().run(target, result)
+                except IgnoreAnalysisException:
+                    raise IgnoreAnalysisException()
                 except Exception as e:
                     result[module.get_name()]["error"] = str(e)
                 end_module = self.get_utc_timestamp()
@@ -101,7 +105,6 @@ class Core:
                 result[module.get_name()]["end_module"] = Time.change_output_date_format_from_epoch(end_module)
                 result[module.get_name()]["total_module_duration"] = end_module - start_module
         return result
-
 
     def get_utc_timestamp(self) -> float:
         return datetime.utcnow().timestamp()

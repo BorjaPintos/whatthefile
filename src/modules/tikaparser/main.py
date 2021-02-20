@@ -6,6 +6,7 @@ from tika import parser
 
 TIKA_SERVER_URL = "tika_server_url"
 
+
 class Constructor(IModule):
 
     def __init__(self):
@@ -46,4 +47,4 @@ class Constructor(IModule):
         return None
 
     def run(self, target_file: TargetFile, result_of_previos_modules: dict) -> dict:
-        return {"content":self._extract_text(target_file.get_path(), self._get_server_param())}
+        return {"content": self._extract_text(target_file.get_path(), self._get_server_param())}
