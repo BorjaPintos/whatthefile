@@ -68,7 +68,7 @@ class InfoExtractorTest(unittest.TestCase):
                                       'total_module_duration': 0.05939888954162598},
                 "qrbcreader": {"0": "https://qrbceader1.es",
                                "1": "https://qrbceader2.es"},
-                "tika": {"content": """Esto es un fichero con un email cosa@cosa.com
+                "tikaparser": {"content": """Esto es un fichero con un email cosa@cosa.com
                                         cosita2@cosita.com y cosita3@pron.com
 
                                         también podemos encontrar uls como http://google.es http://facebook.com

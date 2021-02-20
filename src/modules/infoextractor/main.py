@@ -55,8 +55,8 @@ class Constructor(IModule):
         return {}
 
     def _get_info_module_tika(self, result_of_previos_modules: dict) -> dict:
-        if "tika" in result_of_previos_modules and "content" in result_of_previos_modules["tika"]:
-            content = result_of_previos_modules["tika"]["content"]
+        if "tikaparser" in result_of_previos_modules and "content" in result_of_previos_modules["tikaparser"]:
+            content = result_of_previos_modules["tikaparser"]["content"]
             return {"emails": self._get_emails(content),
                     "URLs": self._get_urls(content),
                     "IBANs": self._get_ibans(content)}

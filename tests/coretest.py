@@ -7,6 +7,22 @@ from src.output.outputfactory import OutputFactory
 
 class CoreTest(unittest.TestCase):
 
+    def test_ignore(self):
+        conf = WhatTheFileConfiguration()
+        conf.parse_dict({"whatthefile": {"modules_package": "src.modules", "output": "list", "log_output": "stdout",
+                                         "safe_output_path": "./tests/examples/safe_directory"},
+                         "module.hashes": {"active": True, 'hashes_to_calculate': "MD5,SHA1,SHA256"},
+                         "module.ignore": {"active": True, 'file_hashes_md5_to_ignore': './tests/examples/ignoredhashesmd5.txt'},
+                         "module.imagerecognitiontensorflow": {"active": False},
+                         "module.metadata": {"active": False}, "module.ocrtesseract": {"active": False},
+                         "module.qrbcreader": {"active": False}, "module.strings": {"active": True, "char_min": 10},
+                         "module.virustotal": {"active": False}, "module.zipextractor": {"active": False}})
+        path = "./tests/examples/collie.jpg"
+        output = OutputFactory.get_output(conf)
+        core = Core(conf, output)
+        core.run(path)
+        self.assertEqual(len(output.get_list()), 0)
+
     def test_run_strings(self):
         conf = WhatTheFileConfiguration()
         conf.parse_dict({"whatthefile": {"modules_package": "src.modules", "output": "list", "log_output": "stdout",

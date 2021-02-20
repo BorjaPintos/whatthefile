@@ -21,6 +21,7 @@ Pensado para forensics o CTFs
 - **commentExtractor**: Extrae comentarios de ficheros de cógido fuente, html, bash..
 - **entropy**: Calcula la entropia de shannon
 - **hashes**: Realiza diversos hashes
+- **ignore**: Modulo encargado de anular el análisis del fichero actual si cumple ciertos requisitos como hashes, tamaños, paths o extensiones
 - **imagerecognitiontensorflow**: reconocimiento de imágenes usando tensorflow.
 - **infoextractor**: extracción de emails, urls, iban de ficheros de texto.
 - **metadata**: extracción de metadatos con Exiftool
