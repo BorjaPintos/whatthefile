@@ -18,7 +18,9 @@ class Log:
         }
         logger.remove()
         logger.add(switcher.get(output, sys.stderr),
-                   format="{time} {level} {message}")
+                   format="{time} {level} {message}",
+                   level=conf.get_section("whatthefile")["log_level"] if "log_level" in conf.get_section(
+                       "whatthefile") else "DEBUG")
 
     @staticmethod
     def debug(message: str):
