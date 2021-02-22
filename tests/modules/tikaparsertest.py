@@ -11,17 +11,18 @@ class TikaParserTest(unittest.TestCase):
         target_file = TargetFile(path)
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
-        #module.set_params({"tika_server_url": "http://192.168.0.13:9998"})
+        module.set_params({"tika_server_url": "http://192.168.0.13:9998"})
+        module._extract_text = lambda path, url: "ESTRELLA GALICIA, “Cerveceros desde 1906”"
         result = module.run(target_file, {})
         self.assertTrue(len(result["content"]) != 0)
-
 
     def test_parser_pages(self):
         path = "./tests/examples/pages.pages"
         target_file = TargetFile(path)
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
-        #module.set_params({"tika_server_url": "http://192.168.0.13:9998"})
+        module.set_params({"tika_server_url": "http://192.168.0.13:9998"})
+        module._extract_text = lambda path, url: "Informe Mensual"
         result = module.run(target_file, {})
         self.assertTrue(len(result["content"]) != 0)
 
@@ -30,7 +31,8 @@ class TikaParserTest(unittest.TestCase):
         target_file = TargetFile(path)
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
-        #module.set_params({"tika_server_url": "http://192.168.0.13:9998"})
+        module.set_params({"tika_server_url": "http://192.168.0.13:9998"})
+        module._extract_text = lambda path, url: "Prueba de texto en excel"
         result = module.run(target_file, {})
         self.assertTrue("Prueba de texto en excel" in result["content"])
 
@@ -39,7 +41,8 @@ class TikaParserTest(unittest.TestCase):
         target_file = TargetFile(path)
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
-        #module.set_params({"tika_server_url": "http://192.168.0.13:9998"})
+        module.set_params({"tika_server_url": "http://192.168.0.13:9998"})
+        module._extract_text = lambda path, url: "Esto es un documento de work"
         result = module.run(target_file, {})
         self.assertTrue("Esto es un documento de work" in result["content"])
 
