@@ -18,7 +18,7 @@ class Console:
         else:
             conf = WhatTheFileConfiguration()
             conf.parse_file(arguments[1])
-            output = OutputFactory.get_output(conf)
+            output = OutputFactory.get_output_by_conf(conf)
             core = Core(conf, output)
             core.run(arguments[2])
 

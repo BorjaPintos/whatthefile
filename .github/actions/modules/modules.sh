@@ -3,6 +3,9 @@
 #install module certificatereader
 pip install -r ./src/modules/certificatereader/requirements.txt
 
+#install module evtxreader
+pip install -r ./src/modules/evtxreader/requirements.txt
+
 #install module imagerecognitiontensorflow
 pip install -r ./src/modules/imagerecognitiontensorflow/requirements.txt
 
