@@ -12,13 +12,14 @@ class CoreTest(unittest.TestCase):
         conf.parse_dict({"whatthefile": {"modules_package": "src.modules", "output": "list", "log_output": "stdout",
                                          "safe_output_path": "./tests/examples/safe_directory"},
                          "module.hashes": {"active": True, 'hashes_to_calculate': "MD5,SHA1,SHA256"},
-                         "module.ignore": {"active": True, 'file_hashes_md5_to_ignore': './tests/examples/ignoredhashesmd5.txt'},
+                         "module.ignore": {"active": True,
+                                           'file_hashes_md5_to_ignore': './tests/examples/ignoredhashesmd5.txt'},
                          "module.imagerecognitiontensorflow": {"active": False},
                          "module.metadata": {"active": False}, "module.ocrtesseract": {"active": False},
                          "module.qrbcreader": {"active": False}, "module.strings": {"active": True, "char_min": 10},
                          "module.virustotal": {"active": False}, "module.zipextractor": {"active": False}})
         path = "./tests/examples/collie.jpg"
-        output = OutputFactory.get_output(conf)
+        output = OutputFactory.get_output_by_conf(conf)
         core = Core(conf, output)
         core.run(path)
         self.assertEqual(len(output.get_list()), 0)
@@ -34,7 +35,7 @@ class CoreTest(unittest.TestCase):
                          "module.qrbcreader": {"active": False}, "module.strings": {"active": True, "char_min": 10},
                          "module.virustotal": {"active": False}, "module.zipextractor": {"active": False}})
         path = "./tests/examples/collie.jpg.zip"
-        output = OutputFactory.get_output(conf)
+        output = OutputFactory.get_output_by_conf(conf)
         core = Core(conf, output)
         core.run(path)
         self.assertEqual(len(output.get_list()[0]["strings"]["elements"]), 3)
@@ -61,7 +62,7 @@ class CoreTest(unittest.TestCase):
 
         self.assertFalse(os.path.exists(final_file))
         path = "./tests/examples/collie.jpg.zip"
-        output = OutputFactory.get_output(conf)
+        output = OutputFactory.get_output_by_conf(conf)
         core = Core(conf, output)
         core.run(path)
         self.assertTrue(os.path.exists(final_file))
@@ -100,7 +101,7 @@ class CoreTest(unittest.TestCase):
 
         self.assertFalse(os.path.exists(final_file))
         path = "./tests/examples/folderzip.zip"
-        output = OutputFactory.get_output(conf)
+        output = OutputFactory.get_output_by_conf(conf)
         core = Core(conf, output)
         core.run(path)
 
@@ -128,7 +129,7 @@ class CoreTest(unittest.TestCase):
                          "module.qrbcreader": {"active": False}, "module.strings": {"active": False, "char_min": 10},
                          "module.virustotal": {"active": False}, "module.zipextractor": {"active": False}})
         path = "./tests/examples/collie.jpg.zip"
-        output = OutputFactory.get_output(conf)
+        output = OutputFactory.get_output_by_conf(conf)
         core = Core(conf, output)
         core.run(path)
         self.assertTrue("SHA256" in output.get_list()[0]["hashes"])
@@ -149,7 +150,7 @@ class CoreTest(unittest.TestCase):
                          "module.virustotal": {"active": False}, "module.zipextractor": {"active": True}})
 
         path = "./tests/examples/testdirectorydonotinsertmoreitems"
-        output = OutputFactory.get_output(conf)
+        output = OutputFactory.get_output_by_conf(conf)
         core = Core(conf, output)
         core.run(path)
         self.assertEqual(len(output.get_list()), 3)
@@ -166,12 +167,13 @@ class CoreTest(unittest.TestCase):
                          "module.virustotal": {"active": True}, "module.zipextractor": {"active": True},
                          "module.tikaparser": {"active": True}, "module.certificatereader": {"active": True}})
         path = "./tests/examples/collie.jpg"
-        output = OutputFactory.get_output(conf)
+        output = OutputFactory.get_output_by_conf(conf)
         core = Core(conf, output)
         core.run(path)
         self.assertEqual("collie" in output.get_list()[0]["imagerecognitiontensorflow"])
 
-    def _remove_test_folders(self, output_safe_path, final_file):
+    @staticmethod
+    def _remove_test_folders(output_safe_path, final_file):
         if output_safe_path not in final_file:
             raise Exception("output_path no contenido en final_file, no se hacen modificaciones")
         subpaths = []

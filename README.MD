@@ -20,6 +20,7 @@ Pensado para forensics o CTFs
 - **certificatereader**: Extrae información de los certificados tipo PEM y DER
 - **commentExtractor**: Extrae comentarios de ficheros de cógido fuente, html, bash..
 - **entropy**: Calcula la entropia de shannon
+- **evtxreader**: Parsea eventos interesantes de ficheros de eventos del sistema, y además permite enviarlos por un segundo canal de salida (por ejemplo otro índice de elasticsearch, u otro fichero distinto al del análisis) 
 - **hashes**: Realiza diversos hashes
 - **ignore**: Modulo encargado de anular el análisis del fichero actual si cumple ciertos requisitos como hashes, tamaños, paths o extensiones
 - **imagerecognitiontensorflow**: reconocimiento de imágenes usando tensorflow.
@@ -67,7 +68,7 @@ Existen varios tipos de salida del programa para obtener los resultados:
 - **print**: salida normal por pantalla
 - **file**: volcado a un fichero
 - **list**: el resultado se mantiene en un objecto lista, ideal para exportar a otra librería
-- **elasticsearch**: los resultados se envían a un elasticsearch o opendistro
+- **elasticsearch**: los resultados se envían a un elasticsearch u opendistro
 
 ### Requisitos para servidor
 
@@ -114,7 +115,7 @@ class Constructor(IModule):
         pass
 
     """También se admite la firma: 
-    def run(self, target_file: TargetFile) -> dict:
+    def run(self, target_file: TargetFile, result_of_previos_modules: dict) -> dict:
     """
     def run(self, target_path: TargetPath, result_of_previos_modules: dict) -> dict:
         pass

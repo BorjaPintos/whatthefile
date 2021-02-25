@@ -7,13 +7,17 @@ from src.output.ioutput import IOutput
 
 class FileOutput(IOutput):
 
-    def __init__(self, conf: WhatTheFileConfiguration = None):
-        custom_configuration = conf.get_section("output.file")
-        self._outfile = open(custom_configuration["path"], "w+")
+    def __init__(self, params: dict = None):
+        print()
+        self._outfile = open(params["path"], "w+")
 
     def __del__(self):
         if self._outfile:
             self._outfile.close()
 
-    def dump(self, element: dict):
+    def dump_object(self, element: dict):
         self._outfile.write(str(element) + os.linesep)
+
+    def dump_list(self, elements: list):
+        for element in elements:
+            self.dump_object(element)

@@ -6,9 +6,13 @@ from src.domain.whatthefileconfiguration import WhatTheFileConfiguration
 
 class IOutput:
 
-    def __init__(self, conf: WhatTheFileConfiguration = None):
+    def __init__(self, params: dict = None):
         pass
 
     @abstractmethod
-    def dump(self, element: dict):
+    def dump_object(self, element: dict):
+        pass
+
+    @abstractmethod
+    def dump_list(self, elements: list):
         pass

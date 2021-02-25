@@ -100,7 +100,7 @@ class Core:
                     analysis["begin_analysis"] = Time.change_output_date_format_from_epoch(begin_analysis)
                     analysis["end_analysis"] = Time.change_output_date_format_from_epoch(end_analysis)
                     analysis["total_analysis_duration"] = end_analysis - begin_analysis
-                    self._output.dump(analysis)
+                    self._output.dump_object(analysis)
             except IgnoreAnalysisException:
                 "ignore and get next targetpath"
                 pass

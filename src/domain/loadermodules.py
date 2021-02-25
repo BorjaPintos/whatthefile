@@ -24,7 +24,11 @@ class LoaderModules:
     def _load_modules(self, conf: WhatTheFileConfiguration) -> None:
         module_index = 0
         for module_section_name in conf.get_modules_section_names():
-            if conf.get_property_boolean(module_section_name, "active"):
+            try:
+                active = conf.get_property_boolean(module_section_name, "active")
+            except:
+                active = False
+            if active:
                 Log.info("Loading module: [" + module_section_name + "]")
                 mod = self._import_module(conf, module_section_name, module_index)
                 if mod is not None:

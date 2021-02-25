@@ -22,6 +22,7 @@ class LoaderModulesTest(unittest.TestCase):
                 "module.certificatereader": {"active": True},
                 "module.commentextractor": {"active": True},
                 "module.entropy": {"active": True},
+                "module.evtxreader": {"active": True},
                 "module.hashes": {"active": True},
                 "module.ignore": {"active": True},
                 "module.imagerecognitiontensorflow": {"active": True},
