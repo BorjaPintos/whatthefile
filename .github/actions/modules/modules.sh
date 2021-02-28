@@ -56,6 +56,9 @@ pip install -r ./src/modules/qrbcreader/requirements.txt
 #install module tikaparser
 pip install -r ./src/modules/tikaparser/requirements.txt
 
+#install module windowsprefetch
+pip install -r ./src/modules/windowsprefetch/requirements.txt
+
 #install module zipextractor
 pip install -r ./src/modules/zipextractor/requirements.txt
 

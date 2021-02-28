@@ -33,6 +33,7 @@ class LoaderModulesTest(unittest.TestCase):
                 "module.strings": {"active": True},
                 "module.tikaparser": {"active": True},
                 "module.virustotal": {"active": True},
+                "module.windowsprefetch": {"active": True},
                 "module.zipextractor": {"active": True}}
 
     def get_simple_config_dict(self):

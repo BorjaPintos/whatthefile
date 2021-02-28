@@ -31,6 +31,7 @@ Pensado para forensics o CTFs
 - **strings**: extracción de strings
 - **tikaparser**: Obtención del texto de documentos offimáticos, pdfs...
 - **virustotal**: Comprobación de infección enviando el hash a virustotal
+- **windowsprefetch** Parseo de ficheros de windows prefetch
 - **zipextractor**: Extrae los ficheros de un zip, incluso aplicando fuerza bruta.
 
 Si algún módulo crea nuevos ficheros lo harán en un directorio especial para no modificar evidencias, por ejemplo zipextractor, en ese caso luego cada ficheros será otra vez reanalizado.
