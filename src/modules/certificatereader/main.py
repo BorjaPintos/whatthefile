@@ -36,7 +36,7 @@ class Constructor(IModule):
             return {"error": "invalid certificate"}
 
         return {
-            "serial_number": cert.serial_number,
+            "serial_number": str(cert.serial_number),
             "version": cert.version.name,
             "extensions": self._parse_extensions(cert.extensions._extensions),
             "nor_valid_after": Time.change_output_date_format_from_epoch(cert.not_valid_after.timestamp()),
@@ -63,8 +63,8 @@ class Constructor(IModule):
         values = {}
         for key in dict_values:
             # eliminamos la _ inicial
-            values[key[1:]] = dict_values[key] if type(dict_values[key]) is not bytes \
-                else dict_values[key].hex()
+            values[key[1:]] = str(dict_values[key]) if type(dict_values[key]) is not bytes \
+                else str(dict_values[key].hex())
         return values
 
     def is_valid_for(self, target_file: TargetPath):
