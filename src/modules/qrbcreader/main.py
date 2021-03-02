@@ -28,7 +28,8 @@ class Constructor(IModule):
         decoded_list = decode(Image.open(target_file.get_path()))
         i = 0
         result = {}
-        for dec in decoded_list:
-            result[str(i)] = dec.data.decode("utf-8")
-            i += 1
+        if len(decoded_list) >0:
+            result["values"] = []
+            for dec in decoded_list:
+                result["values"].append(dec.data.decode("utf-8"))
         return result

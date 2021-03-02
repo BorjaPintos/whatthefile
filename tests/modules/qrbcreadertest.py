@@ -13,7 +13,7 @@ class QRBCReader_Test(unittest.TestCase):
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
         result = module.run(target_file, {})
-        self.assertEqual(result['0'], "HOLA")
+        self.assertEqual(result['values'][0], "HOLA")
 
     def test_BC(self):
         bc_path = "./tests/examples/barcode.gif"
@@ -21,7 +21,7 @@ class QRBCReader_Test(unittest.TestCase):
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
         result = module.run(target_file, {})
-        self.assertEqual(result['0'], "1234-1234-1234")
+        self.assertEqual(result['values'][0], "1234-1234-1234")
 
     def test_invalid_file(self):
         path = "./tests/examples"

@@ -37,7 +37,7 @@ Pensado para forensics o CTFs
 Si algún módulo crea nuevos ficheros lo harán en un directorio especial para no modificar evidencias, por ejemplo zipextractor, en ese caso luego cada ficheros será otra vez reanalizado.
 
 
-# Requistos
+# Requisitos
 
 
 - Linux
