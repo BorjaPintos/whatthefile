@@ -25,11 +25,7 @@ else
     sudo cp -r exiftool lib /usr/local/bin
   fi
   cd ..
-  git clone git://github.com/smarnach/pyexiftool.git
-  cd ./pyexiftool
-  python ./setup.py install
-  cd ..
-  pip install -r ./src/modules/qrbcreader/requirements.txt
+  pip install -r ./src/modules/metadata/requirements.txt
 fi
 
 #install module ocrtesseract
@@ -58,6 +54,9 @@ pip install -r ./src/modules/tikaparser/requirements.txt
 
 #install module windowsprefetch
 pip install -r ./src/modules/windowsprefetch/requirements.txt
+
+#install module windowsregistry
+pip install -r ./src/modules/windowsregistry/requirements.txt
 
 #install module zipextractor
 pip install -r ./src/modules/zipextractor/requirements.txt

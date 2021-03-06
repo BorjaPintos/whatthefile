@@ -1,7 +1,2 @@
 Se necesita instalar la aplicacion exiftool y la libreria de python:
-efiftool: https://www.sno.phy.queensu.ca/~phil/exiftool/
-
-pyexiftool;
-git clone git://github.com/smarnach/pyexiftool.git
-cd pyexiftool
-python3 setup.py install
+exiftool: https://exiftool.org

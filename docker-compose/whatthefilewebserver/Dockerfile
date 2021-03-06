@@ -52,6 +52,9 @@ RUN pip3.7 install -r ./src/modules/tikaparser/requirements.txt
 #install module windowsprefetch
 RUN pip3.7 install -r ./src/modules/windowsprefetch/requirements.txt
 
+#install module windowsregistry
+RUN pip3.7 install -r ./src/modules/windowsregistry/requirements.txt
+
 #install module zipextractor
 RUN pip3.7 install -r ./src/modules/zipextractor/requirements.txt
 
