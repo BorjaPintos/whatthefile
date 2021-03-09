@@ -38,6 +38,10 @@ else
 fi
 pip install -r ./src/modules/ocrtesseract/requirements.txt
 
+
+#install module pstostparser
+pip install -r ./src/modules/psstostparser/requirements.txt
+
 #install module qrreader
 if [ "$RUNNER_OS" == "Linux" ]; then
   sudo apt-get install -y libzbar0

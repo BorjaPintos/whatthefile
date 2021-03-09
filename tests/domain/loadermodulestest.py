@@ -29,6 +29,7 @@ class LoaderModulesTest(unittest.TestCase):
                 "module.infoextractor": {"active": True},
                 "module.metadata": {"active": True},
                 "module.ocrtesseract": {"active": True},
+                "module.pstostparser": {"active": True},
                 "module.qrbcreader": {"active": True},
                 "module.strings": {"active": True},
                 "module.tikaparser": {"active": True},
