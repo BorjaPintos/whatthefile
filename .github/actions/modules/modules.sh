@@ -40,7 +40,7 @@ pip install -r ./src/modules/ocrtesseract/requirements.txt
 
 
 #install module pstostparser
-pip install -r ./src/modules/psstostparser/requirements.txt
+pip install -r ./src/modules/pstostparser/requirements.txt
 
 #install module qrreader
 if [ "$RUNNER_OS" == "Linux" ]; then
