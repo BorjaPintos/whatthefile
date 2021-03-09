@@ -27,6 +27,7 @@ Pensado para forensics o CTFs
 - **infoextractor**: extracción de emails, urls, iban de ficheros de texto.
 - **metadata**: extracción de metadatos con Exiftool
 - **ocrtesseract**: Extrae texto que se visualice en imágenes
+- **pstostparser**: Estrae correos electronicos de ficheros pst/ost  
 - **qrbcreader**: Lector de código QR y Códigos de Barras
 - **strings**: extracción de strings
 - **tikaparser**: Obtención del texto de documentos offimáticos, pdfs...

@@ -42,6 +42,9 @@ cd ..
 RUN apt update && apt install -y tesseract-ocr && \
 pip3.7 install -r ./src/modules/ocrtesseract/requirements.txt
 
+#install module pstostparser
+RUN pip3.7 install -r ./src/modules/pstostparser/requirements.txt
+
 #install module qrreader
 RUN apt install -y libzbar0 && \
 pip3.7 install -r ./src/modules/qrbcreader/requirements.txt
