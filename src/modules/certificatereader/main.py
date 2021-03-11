@@ -70,7 +70,7 @@ class Constructor(IModule):
     def is_valid_for(self, target_file: TargetPath):
         if target_file.is_file():
             if isinstance(target_file, TargetFile):
-                if target_file.get_extension() == ".cer" or ".crt" or ".cer" or ".der":
+                if target_file.get_extension() in [".cer", ".crt", ".cer", ".der", ".pem"]:
                     return True
         return False
 
