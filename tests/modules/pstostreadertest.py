@@ -13,10 +13,10 @@ class PSTOSTReaderTest(unittest.TestCase):
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
         result = module.run(target_file, {})
-        self.assertTrue('Inbox' in result)
-        self.assertEqual(len(result["Inbox"]), 527)
-        self.assertTrue('Sent Items' in result)
-        self.assertEqual(len(result["Sent Items"]), 8)
+        self.assertTrue('Inbox' in result["folders"])
+        self.assertEqual(len(result["folders"]["Inbox"]), 527)
+        self.assertTrue('Sent Items' in result["folders"])
+        self.assertEqual(len(result["folders"]["Sent Items"]), 8)
 
     def test_invalid_file(self):
         path = "./tests/examples"

@@ -6,6 +6,7 @@ from src.domain.targetpath import TargetPath
 from src.modules.imodule import IModule
 import pypff
 
+
 class Constructor(IModule):
 
     def __init__(self):
@@ -66,4 +67,4 @@ class Constructor(IModule):
         return result
 
     def run(self, target_file: TargetFile, result_of_previos_modules: dict) -> dict:
-        return self._parse_pstost(target_file)
+        return {"folders": self._parse_pstost(target_file)}
