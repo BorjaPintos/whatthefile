@@ -26,6 +26,7 @@ Pensado para forensics o CTFs
 - **imagerecognitiontensorflow**: reconocimiento de imágenes usando tensorflow.
 - **infoextractor**: extracción de emails, urls, iban de ficheros de texto.
 - **metadata**: extracción de metadatos con Exiftool
+- **mftparser**: Parsea el fichero de la MFT, y además permite enviar el resultado por un segundo canal de salida (por ejemplo otro índice de elasticsearch, u otro fichero distinto al del análisis) 
 - **ocrtesseract**: Extrae texto que se visualice en imágenes
 - **pstostparser**: Estrae correos electronicos de ficheros pst/ost  
 - **qrbcreader**: Lector de código QR y Códigos de Barras

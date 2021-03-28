@@ -28,6 +28,7 @@ class LoaderModulesTest(unittest.TestCase):
                 "module.imagerecognitiontensorflow": {"active": True},
                 "module.infoextractor": {"active": True},
                 "module.metadata": {"active": True},
+                "module.mftparser": {"active": True},
                 "module.ocrtesseract": {"active": True},
                 "module.pstostparser": {"active": True},
                 "module.qrbcreader": {"active": True},
