@@ -4,7 +4,7 @@ from src.output.ioutput import IOutput
 from elasticsearch import Elasticsearch
 from ssl import create_default_context
 
-from src.utils import aux
+from src.utils import auxiliar
 
 
 class ElasticsearchOutput(IOutput):
@@ -22,8 +22,8 @@ class ElasticsearchOutput(IOutput):
         try:
             path_to_cafile_pem = self._elasticsearch_config["ssl_certificate_path"]
             context = create_default_context(cafile=path_to_cafile_pem)
-            context.check_hostname = aux.convert_to_boolean(self._elasticsearch_config["check_hostname"])
-            context.verify_mode = ssl.CERT_REQUIRED if aux.convert_to_boolean(self._elasticsearch_config["verify_certs"]) else ssl.CERT_NONE
+            context.check_hostname = auxiliar.convert_to_boolean(self._elasticsearch_config["check_hostname"])
+            context.verify_mode = ssl.CERT_REQUIRED if auxiliar.convert_to_boolean(self._elasticsearch_config["verify_certs"]) else ssl.CERT_NONE
             if context.verify_mode is ssl.CERT_NONE:
                 import urllib3
                 urllib3.disable_warnings()

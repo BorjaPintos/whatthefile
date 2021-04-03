@@ -57,13 +57,21 @@ class TargetPath:
         result["st_atime"] = Time.change_output_date_format_from_epoch(stat.st_atime)
         result["st_ctime"] = Time.change_output_date_format_from_epoch(stat.st_ctime)
         result["st_mtime"] = Time.change_output_date_format_from_epoch(stat.st_mtime)
-        result["st_blksize"] = stat.st_blksize
-        result["st_blocks"] = stat.st_blocks
         result["st_gid"] = stat.st_gid
         result["st_uid"] = stat.st_uid
         result["st_size"] = stat.st_size
         result["st_mode"] = stat.st_mode
         result["st_device"] = stat.st_dev
+        try:
+            #it depends on SO
+            result["st_blocks"] = stat.st_blocks
+        except:
+            pass
+        try:
+            #it depends on SO
+            result["st_blksize"] = stat.st_blksize
+        except:
+            pass
         try:
             #it depends on SO
             result["st_birthtime"] = stat.st_birthtime

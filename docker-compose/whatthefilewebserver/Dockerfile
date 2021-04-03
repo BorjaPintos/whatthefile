@@ -7,21 +7,10 @@ RUN git clone https://github.com/BorjaPintos/whatthefile.git
 
 WORKDIR /whatthefile
 
-
 RUN pip3.7 install --upgrade pip
 #install basics requirements
 RUN pip3.7 install -r requirements.txt
 RUN pip3.7 install -r requirementsunix.txt
-
-
-#install module certificatereader
-RUN pip3.7 install -r ./src/modules/certificatereader/requirements.txt
-
-#install module evtxreader
-pip3.7 install -r ./src/modules/evtxreader/requirements.txt
-
-#install module imagerecognitiontensorflow
-RUN pip3.7 install -r ./src/modules/imagerecognitiontensorflow/requirements.txt
 
 #install module exiftool
 ENV EXIFTOOL_VERSION 12.17
@@ -39,27 +28,12 @@ python3.7 ./setup.py install && \
 cd ..
 
 #install module ocrtesseract
-RUN apt update && apt install -y tesseract-ocr && \
-pip3.7 install -r ./src/modules/ocrtesseract/requirements.txt
-
-#install module pstostparser
-RUN pip3.7 install -r ./src/modules/pstostparser/requirements.txt
+RUN apt update && apt install -y tesseract-ocr
 
 #install module qrreader
-RUN apt install -y libzbar0 && \
-pip3.7 install -r ./src/modules/qrbcreader/requirements.txt
+RUN apt install -y libzbar0
 
-#install module tikaparser
-RUN pip3.7 install -r ./src/modules/tikaparser/requirements.txt
-
-#install module windowsprefetch
-RUN pip3.7 install -r ./src/modules/windowsprefetch/requirements.txt
-
-#install module windowsregistry
-RUN pip3.7 install -r ./src/modules/windowsregistry/requirements.txt
-
-#install module zipextractor
-RUN pip3.7 install -r ./src/modules/zipextractor/requirements.txt
+RUN sh installmodulesrequirementes.sh
 
 #webserver depencencies
 RUN pip3.7 install -r ./application/web/requirementsweb.txt
