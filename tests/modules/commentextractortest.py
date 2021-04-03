@@ -13,7 +13,7 @@ class CommentExtractorTest(unittest.TestCase):
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
         result = module.run(target_file, {})
-        self.assertEqual(result["//_/**/_comments"], ['/* comentario multilinea\n* que termina\naqui */', '//prueba de comentario', '//otro comentario'])
+        self.assertEqual(list(map(str.strip,result["//_/**/_comments"])), list(map(str.strip, ['/* comentario multilinea\n* que termina\naqui */', '//prueba de comentario', '//otro comentario'])))
 
     def test_code_bash(self):
         path = "./tests/examples/addRoutesVPN.sh"
@@ -21,7 +21,7 @@ class CommentExtractorTest(unittest.TestCase):
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
         result = module.run(target_file, {})
-        self.assertEqual(result["#_comments"], ['#!/bin/bash', '#rutas internas de la red'])
+        self.assertEqual(list(map(str.strip, result["#_comments"])), list(map(str.strip, ['#!/bin/bash', '#rutas internas de la red'])))
 
     def test_code_html(self):
         path = "./tests/examples/index.html"
@@ -29,7 +29,7 @@ class CommentExtractorTest(unittest.TestCase):
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
         result = module.run(target_file, {})
-        self.assertEqual(result["<!--->Comments"], ["<!-- comentario\r\nmultiline de html\r\ny termina aqui -->"])
+        self.assertEqual(list(map (str.strip, result["<!--->Comments"])), list(map(str.strip, ["<!-- comentario\r\nmultiline de html\r\ny termina aqui -->"])))
 
     def test_invalid_file(self):
         path = "./tests/examples"

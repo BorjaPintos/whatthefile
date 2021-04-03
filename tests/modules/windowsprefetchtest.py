@@ -1,3 +1,4 @@
+import os
 import unittest
 
 from src.domain.targetfile import TargetFile
@@ -9,7 +10,7 @@ class WindowsPrefetch_Test(unittest.TestCase):
 
     def test_CMD(self):
         path = "./tests/examples/CMD.EXE-087B4001.pf"
-        target_file = TargetFile(path)
+        target_file = TargetFile(os.path.abspath(path))
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
         result = module.run(target_file, {})
@@ -21,7 +22,7 @@ class WindowsPrefetch_Test(unittest.TestCase):
 
     def test_Chrome(self):
         path = "./tests/examples/CHROME.EXE-B3BA7868.pf"
-        target_file = TargetFile(path)
+        target_file = TargetFile(os.path.abspath(path))
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
         result = module.run(target_file, {})
@@ -33,7 +34,7 @@ class WindowsPrefetch_Test(unittest.TestCase):
 
     def test_invalid_file(self):
         path = "./tests/examples"
-        target_file = TargetPath(path)
+        target_file = TargetPath(os.path.abspath(path))
         module = Constructor()
         self.assertFalse(module.is_valid_for(target_file))
 

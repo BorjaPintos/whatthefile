@@ -1,3 +1,4 @@
+import os
 import unittest
 
 from src.domain.targetfile import TargetFile
@@ -9,7 +10,7 @@ class OcrTeseractTest(unittest.TestCase):
 
     def test_text(self):
         path = "./tests/examples/image_with_text.jpg"
-        target_file = TargetFile(path)
+        target_file = TargetFile(os.path.abspath(path))
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
         result = module.run(target_file, {})
@@ -20,6 +21,6 @@ class OcrTeseractTest(unittest.TestCase):
 
     def test_invalid_file(self):
         path = "./tests/examples"
-        target_file = TargetPath(path)
+        target_file = TargetPath(os.path.abspath(path))
         module = Constructor()
         self.assertFalse(module.is_valid_for(target_file))
