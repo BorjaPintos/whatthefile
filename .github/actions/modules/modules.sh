@@ -2,7 +2,12 @@
 #install module metadata
 EXIFTOOL_VERSION=12.18
 if [ "$RUNNER_OS" == "Windows" ]; then
-  echo "TODO for windows"
+  echo $PATH
+  pwd
+  wget https://exiftool.org/exiftool-$EXIFTOOL_VERSION.zip
+  unzip -qq ./exiftool-$EXIFTOOL_VERSION.zip -d "./exiftool"
+  rename "./exiftool/exiftool(-k).exe" "./exiftool/exiftool.exe"
+  move ./exiftool/exiftool.exe
 else
   wget https://exiftool.org/Image-ExifTool-$EXIFTOOL_VERSION.tar.gz --no-check-certificate
   tar -xf Image-ExifTool-$EXIFTOOL_VERSION.tar.gz
