@@ -5,7 +5,7 @@ if [ "$RUNNER_OS" == "Windows" ]; then
   curl --output exiftool.zip --url https://exiftool.org/exiftool-$EXIFTOOL_VERSION.zip
   unzip -qq ./exiftool.zip -d "./exiftool"
   cp "./exiftool/exiftool(-k).exe" "./exiftool/exiftool.exe"
-  mv "./exiftool/exiftool.exe" $PATH
+  echo "./exiftool/" >> $GITHUB_PATH
 else
   wget https://exiftool.org/Image-ExifTool-$EXIFTOOL_VERSION.tar.gz --no-check-certificate
   tar -xf Image-ExifTool-$EXIFTOOL_VERSION.tar.gz
@@ -34,8 +34,6 @@ if [ "$RUNNER_OS" == "Linux" ]; then
   sudo apt-get install -y libzbar0
 elif [ "$RUNNER_OS" == "macOS" ]; then
   brew install zbar
-else
-  echo "TODO for windows"
 fi
 
 sh ./installmodulesrequirements.sh
