@@ -28,7 +28,7 @@ class Safe:
     @staticmethod
     def create_file(path: str, binary: bytes) -> str:
         subpath = path.replace("/./", "/").replace("/../", "/")
-        path_to_save = os.path.join(Safe.safe_output_path, subpath).replace("/./", "/").replace("/../", "/").replace("//", "/")
+        path_to_save = os.path.abspath(os.path.join(Safe.safe_output_path, subpath).replace("/./", "/").replace("/../", "/").replace("//", "/"))
         Safe._create_folders(os.path.dirname(subpath))
         with open(path_to_save, "wb+") as file:
             file.write(binary)
