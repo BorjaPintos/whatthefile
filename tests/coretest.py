@@ -1,5 +1,7 @@
 import os
 import unittest
+from queue import Queue
+
 from src.core import Core
 from src.domain.whatthefileconfiguration import WhatTheFileConfiguration
 from src.output.outputfactory import OutputFactory
@@ -54,11 +56,13 @@ class CoreTest(unittest.TestCase):
         active = true
         """)
 
-        final_file = "./tests/examples/safe_directory/1/zipextractor/tests/examples/collie.jpg.zip/collie.jpg"
+        final_file = os.path.abspath(output_safe_directory) + \
+                     "/1/zipextractor" + \
+                     os.path.abspath("./tests/examples/collie.jpg.zip/collie.jpg")
 
         if os.path.exists(final_file):
             os.remove(final_file)
-        self._remove_test_folders(output_safe_directory, final_file)
+        self._remove_test_folders(output_safe_directory)
 
         self.assertFalse(os.path.exists(final_file))
         path = "./tests/examples/collie.jpg.zip"
@@ -70,20 +74,24 @@ class CoreTest(unittest.TestCase):
         paths = []
         for element in output.get_list():
             paths.append(element["path"])
-        self.assertEqual(len(paths), 7)
-        self.assertTrue(final_file in paths)
+        self.assertTrue(os.path.abspath(final_file) in paths)
 
         os.remove(final_file)
-        self._remove_test_folders(output_safe_directory, final_file)
+        self._remove_test_folders(output_safe_directory)
 
     def test_zipextractor_unzip_with_zip_inside(self):
 
         output_safe_directory = "./tests/examples/safe_directory"
-        final_file = "./tests/examples/safe_directory/2/" \
-                     "zipextractor/tests/examples/safe_directory/1/" \
-                     "zipextractor/tests/examples/folderzip.zip/folderzip/Surprisezip.txt.zip/Surprisezip.txt"
-        temporal_zip = "./tests/examples/safe_directory/1/" \
-                       "zipextractor/tests/examples/folderzip.zip/folderzip/Surprisezip.txt.zip"
+        final_file = os.path.abspath(output_safe_directory) + \
+                     "/2/zipextractor" + \
+                     os.path.abspath(output_safe_directory) + \
+                     "/1/zipextractor" + \
+                     os.path.abspath("./tests/examples/folderzip.zip/folderzip/Surprisezip.txt.zip/Surprisezip.txt")
+
+        temporal_zip = os.path.abspath(output_safe_directory) + \
+                       "/1/zipextractor" + \
+                       os.path.abspath("./tests/examples/folderzip.zip/folderzip/Surprisezip.txt.zip")
+
         conf = WhatTheFileConfiguration()
         conf.parse_string("""
                 [whatthefile]
@@ -97,7 +105,7 @@ class CoreTest(unittest.TestCase):
 
         if os.path.exists(final_file):
             os.remove(final_file)
-        self._remove_test_folders(output_safe_directory, final_file)
+        self._remove_test_folders(output_safe_directory)
 
         self.assertFalse(os.path.exists(final_file))
         path = "./tests/examples/folderzip.zip"
@@ -107,16 +115,16 @@ class CoreTest(unittest.TestCase):
 
         paths = []
         for element in output.get_list():
-            paths.append(element["path"])
+            paths.append(os.path.abspath(element["path"]))
+
+
 
         self.assertTrue(temporal_zip in paths)
         self.assertTrue(final_file in paths)
 
         os.remove(final_file)
-        self._remove_test_folders(output_safe_directory, final_file)
-
         os.remove(temporal_zip)
-        self._remove_test_folders(output_safe_directory, temporal_zip)
+        self._remove_test_folders(output_safe_directory)
 
     def test_run_hashes(self):
         conf = WhatTheFileConfiguration()
@@ -173,15 +181,9 @@ class CoreTest(unittest.TestCase):
         self.assertEqual("collie" in output.get_list()[0]["imagerecognitiontensorflow"])
 
     @staticmethod
-    def _remove_test_folders(output_safe_path, final_file):
-        if output_safe_path not in final_file:
-            raise Exception("output_path no contenido en final_file, no se hacen modificaciones")
-        subpaths = []
-        subpath = final_file
-        while subpath != output_safe_path:
-            if subpath != ".":
-                subpaths.append(subpath)
-            subpath = os.path.dirname(subpath)
-        for path in subpaths:
-            if os.path.exists(path):
-                os.rmdir(path)
+    def _remove_test_folders(output_safe_path):
+        for root, dirs, files in os.walk(output_safe_path, topdown=False):
+            for name in files:
+                os.remove(os.path.join(root, name))
+            for name in dirs:
+                os.rmdir(os.path.join(root, name))

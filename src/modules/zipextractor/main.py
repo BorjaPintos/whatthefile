@@ -58,7 +58,7 @@ class Constructor(IModule):
                         except:
                             pass
                 if binary:
-                    path_saved = Safe.create_file(os.path.join("./zipextractor", os.path.join(target_file.get_path(), info.filename)),  binary)
+                    path_saved = Safe.create_file(os.path.join("./zipextractor", "./" + os.path.join(target_file.get_path(), info.filename)),  binary)
                     result["new_files"].append(info.filename)
                     result["new_path_files"].append(path_saved)
                     if decripted_password:

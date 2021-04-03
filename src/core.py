@@ -51,7 +51,7 @@ class Core:
         safe_output_path = Safe.safe_output_path
         mtime = os.stat(safe_output_path).st_mtime
         n_elements_inside = len(os.listdir(safe_output_path))
-        self._queue.put(input)
+        self._queue.put(os.path.abspath(input))
         Log.debug(str(id) + " - Añadido elemento a la cola:" + input)
         threads = self._run_threads()
         Log.debug("- Esperando threads...")
