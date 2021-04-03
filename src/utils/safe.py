@@ -44,7 +44,7 @@ class Safe:
             folder = os.path.dirname(folder)
         folders.reverse()
         for path in folders:
-            path_to_create = os.path.abspath(os.path.join(Safe.safe_output_path, "./" + path).replace("/./", "/").replace("/../", "/").replace("//", "/"))
+            path_to_create = os.path.abspath(os.path.join(Safe.safe_output_path, "./" + path.replace(":", "")).replace("/./", "/").replace("/../", "/").replace("//", "/"))
             if not os.path.exists(path_to_create):
                 os.mkdir(path_to_create)
 

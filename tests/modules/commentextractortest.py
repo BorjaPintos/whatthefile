@@ -9,7 +9,7 @@ class CommentExtractorTest(unittest.TestCase):
 
     @staticmethod
     def replace_end_lines(element: str):
-        return element.replace("\r\n", "")
+        return element.replace("\r", "").replace("\n", "")
 
 
     def test_code_c(self):
