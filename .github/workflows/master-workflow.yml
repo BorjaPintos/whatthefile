@@ -38,10 +38,7 @@ jobs:
       run: |
         pip install -r requirementstest.txt
         python -m pytest --cov=src --cov-report html:html-${{matrix.os}}-${{matrix.python-version}} --doctest-modules --junitxml=junit/test-results-${{matrix.os}}-${{matrix.python-version}}.xml
-        if [ "$RUNNER_OS" == "Windows" ]; then
-          zip -qq -r html-${{matrix.os}}-${{matrix.python-version}}.zip html-${{matrix.os}}-${{matrix.python-version}}/
-        else
-          zip -r html-${{matrix.os}}-${{matrix.python-version}}.zip html-${{matrix.os}}-${{matrix.python-version}}/
+        zip -r html-${{matrix.os}}-${{matrix.python-version}}.zip html-${{matrix.os}}-${{matrix.python-version}}/
 
     - name: Upload pytest test results
       uses: actions/upload-artifact@v2
