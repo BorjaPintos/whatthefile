@@ -58,7 +58,7 @@ class CoreTest(unittest.TestCase):
 
         final_file = os.path.abspath(output_safe_directory) + \
                      "/1/zipextractor" + \
-                     os.path.abspath("./tests/examples/collie.jpg.zip/collie.jpg")
+                     os.path.abspath("./tests/examples/collie.jpg.zip/collie.jpg").replace(":", "")
 
         if os.path.exists(final_file):
             os.remove(final_file)
@@ -86,11 +86,11 @@ class CoreTest(unittest.TestCase):
                      "/2/zipextractor" + \
                      os.path.abspath(output_safe_directory) + \
                      "/1/zipextractor" + \
-                     os.path.abspath("./tests/examples/folderzip.zip/folderzip/Surprisezip.txt.zip/Surprisezip.txt")
+                     os.path.abspath("./tests/examples/folderzip.zip/folderzip/Surprisezip.txt.zip/Surprisezip.txt").replace(":", "")
 
         temporal_zip = os.path.abspath(output_safe_directory) + \
                        "/1/zipextractor" + \
-                       os.path.abspath("./tests/examples/folderzip.zip/folderzip/Surprisezip.txt.zip")
+                       os.path.abspath("./tests/examples/folderzip.zip/folderzip/Surprisezip.txt.zip").replace(":", "")
 
         conf = WhatTheFileConfiguration()
         conf.parse_string("""
