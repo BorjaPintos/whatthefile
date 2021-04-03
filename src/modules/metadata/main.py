@@ -36,6 +36,6 @@ class Constructor(IModule):
     def run(self, target_file: TargetFile, result_of_previos_modules: dict) -> dict:
         cleanresult = {}
         with exiftool.ExifTool() as et:
-            result = et.get_metadata(target_file.get_path())
+            result = et.get_metadata(exiftool.fsencode(target_file.get_path()))
             cleanresult = self._clean(result)
         return cleanresult
