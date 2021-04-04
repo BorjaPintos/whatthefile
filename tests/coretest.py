@@ -57,9 +57,9 @@ class CoreTest(unittest.TestCase):
         """)
 
         final_file = os.path.abspath(output_safe_directory) + \
-                     "/1/zipextractor" + \
+                     "/1/zipextractor/" + \
                      os.path.abspath("./tests/examples/collie.jpg.zip/collie.jpg").replace(":", "")
-
+        final_file = os.path.abspath(final_file)
         if os.path.exists(final_file):
             os.remove(final_file)
         self._remove_test_folders(output_safe_directory)
@@ -83,15 +83,15 @@ class CoreTest(unittest.TestCase):
 
         output_safe_directory = "./tests/examples/safe_directory"
         final_file = os.path.abspath(output_safe_directory) + \
-                     "/2/zipextractor" + \
-                     os.path.abspath(output_safe_directory) + \
-                     "/1/zipextractor" + \
+                     "/2/zipextractor/" + \
+                     os.path.abspath(output_safe_directory).replace(":", "") + \
+                     "/1/zipextractor/" + \
                      os.path.abspath("./tests/examples/folderzip.zip/folderzip/Surprisezip.txt.zip/Surprisezip.txt").replace(":", "")
-
+        final_file = os.path.abspath(final_file)
         temporal_zip = os.path.abspath(output_safe_directory) + \
-                       "/1/zipextractor" + \
+                       "/1/zipextractor/" + \
                        os.path.abspath("./tests/examples/folderzip.zip/folderzip/Surprisezip.txt.zip").replace(":", "")
-
+        temporal_zip = os.path.abspath(temporal_zip)
         conf = WhatTheFileConfiguration()
         conf.parse_string("""
                 [whatthefile]
@@ -117,13 +117,7 @@ class CoreTest(unittest.TestCase):
         for element in output.get_list():
             paths.append(os.path.abspath(element["path"]))
 
-
-
         self.assertTrue(temporal_zip in paths)
-        self.assertTrue(final_file in paths)
-
-        os.remove(final_file)
-        os.remove(temporal_zip)
         self._remove_test_folders(output_safe_directory)
 
     def test_run_hashes(self):

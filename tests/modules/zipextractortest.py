@@ -23,9 +23,9 @@ class ZipExtractorTest(unittest.TestCase):
         output_safe_directory = "./tests/examples/safe_directory"
         Safe.safe_output_path = os.path.abspath(output_safe_directory)
         final_file = os.path.abspath("./tests/examples/safe_directory/") + \
-            "/zipextractor" + \
+            "/zipextractor/" + \
             os.path.abspath("./tests/examples/Surprise.txt.zip/Surprise.txt").replace(":", "")
-
+        final_file = os.path.abspath(final_file)
         if os.path.exists(final_file):
             os.remove(final_file)
         self._remove_test_folders(os.path.abspath(output_safe_directory))
@@ -49,8 +49,9 @@ class ZipExtractorTest(unittest.TestCase):
         output_safe_directory = "./tests/examples/safe_directory"
         Safe.safe_output_path = os.path.abspath(output_safe_directory)
         final_file = os.path.abspath("./tests/examples/safe_directory/") + \
-            "/zipextractor" + \
+            "/zipextractor/" + \
             os.path.abspath("./tests/examples/Surprise2.txt.zip/Surprise2.txt").replace(":", "")
+        final_file = os.path.abspath(final_file)
 
         if os.path.exists(final_file):
             os.remove(final_file)
@@ -87,9 +88,9 @@ class ZipExtractorTest(unittest.TestCase):
         output_safe_directory = "./tests/examples/safe_directory"
         Safe.safe_output_path = os.path.abspath(output_safe_directory)
         final_file = os.path.abspath("./tests/examples/safe_directory/") + \
-            "/zipextractor" + \
+            "/zipextractor/" + \
             os.path.abspath("./tests/examples/surprise_folder.zip/surprise_folder/Surprise.txt").replace(":", "")
-
+        final_file = os.path.abspath(final_file)
         if os.path.exists(final_file):
             os.remove(final_file)
         self._remove_test_folders(os.path.abspath(output_safe_directory))
