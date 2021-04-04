@@ -4,7 +4,7 @@ from src.domain.targetpath import TargetPath
 from src.modules.imodule import IModule
 from src.modules.mftparser.analyzemft import mftsession, mft
 from src.output.outputfactory import OutputFactory
-from src.utils import aux
+from src.utils import auxiliar
 from src.utils.time import Time
 
 
@@ -30,7 +30,7 @@ class Constructor(IModule):
 
     def _pipe_to_another_output(self, events: list):
         if "needs_pipe" in self.get_params() \
-                and aux.convert_to_boolean(self.get_params()["needs_pipe"]) \
+                and auxiliar.convert_to_boolean(self.get_params()["needs_pipe"]) \
                 and "output" in self.get_params():
             pipe = OutputFactory.get_output_by_dict(self.get_params())
             pipe.dump_list(events)

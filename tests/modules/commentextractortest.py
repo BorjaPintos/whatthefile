@@ -7,13 +7,18 @@ from src.modules.commentextractor.main import Constructor
 
 class CommentExtractorTest(unittest.TestCase):
 
+    @staticmethod
+    def replace_end_lines(element: str):
+        return element.replace("\r", "").replace("\n", "")
+
+
     def test_code_c(self):
         path = "./tests/examples/Prueba.c"
         target_file = TargetFile(path)
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
         result = module.run(target_file, {})
-        self.assertEqual(result["//_/**/_comments"], ['/* comentario multilinea\n* que termina\naqui */', '//prueba de comentario', '//otro comentario'])
+        self.assertEqual(list(map(CommentExtractorTest.replace_end_lines,result["//_/**/_comments"])), list(map(CommentExtractorTest.replace_end_lines, ['/* comentario multilinea\n* que termina\naqui */', '//prueba de comentario', '//otro comentario'])))
 
     def test_code_bash(self):
         path = "./tests/examples/addRoutesVPN.sh"
@@ -21,7 +26,7 @@ class CommentExtractorTest(unittest.TestCase):
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
         result = module.run(target_file, {})
-        self.assertEqual(result["#_comments"], ['#!/bin/bash', '#rutas internas de la red'])
+        self.assertEqual(list(map(CommentExtractorTest.replace_end_lines, result["#_comments"])), list(map(CommentExtractorTest.replace_end_lines, ['#!/bin/bash', '#rutas internas de la red'])))
 
     def test_code_html(self):
         path = "./tests/examples/index.html"
@@ -29,7 +34,7 @@ class CommentExtractorTest(unittest.TestCase):
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
         result = module.run(target_file, {})
-        self.assertEqual(result["<!--->Comments"], ["<!-- comentario\r\nmultiline de html\r\ny termina aqui -->"])
+        self.assertEqual(list(map (CommentExtractorTest.replace_end_lines, result["<!--->Comments"])), list(map(CommentExtractorTest.replace_end_lines, ["<!-- comentario\r\nmultiline de html\r\ny termina aqui -->"])))
 
     def test_invalid_file(self):
         path = "./tests/examples"
