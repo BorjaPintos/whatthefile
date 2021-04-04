@@ -48,11 +48,11 @@ jobs:
       if: ${{always()}}
 
     - name: Zip test result not windows
-      if: (${{ success() }} && ${{ ${{matrix.os}} != "windows-latest" }})
+      if: (${{ success() }} && ${{matrix.os}} != "windows-latest")
       run: zip -r html-${{matrix.os}}-${{matrix.python-version}}.zip html-${{matrix.os}}-${{matrix.python-version}}/
 
     - name: Zip test result windows
-      if: (${{ success() }} && ${{ ${{matrix.os}} == "windows-latest" }})
+      if: (${{ success() }} && ${{matrix.os}} == "windows-latest")
       run: Compress-Archive html-${{matrix.os}}-${{matrix.python-version}}/ html-${{matrix.os}}-${{matrix.python-version}}.zip
 
     - name: Upload cobertura results
