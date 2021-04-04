@@ -27,9 +27,7 @@ elif [ "$RUNNER_OS" == "macOS" ]; then
   brew install tesseract
 else
   choco install tesseract --pre
-  ls "C:\Program Files\Tesseract-OCR"
   echo "C:\Program Files\Tesseract-OCR" >> $GITHUB_PATH
-  tesseract.exe --version
 fi
 
 #install module qrreader
