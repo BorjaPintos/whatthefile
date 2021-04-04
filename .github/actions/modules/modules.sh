@@ -26,7 +26,18 @@ if [ "$RUNNER_OS" == "Linux" ]; then
 elif [ "$RUNNER_OS" == "macOS" ]; then
   brew install tesseract
 else
-  echo "TODO for windows"
+  curl --output tesseract.zip --url https://github.com/tesseract-ocr/tesseract/archive/refs/tags/4.1.1.zip
+  unzip -qq ./tesseract.zip -d "./tesseract"
+  cd ./tesseract
+  call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+  git clone https://github.com/microsoft/vcpkg
+  vcpkg/bootstrap-vcpkg.bat
+  vcpkg/vcpkg integrate install
+  vcpkg/vcpkg install leptonica:x64-windows
+  cmake . -B build -DCMAKE_BUILD_TYPE=Release -DSW_BUILD=OFF -DOPENMP_BUILD=OFF -DBUILD_TRAINING_TOOLS=OFF "-DCMAKE_TOOLCHAIN_FILE=${env:GITHUB_WORKSPACE}/vcpkg/scripts/buildsystems/vcpkg.cmake"
+  cmake --build build --config Release --target install
+  echo "./tesseract/build/bin/Release" >> $GITHUB_PATH
+  cd ..
 fi
 
 #install module qrreader
