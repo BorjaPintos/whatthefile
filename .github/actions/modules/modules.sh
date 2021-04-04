@@ -27,6 +27,8 @@ elif [ "$RUNNER_OS" == "macOS" ]; then
   brew install tesseract
 else
   choco install tesseract --pre
+  refreshenv
+  tesseract --version
 fi
 
 #install module qrreader
