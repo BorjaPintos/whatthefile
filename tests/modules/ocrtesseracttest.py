@@ -17,7 +17,7 @@ class OcrTeseractTest(unittest.TestCase):
         TEXT = "UN SABIO DIJO:\nNo tengas miedo de perder a\n\nquien no se siente afortunado\nde tenerte.\n"
         print(result)
         self.assertTrue(TEXT in result["Thresh"])
-        #self.assertTrue(TEXT in result["Blur"])
+        self.assertTrue(TEXT in result["Blur"])
 
 
     def test_invalid_file(self):

@@ -12,7 +12,6 @@ else
   cd Image-ExifTool-$EXIFTOOL_VERSION
   sudo perl Makefile.PL
   sudo make
-  #sudo make test
   sudo make install
   if [ "$RUNNER_OS" == "macOS" ]; then
     sudo cp -r exiftool lib /usr/local/bin
