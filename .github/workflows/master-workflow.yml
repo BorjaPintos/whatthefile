@@ -15,10 +15,8 @@ jobs:
       EXIFTOOL_VERSION: 12.17
     strategy:
       matrix:
-        #python-version: [3.7, 3.8]
-        python-version: [3.8]
-        #os: [ubuntu-latest, macOS-latest, windows-latest]
-        os: [windows-latest]
+        python-version: [3.7, 3.8]
+        os: [ubuntu-latest, macOS-latest, windows-latest]
 
     steps:
     - uses: actions/checkout@v2
@@ -38,7 +36,9 @@ jobs:
       run: |
         pip install -r requirementstest.txt
         python -m pytest --cov=src --cov-report html:html-${{matrix.os}}-${{matrix.python-version}} --doctest-modules --junitxml=junit/test-results-${{matrix.os}}-${{matrix.python-version}}.xml
-        zip -r html-${{matrix.os}}-${{matrix.python-version}}.zip html-${{matrix.os}}-${{matrix.python-version}}/
+        if [ "$RUNNER_OS" != "Windows" ]; then
+          zip -r html-${{matrix.os}}-${{matrix.python-version}}.zip html-${{matrix.os}}-${{matrix.python-version}}/
+        fi
 
     - name: Upload pytest test results
       uses: actions/upload-artifact@v2
