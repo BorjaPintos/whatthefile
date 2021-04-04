@@ -36,9 +36,6 @@ jobs:
       run: |
         pip install -r requirementstest.txt
         python -m pytest --cov=src --cov-report html:html-${{matrix.os}}-${{matrix.python-version}} --doctest-modules --junitxml=junit/test-results-${{matrix.os}}-${{matrix.python-version}}.xml
-        if [ "$RUNNER_OS" != "Windows" ]; then
-          zip -r html-${{matrix.os}}-${{matrix.python-version}}.zip html-${{matrix.os}}-${{matrix.python-version}}/
-        fi
 
     - name: Upload pytest test results
       uses: actions/upload-artifact@v2
@@ -48,10 +45,15 @@ jobs:
       # Use always() to always run this step to publish test results when there are test failures
       if: ${{always()}}
 
+    - name: Zip test result
+      run: zip -r html-${{matrix.os}}-${{matrix.python-version}}.zip html-${{matrix.os}}-${{matrix.python-version}}/
+      shell: bash
+      if: ${{ success() }}
+
     - name: Upload cobertura results
       uses: actions/upload-artifact@v2
       with:
         name: html-${{matrix.os}}-${{matrix.python-version}}.zip
         path: html-${{matrix.os}}-${{matrix.python-version}}.zip
       # Use always() to always run this step to publish test results when there are test failures
-      if: ${{always()}}
+      if: ${{ success() }}
