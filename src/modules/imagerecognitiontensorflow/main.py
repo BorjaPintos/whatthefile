@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-#  importo librerias tensorflow como tfw y keras
-from keras.applications.inception_v3 import InceptionV3, decode_predictions
-from keras.preprocessing import image
-import os
+from tensorflow.keras.applications.inception_v3 import InceptionV3, decode_predictions
+from tensorflow.keras.preprocessing import image
 
 from src.domain.targetfile import TargetFile
 from src.domain.targetpath import TargetPath
