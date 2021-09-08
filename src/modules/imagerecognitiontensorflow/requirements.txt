@@ -2,5 +2,5 @@ scikit-learn==0.24.1
 virtualenv==20.4.2
 h5py==3.1.0
 tensorflow==2.5.0
-pillow==8.2.0
+pillow==8.3.2
 numpy==1.19.2
