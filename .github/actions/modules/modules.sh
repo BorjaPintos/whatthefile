@@ -1,6 +1,6 @@
 #!/bin/bash
 #install module metadata
-EXIFTOOL_VERSION=12.18
+EXIFTOOL_VERSION=12.38
 if [ "$RUNNER_OS" == "Windows" ]; then
   curl --output exiftool.zip --url https://exiftool.org/exiftool-$EXIFTOOL_VERSION.zip
   unzip -qq ./exiftool.zip -d "./exiftool"
@@ -36,6 +36,7 @@ elif [ "$RUNNER_OS" == "macOS" ]; then
   brew install zbar
 fi
 
+ls -lisah
 sh ./installmodulesrequirements.sh
 
 
