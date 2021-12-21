@@ -5,6 +5,7 @@ while ! $(curl --output /dev/null --silent --head --fail http://tika:9998); do
     sleep 1
 done
 
+pip3 install -r /whatthefile/application/web/requirementsweb.txt
 python3.7 runserverpro.py
 
 echo "Analysis Done!"

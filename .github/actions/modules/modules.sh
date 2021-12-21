@@ -36,7 +36,6 @@ elif [ "$RUNNER_OS" == "macOS" ]; then
   brew install zbar
 fi
 
-ls -lisah
 sh ./installmodulesrequirements.sh
 
 

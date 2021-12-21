@@ -29,7 +29,7 @@ python3.7 ./setup.py install && \
 cd ..
 
 #install module ocrtesseract
-RUN apt update && apt install -y tesseract-ocr
+RUN apt update && apt install -y tesseract-ocr libgl1-mesa-glx
 
 #install module qrreader
 RUN apt install -y libzbar0

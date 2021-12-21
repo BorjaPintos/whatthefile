@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+    opendistro-elasticsearch:
+        image: amazon/opendistro-for-elasticsearch:1.13.0
+        container_name: opendistro-elasticsearch
+        env_file:
+            - opendistro/elasticsearch/elasticsearch.env
+        volumes:
+            - elk-data:/usr/share/elasticsearch/data
+        ports:
+            - 9200:9200/tcp
+            - 9300:9300/tcp
+        networks:
+            - whatthefile-net
+            
+    opendistro-kibana:
+        image: amazon/opendistro-for-elasticsearch-kibana:1.13.0
+        container_name: opendistro-kibana
+        ports:
+            - 5601:5601
+        env_file:
+            - opendistro/kibana/kibana.env
+        networks:
+            - whatthefile-net
+            
+    tika:
+        image: logicalspark/docker-tikaserver
+        container_name: tika
+        ports:
+            - 9998:9998/tcp
+        networks:
+            - whatthefile-net
+            
+    whatthefile:
+        build: whatthefile
+        volumes:
+            - ./whatthefile/safe_directory:/safe_directory
+            - ./whatthefile/input:/input
+            - ./whatthefile/whatthefile.ini:/whatthefile/whatthefile.ini
+            - ./whatthefile/entrypoint.sh:/whatthefile/entrypoint.sh
+        container_name: whatthefile
+        networks:
+            - whatthefile-net
+        depends_on:
+            - tika
+            - opendistro-elasticsearch
+
+networks:
+  whatthefile-net:
+  
+volumes:
+  elk-data:
