@@ -4,6 +4,10 @@ while ! $(curl --output /dev/null --silent --head --fail http://tika:9998); do
     >&2 echo "waiting for tika..."
     sleep 1
 done
+while ! $(curl --insecure --output /dev/null --silent --head --fail -u admin:admin https://opendistro-elasticsearch:9200); do
+    >&2 echo "waiting for elasticsearch..."
+    sleep 1
+done
 
 python3.7 whatthefile.py whatthefile.ini /input
 
