@@ -100,13 +100,11 @@ class Constructor(IModule):
 
     def _get_info_module_pstostparser(self, result_of_previos_modules: dict) -> dict:
         try:
-            if "pstostparser" in result_of_previos_modules and "folders" in result_of_previos_modules["pstostparser"]:
+            if "pstostparser" in result_of_previos_modules and "messages" in result_of_previos_modules["pstostparser"]:
                 all_messages = ""
-                for email_folder in result_of_previos_modules["pstostparser"]["folders"].keys():
-                    # reunimos todos los mensajes en una linea para hacer el parseo más sencillo
-                    for message in result_of_previos_modules["pstostparser"]["folders"][email_folder]:
-                            all_messages = all_messages + " " + str(message["html_body"]) + " " \
-                                       + str(message["plain_text_body"]) + " " + str(message["headers"])
+                for message in result_of_previos_modules["pstostparser"]["messages"]:
+                        all_messages = all_messages + " " + str(message["html_body"]) + " " \
+                                   + str(message["plain_text_body"]) + " " + str(message["headers"])
 
                 return {"emails": self._get_emails(all_messages),
                         "URLs": self._get_urls(all_messages),
