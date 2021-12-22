@@ -24,7 +24,8 @@ class ElasticsearchOutput(IOutput):
             path_to_cafile_pem = self._elasticsearch_config["ssl_certificate_path"]
             context = create_default_context(cafile=path_to_cafile_pem)
             context.check_hostname = auxiliar.convert_to_boolean(self._elasticsearch_config["check_hostname"])
-            context.verify_mode = ssl.CERT_REQUIRED if auxiliar.convert_to_boolean(self._elasticsearch_config["verify_certs"]) else ssl.CERT_NONE
+            context.verify_mode = ssl.CERT_REQUIRED if auxiliar.convert_to_boolean(
+                self._elasticsearch_config["verify_certs"]) else ssl.CERT_NONE
             if context.verify_mode is ssl.CERT_NONE:
                 import urllib3
                 urllib3.disable_warnings()
@@ -48,7 +49,7 @@ class ElasticsearchOutput(IOutput):
 
     def dump_object(self, element: dict):
         self.preprocess_element(element)
-        self._connection.index(index=self._index, body=element)
+        self._connection.index(index=self._index, body=element, request_timeout=self._elasticsearch_config["request_timeout"])
 
     def dump_list(self, elements: list):
         body = []
@@ -58,16 +59,15 @@ class ElasticsearchOutput(IOutput):
             self.preprocess_element(entry)
             body.append({'index': {}})
             body.append(entry)
-            n_batch_elements = n_batch_elements+1
+            n_batch_elements = n_batch_elements + 1
             if n_batch_elements == max:
-                self._connection.bulk(index=self._index, body=body)
+                self._connection.bulk(index=self._index, body=body, request_timeout=self._elasticsearch_config["request_timeout"])
                 n_batch_elements = 0
                 body.clear()
 
-        #elementos que quedaron fuera del ultimo batch
+        # elementos que quedaron fuera del ultimo batch
         if len(body) > 0:
-            self._connection.bulk(index=self._index, body=body)
-
+            self._connection.bulk(index=self._index, body=body, request_timeout=self._elasticsearch_config["request_timeout"])
 
     def preprocess_element(self, element: dict):
         if element:
