@@ -5,6 +5,7 @@ from elasticsearch import Elasticsearch
 from ssl import create_default_context
 
 from src.utils import auxiliar
+from src.utils.time import Time
 
 
 class ElasticsearchOutput(IOutput):
@@ -46,6 +47,7 @@ class ElasticsearchOutput(IOutput):
             self._connection.close()
 
     def dump_object(self, element: dict):
+        self.preprocess_element(element)
         self._connection.index(index=self._index, body=element)
 
     def dump_list(self, elements: list):
@@ -53,6 +55,7 @@ class ElasticsearchOutput(IOutput):
         n_batch_elements = 0
         max = 500
         for entry in elements:
+            self.preprocess_element(entry)
             body.append({'index': {}})
             body.append(entry)
             n_batch_elements = n_batch_elements+1
@@ -64,3 +67,9 @@ class ElasticsearchOutput(IOutput):
         #elementos que quedaron fuera del ultimo batch
         if len(body) > 0:
             self._connection.bulk(index=self._index, body=body)
+
+
+    def preprocess_element(self, element: dict):
+        if element:
+            now = Time.get_utc_timestamp()
+            element["timestamp_indexed"] = Time.change_output_date_format_from_epoch(now)

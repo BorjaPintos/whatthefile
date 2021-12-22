@@ -10,8 +10,6 @@ from src.domain.targetpath import TargetPath
 from src.domain.whatthefileconfiguration import WhatTheFileConfiguration
 import os
 from src.output.ioutput import IOutput
-from datetime import datetime
-
 from src.utils.log import Log
 from src.utils.queue import Queue
 from src.utils.safe import Safe
@@ -83,7 +81,7 @@ class Core:
             Log.debug(str(id) + " - Elemento obtenido: " + str(input))
             try:
                 if os.path.exists(input):
-                    begin_analysis = self.get_utc_timestamp()
+                    begin_analysis = Time.get_utc_timestamp()
                     analysis = {}
                     if os.path.isfile(input):
                         analysis = self._analyze_file(input)
@@ -96,7 +94,7 @@ class Core:
                         target_path = TargetPath(input)
                         analysis = target_path.get_info()
 
-                    end_analysis = self.get_utc_timestamp()
+                    end_analysis = Time.get_utc_timestamp()
                     analysis["begin_analysis"] = Time.change_output_date_format_from_epoch(begin_analysis)
                     analysis["end_analysis"] = Time.change_output_date_format_from_epoch(end_analysis)
                     analysis["total_analysis_duration"] = end_analysis - begin_analysis
@@ -132,7 +130,7 @@ class Core:
         result = {}
         for module in self._modules:
             if module.get_mod().is_valid_for(target):
-                start_module = self.get_utc_timestamp()
+                start_module = Time.get_utc_timestamp()
                 try:
                     result[module.get_name()] = {}
                     result[module.get_name()] = module.get_mod().run(target, result)
@@ -140,11 +138,10 @@ class Core:
                     raise IgnoreAnalysisException()
                 except Exception as e:
                     result[module.get_name()]["error"] = str(e)
-                end_module = self.get_utc_timestamp()
+                end_module = Time.get_utc_timestamp()
                 result[module.get_name()]["start_module"] = Time.change_output_date_format_from_epoch(start_module)
                 result[module.get_name()]["end_module"] = Time.change_output_date_format_from_epoch(end_module)
                 result[module.get_name()]["total_module_duration"] = end_module - start_module
         return result
 
-    def get_utc_timestamp(self) -> float:
-        return datetime.utcnow().timestamp()
+
