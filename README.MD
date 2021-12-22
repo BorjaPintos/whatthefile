@@ -10,6 +10,8 @@ Pensado para forensics o CTFs
 ![](https://img.shields.io/github/last-commit/borjapintos/whatthefile)
 
 ![](https://img.shields.io/github/workflow/status/borjapintos/whatthefile/Master%20Workflow)
+![](https://img.shields.io/github/workflow/status/borjapintos/whatthefile/Docker%20Build%20Workflow)
+
 
 ![](https://img.shields.io/badge/python-3.7-blue)
 ![](https://img.shields.io/badge/python-3.8-blue)

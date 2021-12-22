@@ -1,6 +1,7 @@
 from src.domain.whatthefileconfiguration import WhatTheFileConfiguration
 
 from datetime import datetime
+
 class Time:
 
     _output_format = "epoch"
@@ -26,3 +27,7 @@ class Time:
                 return timestamp.strftime(Time._output_format)
         except:
             return epoch
+
+    @staticmethod
+    def get_utc_timestamp() -> float:
+        return datetime.utcnow().timestamp()
