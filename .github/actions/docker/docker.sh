@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build ./docker-compose/whatthefile/Dockerfile
+docker build ./docker-compose/whatthefile/
