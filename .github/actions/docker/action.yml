@@ -1,0 +1,7 @@
+name: 'Build Docker'
+description: 'Build docker'
+runs:
+  using: "composite"
+  steps:
+    - run: $GITHUB_ACTION_PATH/docker.sh
+      shell: bash
