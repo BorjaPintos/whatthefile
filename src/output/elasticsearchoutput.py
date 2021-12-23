@@ -49,7 +49,7 @@ class ElasticsearchOutput(IOutput):
 
     def dump_object(self, element: dict):
         self.preprocess_element(element)
-        self._connection.index(index=self._index, body=element, request_timeout=self._elasticsearch_config["request_timeout"])
+        self._connection.index(index=self._index, body=element, request_timeout=int(self._elasticsearch_config["request_timeout"]))
 
     def dump_list(self, elements: list):
         body = []
@@ -61,13 +61,13 @@ class ElasticsearchOutput(IOutput):
             body.append(entry)
             n_batch_elements = n_batch_elements + 1
             if n_batch_elements == max:
-                self._connection.bulk(index=self._index, body=body, request_timeout=self._elasticsearch_config["request_timeout"])
+                self._connection.bulk(index=self._index, body=body, request_timeout=int(self._elasticsearch_config["request_timeout"]))
                 n_batch_elements = 0
                 body.clear()
 
         # elementos que quedaron fuera del ultimo batch
         if len(body) > 0:
-            self._connection.bulk(index=self._index, body=body, request_timeout=self._elasticsearch_config["request_timeout"])
+            self._connection.bulk(index=self._index, body=body, request_timeout=int(self._elasticsearch_config["request_timeout"]))
 
     def preprocess_element(self, element: dict):
         if element:
