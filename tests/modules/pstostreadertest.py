@@ -10,8 +10,8 @@ from src.output.outputfactory import OutputFactory
 
 class PSTOSTReaderTest(unittest.TestCase):
 
-    def test_ost(self):
-        path = "./tests/examples/nromanoff@stark-research-labs.com.pst"
+    def test_pst(self):
+        path = "./tests/examples/nromanoff-stark-research-labs.com.pst"
         target_file = TargetFile(os.path.abspath(path))
         module = Constructor()
         self.assertTrue(module.is_valid_for(target_file))
@@ -20,7 +20,7 @@ class PSTOSTReaderTest(unittest.TestCase):
         self.assertEqual(len(result["messages"]), 532)
 
     def test_parse_pst_with_second_output(self):
-        path = "./tests/examples/nromanoff@stark-research-labs.com.pst"
+        path = "./tests/examples/nromanoff-stark-research-labs.com.pst"
         target_file = TargetFile(path)
         module = Constructor()
         module.set_params({"needs_pipe": True, "output": "list"})
