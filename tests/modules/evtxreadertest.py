@@ -35,8 +35,8 @@ class EvtxReaderTest(unittest.TestCase):
         OutputFactory._get_list_output = lambda params : my_lyst_output
         result = module.run(target_file, {})
         OutputFactory._get_list_output = backup_function
-        self.assertTrue(len(result["events"]) != 0)
-        self.assertTrue(len(my_lyst_output.get_list()), len(result["events"]))
+        self.assertTrue(result["n_events"] != 0)
+        self.assertTrue(len(my_lyst_output.get_list()), result["n_events"])
 
     def test_invalid_file(self):
         path = "./tests/examples/collie.jpg"

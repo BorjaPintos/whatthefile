@@ -3,8 +3,7 @@ from src.domain.targetfile import TargetFile
 from src.domain.targetpath import TargetPath
 from src.modules.imodule import IModule
 from src.modules.mftparser.analyzemft import mftsession, mft
-from src.output.outputfactory import OutputFactory
-from src.utils import auxiliar
+from src.output import utils
 from src.utils.time import Time
 
 
@@ -28,22 +27,16 @@ class Constructor(IModule):
                 return True
         return False
 
-    def _pipe_to_another_output(self, events: list):
-        if "needs_pipe" in self.get_params() \
-                and auxiliar.convert_to_boolean(self.get_params()["needs_pipe"]) \
-                and "output" in self.get_params():
-            pipe = OutputFactory.get_output_by_dict(self.get_params())
-            pipe.dump_list(events)
-
     def run(self, target_file: TargetFile, result_of_previos_modules: dict) -> dict:
         fullmft = self.parse_mft(target_file.get_path())
         mft_objects = []
         for key, value, in fullmft.items():
             info = self._get_interesing_info(value)
             if info is not None:
+                info["path"] = target_file.get_path()
                 mft_objects.append(info)
-        self._pipe_to_another_output(mft_objects)
-        return {"mft": mft_objects}
+        piped = utils.pipe_to_another_output(self._params, mft_objects)
+        return {"n_mft_objects": len(mft_objects)} if piped else {"mft": mft_objects}
 
     def _get_interesing_info(self, record):
         mft_object = {}

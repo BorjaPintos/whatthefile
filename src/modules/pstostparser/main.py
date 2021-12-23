@@ -8,8 +8,7 @@ from src.domain.targetpath import TargetPath
 from src.modules.imodule import IModule
 import pypff
 
-from src.output.outputfactory import OutputFactory
-from src.utils import auxiliar
+from src.output import utils
 from src.utils.safe import Safe
 from src.utils.time import Time
 
@@ -27,7 +26,7 @@ class Constructor(IModule):
             return True
         return False
 
-    def _get_recursirve(self, pypff_folder: pypff.folder) -> List:
+    def _get_recursive(self, pypff_folder: pypff.folder, target_file:TargetFile) -> List:
         result = []
         for item in pypff_folder.sub_items:
             if isinstance(item, pypff.folder):
@@ -38,6 +37,7 @@ class Constructor(IModule):
                         item_message = item.get_sub_message(index)
                         message = {}
                         try:
+                            message["path"] = target_file.get_path()
                             message["folder"] = item.name
                             message["identifier"] = item_message.get_identifier()
                             message["subject"] = item_message.get_subject()
@@ -71,7 +71,7 @@ class Constructor(IModule):
                             pass
                         index += 1
 
-                result.extend(self._get_recursirve(item))
+                result.extend(self._get_recursive(item, target_file))
         return result
 
     def _parse_pstost(self, target_file: TargetFile) -> List:
@@ -80,21 +80,14 @@ class Constructor(IModule):
         try:
             pff_file.open(target_file.get_path())
             pff_root_folder = pff_file.get_root_folder()
-            result = self._get_recursirve(pff_root_folder)
+            result = self._get_recursive(pff_root_folder, target_file)
         except:
             traceback.print_exc()
         finally:
             pff_file.close()
         return result
 
-    def _pipe_to_another_output(self, messages: list):
-        if "needs_pipe" in self.get_params() \
-                and auxiliar.convert_to_boolean(self.get_params()["needs_pipe"]) \
-                and "output" in self.get_params():
-            pipe = OutputFactory.get_output_by_dict(self.get_params())
-            pipe.dump_list(messages)
-
     def run(self, target_file: TargetFile, result_of_previos_modules: dict) -> dict:
         messages = self._parse_pstost(target_file)
-        self._pipe_to_another_output(messages)
-        return {"messages": messages}
+        piped = utils.pipe_to_another_output(self._params, messages)
+        return {"n_messages": len(messages)} if piped else {"messages": messages}
