@@ -21,7 +21,7 @@ class PSTOSTReaderTest(unittest.TestCase):
 
     def test_parse_pst_with_second_output(self):
         path = "./tests/examples/emails.pst"
-        target_file = TargetFile(path)
+        target_file = TargetFile(os.path.abspath(path))
         module = Constructor()
         module.set_params({"needs_pipe": True, "output": "list"})
         my_lyst_output = ListOutput()
