@@ -27,6 +27,16 @@ class StringsTest(unittest.TestCase):
         self.assertEqual(len(result["elements"]), 12)
         self.assertEqual(result["n_elements"], 12)
 
+    def test_string_ignore_extensions(self):
+        path = "./tests/examples/barcode.gif"
+        target_file = TargetFile(path)
+        module = Constructor()
+        module.set_params({"char_min": 5, "ignore_extensions": ".txt,.gif"})
+        self.assertFalse(module.is_valid_for(target_file))
+        path = "./tests/examples/wordlist.txt"
+        target_file = TargetFile(path)
+        self.assertFalse(module.is_valid_for(target_file))
+
 
     def test_invalid_file(self):
         path = "./tests/examples"
