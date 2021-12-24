@@ -37,8 +37,13 @@ class Constructor(IModule):
 
     def is_valid_for(self, target_file: TargetPath):
         if target_file.is_file():
+            if "ignore_extensions" in self.get_params():
+                if isinstance(target_file, TargetFile):
+                    if target_file.get_extension() in self.get_params()["ignore_extensions"].split(","):
+                        return False
             return True
         return False
+
 
     def _get_min_param(self, params: dict):
         if params is None:
