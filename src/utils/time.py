@@ -17,6 +17,8 @@ class Time:
 
     @staticmethod
     def change_output_date_format_from_epoch(epoch : float):
+        if epoch is None:
+            return None
         try:
             if Time._output_format == "epoch_ms":
                 return int(epoch*100)

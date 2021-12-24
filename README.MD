@@ -19,6 +19,7 @@ Pensado para forensics o CTFs
 
 # Módulos
 - **Básico**: Datos específicos del archivo, tipo, tamaño, uid, gid...
+- **BrowserHistory**: Extrae historial de navegadores web (Chrome) y además permite enviarlos por un segundo canal de salida (por ejemplo otro índice de elasticsearch, u otro fichero distinto al del análisis) 
 - **certificatereader**: Extrae información de los certificados tipo PEM y DER
 - **commentExtractor**: Extrae comentarios de ficheros de cógido fuente, html, bash..
 - **entropy**: Calcula la entropia de shannon
@@ -30,7 +31,7 @@ Pensado para forensics o CTFs
 - **metadata**: extracción de metadatos con Exiftool
 - **mftparser**: Parsea el fichero de la MFT, y además permite enviar el resultado por un segundo canal de salida (por ejemplo otro índice de elasticsearch, u otro fichero distinto al del análisis) 
 - **ocrtesseract**: Extrae texto que se visualice en imágenes
-- **pstostparser**: Estrae correos electronicos de ficheros pst/ost  
+- **pstostparser**: Estrae correos electronicos de ficheros pst/ost, y además permite enviarlos por un segundo canal de salida (por ejemplo otro índice de elasticsearch, u otro fichero distinto al del análisis) 
 - **qrbcreader**: Lector de código QR y Códigos de Barras
 - **strings**: extracción de strings
 - **tikaparser**: Obtención del texto de documentos offimáticos, pdfs...

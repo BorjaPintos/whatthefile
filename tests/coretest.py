@@ -167,7 +167,8 @@ class CoreTest(unittest.TestCase):
                          "module.metadata": {"active": True}, "module.ocrtesseract": {"active": True},
                          "module.qrbcreader": {"active": True}, "module.strings": {"active": True, "char_min": 4},
                          "module.virustotal": {"active": True}, "module.zipextractor": {"active": True},
-                         "module.tikaparser": {"active": True}, "module.certificatereader": {"active": True}})
+                         "module.tikaparser": {"active": True}, "module.certificatereader": {"active": True},
+                         "module.browserhisstory": {"active": True}})
         path = "./tests/examples/collie.jpg"
         output = OutputFactory.get_output_by_conf(conf)
         core = Core(conf, output)
