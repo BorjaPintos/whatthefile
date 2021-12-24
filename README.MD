@@ -19,7 +19,7 @@ Pensado para forensics o CTFs
 
 # Módulos
 - **Básico**: Datos específicos del archivo, tipo, tamaño, uid, gid...
-- **BrowserHistory**: Extrae historial de navegadores web (Chrome) y además permite enviarlos por un segundo canal de salida (por ejemplo otro índice de elasticsearch, u otro fichero distinto al del análisis) 
+- **BrowserHistory**: Extrae historial de navegadores web (Chrome, Safari) y además permite enviarlos por un segundo canal de salida (por ejemplo otro índice de elasticsearch, u otro fichero distinto al del análisis) 
 - **certificatereader**: Extrae información de los certificados tipo PEM y DER
 - **commentExtractor**: Extrae comentarios de ficheros de cógido fuente, html, bash..
 - **entropy**: Calcula la entropia de shannon

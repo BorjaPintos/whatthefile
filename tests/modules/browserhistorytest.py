@@ -45,6 +45,16 @@ class BrowserHistoryTest(unittest.TestCase):
         self.assertEqual(len(result["visites"]), 1)
         self.assertEqual(len(result["searchs"]), 0)
 
+    def test_safari_history_v1(self):
+        path = "./tests/examples/browsers/safari/History.db"
+        target_file = TargetFile(path)
+        module = Constructor()
+        self.assertTrue(module.is_valid_for(target_file))
+        result = module.run(target_file, {})
+        self.assertEqual(len(result["downloads"]), 0)
+        self.assertEqual(len(result["visites"]), 25)
+        self.assertEqual(len(result["searchs"]), 0)
+
     def test_invalid_file(self):
         path = "./tests/examples"
         target_file = TargetPath(path)
