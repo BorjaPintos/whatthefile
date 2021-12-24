@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from src.domain.targetfile import TargetFile
-from src.modules.browserhistory.browsers.chromebrowser import ChromeHistory
+from src.modules.browserhistory.browsers.chromehistory import ChromeHistory
+from src.modules.browserhistory.browsers.firefoxhistory import FirefoxHistory
 from src.modules.browserhistory.browsers.ibrowserhistory import IBrowserHistory
-from src.modules.browserhistory.browsers.safaribrowser import SafaryHistory
+from src.modules.browserhistory.browsers.safarihistory import SafaryHistory
 from src.modules.imodule import IModule
 from src.domain.targetpath import TargetPath
 from src.output import utils
@@ -23,20 +24,23 @@ class Constructor(IModule):
                 return SafaryHistory(target_file.get_path())
             else:
                 return ChromeHistory(target_file.get_path())
+        else:
+            if "places" in target_file.get_name():
+                return FirefoxHistory(target_file.get_path())
         return None
-
 
     def _get_info(self, target_file: TargetFile) -> dict:
         browser = self._getBrowser(target_file)
         if browser:
             return {"downloads": browser.get_downloads(),
-                      "visites": browser.get_visites(),
-                      "searchs": browser.get_searchs()}
+                    "visites": browser.get_visites(),
+                    "searchs": browser.get_searchs()}
         return None
 
     def is_valid_for(self, target_file: TargetPath):
         if target_file.is_file():
-            if "SQLite" in target_file.get_type() and "History" in target_file.get_name():
+            if "SQLite" in target_file.get_type() and ("History" in target_file.get_name() \
+                    or "places" in target_file.get_name()):
                 return True
         return False
 
