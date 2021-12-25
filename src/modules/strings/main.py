@@ -23,17 +23,21 @@ class Constructor(IModule):
 
     @staticmethod
     def get_windows_command(path: str, min_chars: str) -> List:
-        return ["strings.exe", "--accepteula", "-nobanner","-n", min_chars, path]
+        return ["strings.exe", "--accepteula", "-nobanner","-n", str(min_chars), path]
 
     @staticmethod
-    def get_linux_mac_command(path: str, min_chars: int) -> List:
-        return ["strings", "-n", min_chars, path]
+    def get_linux_command(path: str, min_chars: int) -> List:
+        return ["strings", "-n", str(min_chars-1), path]
+
+    @staticmethod
+    def get_mac_command(path: str, min_chars: int) -> List:
+        return ["strings", "-n", str(min_chars), path]
 
     @staticmethod
     def get_command(path: str, min_chars: str):
         switch = {
-            SO.MACOS: Constructor.get_linux_mac_command,
-            SO.LINUX: Constructor.get_linux_mac_command,
+            SO.MACOS: Constructor.get_mac_command,
+            SO.LINUX: Constructor.get_linux_command,
             SO.WINDOWS: Constructor.get_windows_command,
         }
         platform = auxiliar.get_SO()
@@ -43,7 +47,7 @@ class Constructor(IModule):
 
     def _strings(self, target_file: TargetFile, min_chars: int) -> List:
         call = subprocess.run(
-            Constructor.get_command(target_file.get_path(), str(min_chars)),
+            Constructor.get_command(target_file.get_path(), min_chars),
             capture_output=True)
         if len(call.stderr) > 0:
             raise Exception(call.stderr.decode("UTF-8"))
