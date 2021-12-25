@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import subprocess
+import traceback
 from typing import List
 
 from src.domain.enumso import SO
@@ -46,9 +47,13 @@ class Constructor(IModule):
         return None
 
     def _strings(self, target_file: TargetFile, min_chars: int) -> List:
-        call = subprocess.run(
-            Constructor.get_command(target_file.get_path(), min_chars),
-            capture_output=True)
+        try:
+            call = subprocess.run(
+                Constructor.get_command(target_file.get_path(), min_chars),
+                shell=True, capture_output=True)
+        except:
+            traceback.print_exc()
+
         if len(call.stderr) > 0:
             #raise Exception(call.stderr.decode("UTF-8"))
             data = call.stderr.decode("UTF-8").split("\n")
