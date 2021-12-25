@@ -14,6 +14,7 @@ class StringsTest(unittest.TestCase):
         self.assertTrue(module.is_valid_for(target_file))
         module.set_params({"char_min": 9})
         result = module.run(target_file, {})
+        print(result)
         self.assertEqual(result["elements"][0], "collie.jpg")
         self.assertTrue(result["n_elements"] >= 4)
 
@@ -24,6 +25,7 @@ class StringsTest(unittest.TestCase):
         self.assertTrue(module.is_valid_for(target_file))
         module.set_params({"char_min": 5})
         result = module.run(target_file, {})
+        print(result)
         self.assertTrue(len(result["elements"]) >= 10)
         self.assertTrue(result["n_elements"] >= 10)
 
