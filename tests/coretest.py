@@ -40,8 +40,7 @@ class CoreTest(unittest.TestCase):
         output = OutputFactory.get_output_by_conf(conf)
         core = Core(conf, output)
         core.run(path)
-        self.assertEqual(len(output.get_list()[0]["strings"]["elements"]), 3)
-        self.assertEqual(output.get_list()[0]["strings"]["n_elements"], 3)
+        self.assertEqual(output.get_list()[0]["strings"]["elements"][0], "collie.jpg")
 
     def test_run_zipextractor(self):
         conf = WhatTheFileConfiguration()

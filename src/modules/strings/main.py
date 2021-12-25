@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
-import string
+import subprocess
+import traceback
+from typing import List
 
+from src.domain.enumso import SO
 from src.domain.targetfile import TargetFile
 from src.domain.targetpath import TargetPath
 from src.modules.imodule import IModule
+from src.utils import auxiliar
 
 MIN = "char_min"
 
@@ -18,22 +22,39 @@ class Constructor(IModule):
         self._author = "BorjaPintos"
         self._default_params = {MIN: 4}
 
-    def _strings(self, binary: bytes, min_chars: int) -> list:
-        bytes_printables = []
-        for char in string.printable:
-            bytes_printables.append(char.encode("utf-8"))
-        words = []
-        result = ""
-        # c es un entero pero necesita pasarse a 1 byte
-        for c in binary:
-            byte = c.to_bytes(1, byteorder='big')
-            if byte in bytes_printables:
-                result += byte.decode("utf-8")
-                continue
-            if len(result) >= min_chars:
-                words.append(result)
-            result = ""
-        return words
+    @staticmethod
+    def get_windows_command(path: str, min_chars: str) -> List:
+        return ["strings.exe", "-accepteula", "-nobanner", "-n", str(min_chars), path]
+
+    @staticmethod
+    def get_linux_command(path: str, min_chars: int) -> List:
+        return ["strings", "-n", str(min_chars), path]
+
+    @staticmethod
+    def get_mac_command(path: str, min_chars: int) -> List:
+        return ["strings", "-n", str(min_chars), path]
+
+    @staticmethod
+    def get_command(path: str, min_chars: int):
+        switch = {
+            SO.MACOS: Constructor.get_mac_command,
+            SO.LINUX: Constructor.get_linux_command,
+            SO.WINDOWS: Constructor.get_windows_command,
+        }
+        platform = auxiliar.get_SO()
+        if platform:
+            return switch.get(platform)(path, min_chars)
+        return None
+
+    def _strings(self, target_file: TargetFile, min_chars: int) -> List:
+        call = subprocess.run(
+            Constructor.get_command(target_file.get_path(), min_chars),
+            capture_output=True)
+        if len(call.stderr) > 0:
+            raise Exception(auxiliar.get_str_utf_8_from_bytes(call.stderr))
+        else:
+            data = auxiliar.get_str_utf_8_from_bytes(call.stdout).splitlines()
+            return list(filter(lambda a: a != "", data))
 
     def is_valid_for(self, target_file: TargetPath):
         if target_file.is_file():
@@ -43,7 +64,6 @@ class Constructor(IModule):
                         return False
             return True
         return False
-
 
     def _get_min_param(self, params: dict):
         if params is None:
@@ -58,8 +78,9 @@ class Constructor(IModule):
         try:
             min_chars = int(self._get_min_param(self.get_params()))
             if min_chars:
-                result = {"elements": self._strings(target_file.get_binary(), min_chars), ">=": min_chars}
+                result = {"elements": self._strings(target_file, min_chars), ">=": min_chars}
                 result["n_elements"] = len(result["elements"])
-        except:
-            result = {"error": "invalid argument for module"}
+        except BaseException as e:
+            traceback.print_exc()
+            result = {"error": str(e)}
         return result
