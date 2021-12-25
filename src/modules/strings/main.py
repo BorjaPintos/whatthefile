@@ -53,7 +53,7 @@ class Constructor(IModule):
         if len(call.stderr) > 0:
             raise Exception(auxiliar.get_str_utf_8_from_bytes(call.stderr))
         else:
-            data = auxiliar.get_str_utf_8_from_bytes(call.stdout).split("\n")
+            data = auxiliar.get_str_utf_8_from_bytes(call.stdout).splitlines()
             return list(filter(lambda a: a != "", data))
 
     def is_valid_for(self, target_file: TargetPath):
