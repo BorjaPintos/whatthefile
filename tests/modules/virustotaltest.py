@@ -19,15 +19,6 @@ class VirusTotalTest(unittest.TestCase):
         result = module.run(target_file, {})
         self.assertEqual(result["error"], "apikey is required")
 
-    def test_with_invalid_apikey(self):
-        path = "./tests/examples/collie.jpg"
-        target_file = TargetFile(path)
-        module = Constructor()
-        self.assertTrue(module.is_valid_for(target_file))
-        module.set_params(params)
-        result = module.run(target_file, {})
-        self.assertEqual(result["error"], "Invalid API KEY")
-
     def test_virus(self):
         path = "./tests/examples/collie.jpg"
         target_file = TargetFile(path)

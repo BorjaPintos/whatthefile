@@ -36,6 +36,13 @@ elif [ "$RUNNER_OS" == "macOS" ]; then
   brew install zbar
 fi
 
+#strings
+if [ "$RUNNER_OS" == "Windows" ]; then
+  curl --output Strings.zip --url https://download.sysinternals.com/files/Strings.zip
+  unzip -qq ./Strings.zip -d "./Strings"
+  echo "./Strings/" >> $GITHUB_PATH
+fi
+
 sh ./installmodulesrequirements.sh
 
 

@@ -1,14 +1,24 @@
+import platform
+
+from src.domain.enumso import SO
+
 BOOLEAN_STATES = {
-        '1': True,
-        'si': True,
-        'yes': True,
-        'true': True,
-        'on': True,
-        '0': False,
-        'no': False,
-        'false': False,
-        'off': False,
-    }
+    '1': True,
+    'si': True,
+    'yes': True,
+    'true': True,
+    'on': True,
+    '0': False,
+    'no': False,
+    'false': False,
+    'off': False,
+}
+
+PLATFORMS = {
+    'Linux': SO.LINUX,
+    'Windows': SO.WINDOWS,
+    'Darwin': SO.MACOS
+}
 
 
 def convert_to_boolean(value):
@@ -20,3 +30,10 @@ def convert_to_boolean(value):
         return BOOLEAN_STATES[value.lower()]
     else:
         return False
+
+
+def get_SO():
+    name = platform.system()
+    if name not in PLATFORMS:
+        return None
+    return PLATFORMS[name]
