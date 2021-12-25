@@ -23,18 +23,18 @@ class Constructor(IModule):
 
     @staticmethod
     def get_windows_command(path: str, min_chars: str) -> List:
-        return ["strings.exe", "--accepteula", "-nobanner","-n", str(min_chars), path]
+        return ["strings.exe", "--accepteula", "-nobanner", "-n", str(min_chars), path]
 
     @staticmethod
     def get_linux_command(path: str, min_chars: int) -> List:
-        return ["strings", "-n", str(min_chars-1), path]
+        return ["strings", "-n", str(min_chars), path]
 
     @staticmethod
     def get_mac_command(path: str, min_chars: int) -> List:
         return ["strings", "-n", str(min_chars), path]
 
     @staticmethod
-    def get_command(path: str, min_chars: str):
+    def get_command(path: str, min_chars: int):
         switch = {
             SO.MACOS: Constructor.get_mac_command,
             SO.LINUX: Constructor.get_linux_command,
