@@ -24,7 +24,7 @@ class Constructor(IModule):
 
     @staticmethod
     def get_windows_command(path: str, min_chars: str) -> List:
-        return ["strings.exe", "--accepteula", "-nobanner", "-n", str(min_chars), path]
+        return ["strings.exe", "-accepteula", "-nobanner", "-n", str(min_chars), path]
 
     @staticmethod
     def get_linux_command(path: str, min_chars: int) -> List:
