@@ -37,3 +37,16 @@ def get_SO():
     if name not in PLATFORMS:
         return None
     return PLATFORMS[name]
+
+
+def get_str_utf_8_from_bytes(binary_bytes: bytes) -> str:
+
+    types = ["utf-8","latin-1",  "utf-16", "utf-32", "mbcs"]
+    for tipo in types:
+        try:
+            return binary_bytes.decode(tipo)
+        except:
+            pass
+            "try next type"
+
+    return None

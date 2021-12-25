@@ -51,9 +51,9 @@ class Constructor(IModule):
             Constructor.get_command(target_file.get_path(), min_chars),
             capture_output=True)
         if len(call.stderr) > 0:
-            raise Exception(call.stderr.decode("UTF-8"))
+            raise Exception(auxiliar.get_str_utf_8_from_bytes(call.stderr))
         else:
-            data = call.stdout.decode("UTF-8").split("\n")
+            data = auxiliar.get_str_utf_8_from_bytes(call.stdout).split("\n")
             return list(filter(lambda a: a != "", data))
 
     def is_valid_for(self, target_file: TargetPath):

@@ -4,6 +4,7 @@ import magic
 import hashlib
 
 from src.domain.targetpath import TargetPath
+from src.utils import auxiliar
 
 
 class TargetFile(TargetPath):
@@ -18,7 +19,7 @@ class TargetFile(TargetPath):
             self._type = self._get_filetype_from_path(self._path)
         except:
             "hay un bug en la libreria magic y este es el workarround"
-            self._type = self._get_filetype_from_binary(self.get_utf_8_binary(self.get_binary()))
+            self._type = self._get_filetype_from_binary(auxialiar.get_utf_8_binary(self.get_binary()))
 
 
     def _validate_path(self):
@@ -46,13 +47,11 @@ class TargetFile(TargetPath):
         try:
             binary.decode("utf-8")
         except:
-            types = ["latin-1",  "utf-16", "utf-32", "mbcs"]
-            for type in types:
-                try:
-                    return binary.decode(type).encode("utf-8")
-                except:
-                    pass
-                    "try next type"
+            try:
+                return auxiliar.get_str_utf_8_from_bytes().encode("utf-8")
+            except:
+                pass
+                "try next type"
 
         return binary
 
