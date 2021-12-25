@@ -50,7 +50,9 @@ class Constructor(IModule):
             Constructor.get_command(target_file.get_path(), min_chars),
             capture_output=True)
         if len(call.stderr) > 0:
-            raise Exception(call.stderr.decode("UTF-8"))
+            #raise Exception(call.stderr.decode("UTF-8"))
+            data = call.stderr.decode("UTF-8").split("\n")
+            return list(filter(lambda a: a != "", data))
         else:
             data = call.stdout.decode("UTF-8").split("\n")
             return list(filter(lambda a: a != "", data))
