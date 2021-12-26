@@ -5,6 +5,7 @@ class Visite:
 
     def __init__(self, **kwargs):
         self.path = kwargs.get("path")
+        self.browser = kwargs.get("browser")
         self.title = kwargs.get("title", None)
         self.url = kwargs.get("url", None)
         self.visit_count = kwargs.get("visit_count", None)

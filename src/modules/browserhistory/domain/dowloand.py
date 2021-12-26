@@ -4,6 +4,7 @@ class Download:
 
     def __init__(self, **kwargs):
         self.path = kwargs.get("path")
+        self.browser = kwargs.get("browser")
         self.site_url = kwargs.get("site_url", None)
         self.tab_url = kwargs.get("tab_url", None)
         self.target_path = kwargs.get("target_path", None)
