@@ -9,6 +9,9 @@ from src.utils import sqlite
 
 
 class ChromeHistory(IBrowserHistory):
+
+    BROWSER = "Chrome"
+
     VISITQUERYv1 = """
     select 
     u.title, 
@@ -53,7 +56,7 @@ class ChromeHistory(IBrowserHistory):
 
         returned_list = []
         for row in sqlite.execute_query(self._path, self.DOWNLOADSQUERYv1):
-            download = Download(path=self._path,
+            download = Download(path=self._path, browser=self.BROWSER,
                                 site_url=row[0], tab_url=row[1], target_path=row[2],
                                 start_time=row[3], end_time=row[4],
                                 mime_type=row[5], received_bytes=row[6], total_bytes=row[7])
@@ -64,7 +67,7 @@ class ChromeHistory(IBrowserHistory):
 
         returned_list = []
         for row in sqlite.execute_query(self._path, self.DOWNLOADSQUERYv2):
-            download = Download(path=self._path,
+            download = Download(path=self._path, browser=self.BROWSER,
                                 site_url=row[0], target_path=row[1],
                                 start_time=row[2], received_bytes=row[3], total_bytes=row[4])
             returned_list.append(download.__dict__)
@@ -84,7 +87,7 @@ class ChromeHistory(IBrowserHistory):
     def _get_visitesv1(self) -> List:
         returned_list = []
         for row in sqlite.execute_query(self._path, self.VISITQUERYv1):
-            visite = Visite(path=self._path,
+            visite = Visite(path=self._path, browser=self.BROWSER,
                             title=row[0], url=row[1], visit_count=row[2],
                             visit_time=row[3], last_visit_time=row[4],
                             from_url=row[5], from_title=row[6])
@@ -102,7 +105,7 @@ class ChromeHistory(IBrowserHistory):
     def _get_searchsv1(self) -> List:
         returned_list = []
         for row in sqlite.execute_query(self._path, self.SEARCHQUERYv1):
-            search = Search(path=self._path,
+            search = Search(path=self._path, browser=self.BROWSER,
                             term=row[0], url=row[1], title=row[2])
             returned_list.append(search.__dict__)
         return returned_list
