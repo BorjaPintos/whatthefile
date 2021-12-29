@@ -14,3 +14,6 @@ ES12 3456 7890 1234 5678 9012 este es uno
 Este otro ES1234567890123456789012
 
  y aquí intento engañar con este verdadero ES12-3456-7890-1234-5678-9011 y este falso ES12-3456-7890-1234-5678-901
+
+
+BITCOIN: 3KVkBhzGfAH4s4tGZA9yfbUJwhcwHBkdKC

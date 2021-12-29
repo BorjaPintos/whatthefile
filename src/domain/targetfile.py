@@ -19,7 +19,7 @@ class TargetFile(TargetPath):
             self._type = self._get_filetype_from_path(self._path)
         except:
             "hay un bug en la libreria magic y este es el workarround"
-            self._type = self._get_filetype_from_binary(auxialiar.get_utf_8_binary(self.get_binary()))
+            self._type = self._get_filetype_from_binary(TargetFile.get_utf_8_binary(self.get_binary()))
 
 
     def _validate_path(self):
