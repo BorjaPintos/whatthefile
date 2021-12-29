@@ -19,19 +19,19 @@ Pensado para forensics o CTFs
 
 # Módulos
 - **Básico**: Datos específicos del archivo, tipo, tamaño, uid, gid...
-- **BrowserHistory**: Extrae historial de navegadores web (Chrome, Safari) y además permite enviarlos por un segundo canal de salida (por ejemplo otro índice de elasticsearch, u otro fichero distinto al del análisis) 
+- **BrowserHistory**: Extrae historial de navegadores web (Chrome, Safari, Firefox) y además permite enviarlos por un segundo canal de salida (por ejemplo otro índice de elasticsearch, u otro fichero distinto al del análisis) 
 - **certificatereader**: Extrae información de los certificados tipo PEM y DER
-- **commentExtractor**: Extrae comentarios de ficheros de cógido fuente, html, bash..
+- **commentExtractor**: Extrae comentarios de ficheros de códido fuente, html, bash..
 - **entropy**: Calcula la entropia de shannon
 - **evtxreader**: Parsea eventos interesantes de ficheros de eventos del sistema, y además permite enviarlos por un segundo canal de salida (por ejemplo otro índice de elasticsearch, u otro fichero distinto al del análisis) 
 - **hashes**: Realiza diversos hashes
 - **ignore**: Modulo encargado de anular el análisis del fichero actual si cumple ciertos requisitos como hashes, tamaños, paths o extensiones
 - **imagerecognitiontensorflow**: reconocimiento de imágenes usando tensorflow.
-- **infoextractor**: extracción de emails, urls, iban de ficheros de texto.
+- **infoextractor**: extracción de emails, urls, iban, direcciones bitcoin de los módulos ejecutados.
 - **metadata**: extracción de metadatos con Exiftool
 - **mftparser**: Parsea el fichero de la MFT, y además permite enviar el resultado por un segundo canal de salida (por ejemplo otro índice de elasticsearch, u otro fichero distinto al del análisis) 
 - **ocrtesseract**: Extrae texto que se visualice en imágenes
-- **pstostparser**: Estrae correos electronicos de ficheros pst/ost, y además permite enviarlos por un segundo canal de salida (por ejemplo otro índice de elasticsearch, u otro fichero distinto al del análisis) 
+- **pstostparser**: Estrae correos electrónicos de ficheros pst/ost, y además permite enviarlos por un segundo canal de salida (por ejemplo otro índice de elasticsearch, u otro fichero distinto al del análisis) 
 - **qrbcreader**: Lector de código QR y Códigos de Barras
 - **strings**: extracción de strings
 - **tikaparser**: Obtención del texto de documentos offimáticos, pdfs...

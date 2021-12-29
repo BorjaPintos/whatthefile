@@ -11,14 +11,14 @@ EMAILS = re.compile(r"[\w.+]+@[a-zA-Z_]+?\.[a-zA-Z]{2,4}")
 URLS = re.compile(r"""(([a-zA-Z]+://){1}[^'"\s]+)""")
 IBAN = re.compile(
     r"[A-Z]{2}\d{22}|[A-Z]{2}\d{2}[ ]\d{4}[ ]\d{4}[ ]\d{4}[ ]\d{4}[ ]\d{4}|[A-Z]{2}\d{2}[-]\d{4}[-]\d{4}[-]\d{4}[-]\d{4}[-]\d{4}")
-
+BITCOIN = re.compile(r"([13]{1}[a-km-zA-HJ-NP-Z1-9]{26,33}|bc1[a-z0-9]{39,59})")
 
 class Constructor(IModule):
 
     def __init__(self):
         super().__init__()
         self._name = "infotextractor"
-        self._help = """Module to extract information like, emails, ulrs, ibans .."""
+        self._help = """Module to extract information like, emails, ulrs, ibans, bitcoin address ..."""
         self._author = "BorjaPintos"
         self._params = None
 
@@ -34,13 +34,16 @@ class Constructor(IModule):
     def _get_ibans(self, string: str) -> list:
         return re.findall(IBAN, string)
 
+    def _get_bitcoin_address(self, string: str) -> list:
+        return re.findall(BITCOIN, string)
+
     def is_valid_for(self, target_file: TargetPath):
         if target_file.is_file():
             return True
         return False
 
     def _clean(self, result: dict) -> dict:
-        properties = ["emails", "URLs", "IBANs"]
+        properties = ["emails", "URLs", "IBANs", "Bitcoin"]
         for property in properties:
             if len(result[property]) == 0:
                 del result[property]
@@ -48,11 +51,13 @@ class Constructor(IModule):
 
     def _get_info_module_strings(self, result_of_previos_modules: dict) -> dict:
         try:
+
             if "strings" in result_of_previos_modules and "elements" in result_of_previos_modules["strings"]:
                 strings = result_of_previos_modules["strings"]["elements"]
                 return {"emails": self._get_emails(strings),
                         "URLs": self._get_urls(strings),
-                        "IBANs": self._get_ibans(strings)}
+                        "IBANs": self._get_ibans(strings),
+                        "Bitcoin": self._get_bitcoin_address(strings)}
         except:
             pass
         return {}
@@ -63,7 +68,8 @@ class Constructor(IModule):
                 content = result_of_previos_modules["tikaparser"]["content"]
                 return {"emails": self._get_emails(content),
                         "URLs": self._get_urls(content),
-                        "IBANs": self._get_ibans(content)}
+                        "IBANs": self._get_ibans(content),
+                        "Bitcoin": self._get_bitcoin_address(content)}
         except:
             pass
         return {}
@@ -78,7 +84,8 @@ class Constructor(IModule):
 
                 return {"emails": self._get_emails(values),
                         "URLs": self._get_urls(values),
-                        "IBANs": self._get_ibans(values)}
+                        "IBANs": self._get_ibans(values),
+                        "Bitcoin": self._get_bitcoin_address(values)}
         except:
             pass
         return {}
@@ -93,7 +100,8 @@ class Constructor(IModule):
 
                 return {"emails": self._get_emails(qrbcs),
                         "URLs": self._get_urls(qrbcs),
-                        "IBANs": self._get_ibans(qrbcs)}
+                        "IBANs": self._get_ibans(qrbcs),
+                        "Bitcoin": self._get_bitcoin_address(qrbcs)}
         except:
             pass
         return {}
@@ -108,7 +116,8 @@ class Constructor(IModule):
 
                 return {"emails": self._get_emails(all_messages),
                         "URLs": self._get_urls(all_messages),
-                        "IBANs": self._get_ibans(all_messages)}
+                        "IBANs": self._get_ibans(all_messages),
+                        "Bitcoin": self._get_bitcoin_address(all_messages)}
         except:
             pass
         return {}
@@ -123,14 +132,16 @@ class Constructor(IModule):
                           "IBANs": []}
                 if "issuer" in result_of_previos_modules["certificatereader"]:
                     issuer = result_of_previos_modules["certificatereader"]["issuer"]
-                    result["emails"] = self._get_emails(issuer)
-                    result["URLs"] = self._get_urls(issuer)
-                    result["IBANs"] = self._get_ibans(issuer)
+                    result["emails"].extend(self._get_emails(issuer))
+                    result["URLs"].extend(self._get_urls(issuer))
+                    result["IBANs"].extend(self._get_ibans(issuer))
+                    result["Bitcoin"].extend(self._get_bitcoin_address(issuer))
                 if "subject" in result_of_previos_modules["certificatereader"]:
                     subject = result_of_previos_modules["certificatereader"]["subject"]
-                    result["emails"] = self._get_emails(subject)
-                    result["URLs"] = self._get_urls(subject)
-                    result["IBANs"] = self._get_ibans(subject)
+                    result["emails"].extend(self._get_emails(subject))
+                    result["URLs"].extend(self._get_urls(subject))
+                    result["IBANs"].extend(self._get_ibans(subject))
+                    result["Bitcoin"].extend(self._get_bitcoin_address(subject))
         except:
             pass
 
@@ -147,19 +158,8 @@ class Constructor(IModule):
 
                 return {"emails": self._get_emails(text),
                         "URLs": self._get_urls(text),
-                        "IBANs": self._get_ibans(text)}
-        except:
-            pass
-        return {}
-
-    def _get_info_from_binary(self, target_file: TargetFile) -> dict:
-        try:
-            if "ASCII text" or "UTF-8 Unicode text" in target_file.get_type():
-                "obtenemos los datos del propio binario"
-                string = target_file.get_binary().decode('utf-8')
-                return {"emails": self._get_emails(string),
-                        "URLs": self._get_urls(string),
-                        "IBANs": self._get_ibans(string)}
+                        "IBANs": self._get_ibans(text),
+                        "Bitcoin": self._get_bitcoin_address(text)}
         except:
             pass
         return {}
@@ -169,14 +169,15 @@ class Constructor(IModule):
             path = target_file.get_path()
             return {"emails": self._get_emails(path),
                 "URLs": self._get_urls(path),
-                "IBANs": self._get_ibans(path)}
+                "IBANs": self._get_ibans(path),
+                "Bitcoin": self._get_bitcoin_address(path)}
 
         except:
             pass
         return {}
 
     def _fusion_resuls(self, results: List[dict]) -> dict:
-        keys = ["emails", "URLs", "IBANs"]
+        keys = ["emails", "URLs", "IBANs", "Bitcoin"]
         final_result = {}
         for key in keys:
             final_result[key] = []
@@ -188,7 +189,6 @@ class Constructor(IModule):
 
     def run(self, target_file: TargetFile, result_of_previos_modules: dict) -> dict:
         results = [
-            self._get_info_from_binary(target_file),
             self._get_info_from_path(target_file),
             self._get_info_module_tika(result_of_previos_modules),
             self._get_info_module_strings(result_of_previos_modules),
