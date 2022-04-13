@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
-import os
 import unittest
 from src.domain.targetfile import TargetFile
-from src.domain.targetpath import TargetPath
-from src.modules.infoextractor.main import Constructor
+from src.application.infoextractor.infoextactor import Infoextractor
 from src.utils import auxiliar
 
 
@@ -12,10 +10,10 @@ class InfoExtractorTest(unittest.TestCase):
     def test_info(self):
         path = "./tests/examples/importantinfo.txt"
         target_file = TargetFile(path)
-        module = Constructor()
-        self.assertTrue(module.is_valid_for(target_file))
-        result = module.run(target_file,
-                            {"strings": {"elements": auxiliar.get_str_utf_8_from_bytes(target_file.get_binary())}})
+        infoextractor = Infoextractor()
+        result = infoextractor.run({
+            "strings": {"elements": auxiliar.get_str_utf_8_from_bytes(target_file.get_binary())}
+        })
         self.assertEqual(result["emails"], ['cosa@cosa.com', 'cosita2@cosita.com', 'cosita3@pron.com'])
         self.assertEqual(result["IBANs"],
                          ['ES12 3456 7890 1234 5678 9012', 'ES1234567890123456789012', 'ES12-3456-7890-1234-5678-9011'])
@@ -24,11 +22,8 @@ class InfoExtractorTest(unittest.TestCase):
         self.assertEqual(result["Bitcoin"], ['3KVkBhzGfAH4s4tGZA9yfbUJwhcwHBkdKC'])
 
     def test_extract_info_from_other_modules(self):
-        path = "./tests/examples/cert.pem"
-        target_file = TargetFile(path)
-        module = Constructor()
-        self.assertTrue(module.is_valid_for(target_file))
-        result = module.run(target_file, self.get_info_modules_prev_dummy())
+        infoextractor = Infoextractor()
+        result = infoextractor.run(self.get_info_modules_prev_dummy())
         self.assertEqual(result["emails"],
                          ['cosa@cosa.com', 'cosita2@cosita.com', 'cosita3@pron.com', 'nope@nope.nope',
                           "thresh@thresh.com", "blur@blur.com"])
@@ -41,20 +36,11 @@ class InfoExtractorTest(unittest.TestCase):
         self.assertEqual(result["Bitcoin"], ['3KVkBhzGfAH4s4tGZA9yfbUJwhcwHBkdKC'])
 
     def test_with_not_info(self):
-        path = "./tests/examples/Prueba.c"
-        target_file = TargetFile(path)
-        module = Constructor()
-        self.assertTrue(module.is_valid_for(target_file))
-        result = module.run(target_file, {})
+        infoextractor = Infoextractor()
+        result = infoextractor.run({})
         self.assertTrue("emails" not in result)
         self.assertTrue("URLs" not in result)
         self.assertTrue("IBANs" not in result)
-
-    def test_invalid_file(self):
-        path = "./tests/examples"
-        target_file = TargetPath(path)
-        module = Constructor()
-        self.assertFalse(module.is_valid_for(target_file))
 
     def get_info_modules_prev_dummy(self):
         return {

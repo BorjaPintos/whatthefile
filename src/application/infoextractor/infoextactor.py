@@ -2,24 +2,16 @@
 import re
 from typing import List
 
-from src.domain.targetfile import TargetFile
-from src.modules.imodule import IModule
-from src.domain.targetpath import TargetPath
-from src.utils.log import Log
-
 EMAILS = re.compile(r"[\w.+]+@[a-zA-Z_]+?\.[a-zA-Z]{2,4}")
 URLS = re.compile(r"""(([a-zA-Z]+://){1}[^'"\s]+)""")
 IBAN = re.compile(
     r"[A-Z]{2}\d{22}|[A-Z]{2}\d{2}[ ]\d{4}[ ]\d{4}[ ]\d{4}[ ]\d{4}[ ]\d{4}|[A-Z]{2}\d{2}[-]\d{4}[-]\d{4}[-]\d{4}[-]\d{4}[-]\d{4}")
 BITCOIN = re.compile(r"([13]{1}[a-km-zA-HJ-NP-Z1-9]{26,33}|bc1[a-z0-9]{39,59})")
 
-class Constructor(IModule):
+
+class Infoextractor:
 
     def __init__(self):
-        super().__init__()
-        self._name = "infotextractor"
-        self._help = """Module to extract information like, emails, ulrs, ibans, bitcoin address ..."""
-        self._author = "BorjaPintos"
         self._params = None
 
     def _get_emails(self, string: str) -> list:
@@ -37,11 +29,6 @@ class Constructor(IModule):
     def _get_bitcoin_address(self, string: str) -> list:
         return re.findall(BITCOIN, string)
 
-    def is_valid_for(self, target_file: TargetPath):
-        if target_file.is_file():
-            return True
-        return False
-
     def _clean(self, result: dict) -> dict:
         properties = ["emails", "URLs", "IBANs", "Bitcoin"]
         for property in properties:
@@ -49,11 +36,11 @@ class Constructor(IModule):
                 del result[property]
         return result
 
-    def _get_info_module_strings(self, result_of_previos_modules: dict) -> dict:
+    def _get_info_module_strings(self, resume: dict) -> dict:
         try:
 
-            if "strings" in result_of_previos_modules and "elements" in result_of_previos_modules["strings"]:
-                strings = result_of_previos_modules["strings"]["elements"]
+            if "strings" in resume and "elements" in resume["strings"]:
+                strings = resume["strings"]["elements"]
                 return {"emails": self._get_emails(strings),
                         "URLs": self._get_urls(strings),
                         "IBANs": self._get_ibans(strings),
@@ -62,10 +49,10 @@ class Constructor(IModule):
             pass
         return {}
 
-    def _get_info_module_tika(self, result_of_previos_modules: dict) -> dict:
+    def _get_info_module_tika(self, resume: dict) -> dict:
         try:
-            if "tikaparser" in result_of_previos_modules and "content" in result_of_previos_modules["tikaparser"]:
-                content = result_of_previos_modules["tikaparser"]["content"]
+            if "tikaparser" in resume and "content" in resume["tikaparser"]:
+                content = resume["tikaparser"]["content"]
                 return {"emails": self._get_emails(content),
                         "URLs": self._get_urls(content),
                         "IBANs": self._get_ibans(content),
@@ -74,11 +61,11 @@ class Constructor(IModule):
             pass
         return {}
 
-    def _get_info_module_metadata(self, result_of_previos_modules: dict) -> dict:
+    def _get_info_module_metadata(self, resume: dict) -> dict:
         try:
-            if "metadata" in result_of_previos_modules and "values" in result_of_previos_modules["metadata"]:
+            if "metadata" in resume and "values" in resume["metadata"]:
                 values = ""
-                for value in result_of_previos_modules["metadata"]["values"]:
+                for value in resume["metadata"]["values"]:
                     # reunimos todos los values en una linea para hacer el parseo más sencillo
                     values = values + " " + str(value)
 
@@ -90,13 +77,13 @@ class Constructor(IModule):
             pass
         return {}
 
-    def _get_info_module_qrbcreader(self, result_of_previos_modules: dict) -> dict:
+    def _get_info_module_qrbcreader(self, resume: dict) -> dict:
         try:
-            if "qrbcreader" in result_of_previos_modules:
+            if "qrbcreader" in resume:
                 qrbcs = ""
-                for key in result_of_previos_modules["qrbcreader"]:
+                for key in resume["qrbcreader"]:
                     # reunimos todos los qrbc en una linea para hacer el parseo más sencillo
-                    qrbcs = qrbcs + " " + str(result_of_previos_modules["qrbcreader"][key])
+                    qrbcs = qrbcs + " " + str(resume["qrbcreader"][key])
 
                 return {"emails": self._get_emails(qrbcs),
                         "URLs": self._get_urls(qrbcs),
@@ -106,38 +93,65 @@ class Constructor(IModule):
             pass
         return {}
 
-    def _get_info_module_pstostparser(self, result_of_previos_modules: dict) -> dict:
+    def _get_info_module_pstostparser(self, resume: dict) -> dict:
         try:
-            if "pstostparser" in result_of_previos_modules and "messages" in result_of_previos_modules["pstostparser"]:
-                all_messages = ""
-                for message in result_of_previos_modules["pstostparser"]["messages"]:
-                        all_messages = all_messages + " " + str(message["html_body"]) + " " \
-                                   + str(message["plain_text_body"]) + " " + str(message["headers"])
-
-                return {"emails": self._get_emails(all_messages),
-                        "URLs": self._get_urls(all_messages),
-                        "IBANs": self._get_ibans(all_messages),
-                        "Bitcoin": self._get_bitcoin_address(all_messages)}
+            if "pstostparser" in resume and "messages" in resume["pstostparser"]:
+                return self._get_info_module_pstostparser_first_output(resume)
+            else:
+                if "html_body" in resume or "plain_text_body" in resume or "headers" in resume:
+                    return self._get_info_module_pstostparser_second_output(resume)
         except:
             pass
         return {}
 
-    def _get_info_module_certificatereader(self, result_of_previos_modules: dict) -> dict:
+    def _get_info_module_pstostparser_first_output(self, resume: dict) -> dict:
+        try:
+            all_messages = ""
+            for message in resume["pstostparser"]["messages"]:
+                all_messages = all_messages + " " + str(message["html_body"]) + " " \
+                               + str(message["plain_text_body"]) + " " + str(message["headers"])
+
+            return {"emails": self._get_emails(all_messages),
+                    "URLs": self._get_urls(all_messages),
+                    "IBANs": self._get_ibans(all_messages),
+                    "Bitcoin": self._get_bitcoin_address(all_messages)}
+        except:
+            pass
+        return {}
+
+    def _get_info_module_pstostparser_second_output(self, resume: dict) -> dict:
+        try:
+            message = ""
+            if "html_body" in resume:
+                message += str(resume["html_body"])
+            if "plain_text_body" in resume:
+                message += " " + str(resume["plain_text_body"])
+            if "headers" in resume:
+                message += " " + str(resume["headers"])
+            return {"emails": self._get_emails(message),
+                    "URLs": self._get_urls(message),
+                    "IBANs": self._get_ibans(message),
+                    "Bitcoin": self._get_bitcoin_address(message)}
+        except:
+            pass
+        return {}
+
+    def _get_info_module_certificatereader(self, resume: dict) -> dict:
         result = {}
         try:
-            if "certificatereader" in result_of_previos_modules:
+            if "certificatereader" in resume:
 
                 result = {"emails": [],
                           "URLs": [],
                           "IBANs": []}
-                if "issuer" in result_of_previos_modules["certificatereader"]:
-                    issuer = result_of_previos_modules["certificatereader"]["issuer"]
+                if "issuer" in resume["certificatereader"]:
+                    issuer = resume["certificatereader"]["issuer"]
                     result["emails"].extend(self._get_emails(issuer))
                     result["URLs"].extend(self._get_urls(issuer))
                     result["IBANs"].extend(self._get_ibans(issuer))
                     result["Bitcoin"].extend(self._get_bitcoin_address(issuer))
-                if "subject" in result_of_previos_modules["certificatereader"]:
-                    subject = result_of_previos_modules["certificatereader"]["subject"]
+                if "subject" in resume["certificatereader"]:
+                    subject = resume["certificatereader"]["subject"]
                     result["emails"].extend(self._get_emails(subject))
                     result["URLs"].extend(self._get_urls(subject))
                     result["IBANs"].extend(self._get_ibans(subject))
@@ -147,14 +161,14 @@ class Constructor(IModule):
 
         return result
 
-    def _get_info_module_ocrtesseract(self, result_of_previos_modules: dict) -> dict:
+    def _get_info_module_ocrtesseract(self, resume: dict) -> dict:
         try:
-            if "ocrtesseract" in result_of_previos_modules:
+            if "ocrtesseract" in resume:
                 text = ""
-                if "Thresh" in result_of_previos_modules["ocrtesseract"]:
-                    text = text + "" + str(result_of_previos_modules["ocrtesseract"])
-                if "Blur" in result_of_previos_modules["ocrtesseract"]["Thresh"]:
-                    text = text + "" + str(result_of_previos_modules["ocrtesseract"]["Blur"])
+                if "Thresh" in resume["ocrtesseract"]:
+                    text = text + "" + str(resume["ocrtesseract"])
+                if "Blur" in resume["ocrtesseract"]["Thresh"]:
+                    text = text + "" + str(resume["ocrtesseract"]["Blur"])
 
                 return {"emails": self._get_emails(text),
                         "URLs": self._get_urls(text),
@@ -164,13 +178,13 @@ class Constructor(IModule):
             pass
         return {}
 
-    def _get_info_from_path(self, target_file: TargetFile) -> dict:
+    def _get_info_from_path(self, resume: dict) -> dict:
         try:
-            path = target_file.get_path()
+            path = resume["path"]
             return {"emails": self._get_emails(path),
-                "URLs": self._get_urls(path),
-                "IBANs": self._get_ibans(path),
-                "Bitcoin": self._get_bitcoin_address(path)}
+                    "URLs": self._get_urls(path),
+                    "IBANs": self._get_ibans(path),
+                    "Bitcoin": self._get_bitcoin_address(path)}
 
         except:
             pass
@@ -187,15 +201,15 @@ class Constructor(IModule):
                     final_result[key].extend(result[key])
         return final_result
 
-    def run(self, target_file: TargetFile, result_of_previos_modules: dict) -> dict:
+    def run(self, resume: dict) -> dict:
         results = [
-            self._get_info_from_path(target_file),
-            self._get_info_module_tika(result_of_previos_modules),
-            self._get_info_module_strings(result_of_previos_modules),
-            self._get_info_module_certificatereader(result_of_previos_modules),
-            self._get_info_module_metadata(result_of_previos_modules),
-            self._get_info_module_qrbcreader(result_of_previos_modules),
-            self._get_info_module_ocrtesseract(result_of_previos_modules),
-            self._get_info_module_pstostparser(result_of_previos_modules)
+            self._get_info_from_path(resume),
+            self._get_info_module_tika(resume),
+            self._get_info_module_strings(resume),
+            self._get_info_module_certificatereader(resume),
+            self._get_info_module_metadata(resume),
+            self._get_info_module_qrbcreader(resume),
+            self._get_info_module_ocrtesseract(resume),
+            self._get_info_module_pstostparser(resume)
         ]
         return self._clean(self._fusion_resuls(results))
