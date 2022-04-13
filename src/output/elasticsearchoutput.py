@@ -11,6 +11,7 @@ from src.utils.time import Time
 class ElasticsearchOutput(IOutput):
 
     def __init__(self, params: dict = None):
+        super().__init__()
         self._elasticsearch_config = params
         self._connection = self._connect()
         self._index = self._elasticsearch_config["index"]
@@ -47,11 +48,11 @@ class ElasticsearchOutput(IOutput):
         if self._connection:
             self._connection.close()
 
-    def dump_object(self, element: dict):
+    def _dump_object(self, element: dict):
         self.preprocess_element(element)
         self._connection.index(index=self._index, body=element, request_timeout=int(self._elasticsearch_config["request_timeout"]))
 
-    def dump_list(self, elements: list):
+    def _dump_list(self, elements: list):
         body = []
         n_batch_elements = 0
         max = 500

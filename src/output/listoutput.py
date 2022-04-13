@@ -6,12 +6,13 @@ from src.output.ioutput import IOutput
 class ListOutput(IOutput):
 
     def __init__(self, params: dict = None):
+        super().__init__()
         self._list = []
 
-    def dump_object(self, element: dict):
+    def _dump_object(self, element: dict):
         self._list.append(element)
 
-    def dump_list(self, elements: list):
+    def _dump_list(self, elements: list):
         self._list.extend(elements)
 
     def get_list(self):

@@ -26,7 +26,6 @@ class LoaderModulesTest(unittest.TestCase):
                 "module.hashes": {"active": True},
                 "module.ignore": {"active": True},
                 "module.imagerecognitiontensorflow": {"active": True},
-                "module.infoextractor": {"active": True},
                 "module.metadata": {"active": True},
                 "module.mftparser": {"active": True},
                 "module.ocrtesseract": {"active": True},

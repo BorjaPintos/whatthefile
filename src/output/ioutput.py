@@ -1,18 +1,27 @@
 # -*- coding: utf-8 -*-
 from abc import abstractmethod
 
-from src.domain.whatthefileconfiguration import WhatTheFileConfiguration
+from src.application.infoextractor.infoextactor import Infoextractor
 
 
 class IOutput:
 
     def __init__(self, params: dict = None):
-        pass
+        self._infoextractor = Infoextractor()
 
-    @abstractmethod
     def dump_object(self, element: dict):
+        element["infoextractor"] = self._infoextractor.run(element)
+        self._dump_object(element)
+
+    def dump_list(self, elements: list):
+        for element in elements:
+            element["infoextractor"] = self._infoextractor.run(element)
+        self._dump_list(elements)
+
+    @abstractmethod
+    def _dump_object(self, element: dict):
         pass
 
     @abstractmethod
-    def dump_list(self, elements: list):
+    def _dump_list(self, elements: list):
         pass
