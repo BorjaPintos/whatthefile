@@ -8,7 +8,7 @@ from src.modules.browserhistory.domain.visite import Visite
 from src.utils import sqlite
 
 
-class ChromeHistory(IBrowserHistory):
+class EdgeHistory(IBrowserHistory):
 
     VISITQUERYv1 = """
     select 
@@ -34,21 +34,13 @@ class ChromeHistory(IBrowserHistory):
     d.total_bytes 
     from downloads d;"""
 
-    DOWNLOADSQUERYv2 = """
-    select d.url,
-    d.full_path, 
-    d.start_time / 1000000 + (strftime('%s', '1601-01-01T00:00:00')) as start_time,
-    d.received_bytes,
-    d.total_bytes 
-    from downloads d;"""
-
     SEARCHQUERYv1 = """select kst.term, u.url, u.title, 
     u.last_visit_time / 1000000 + (strftime('%s', '1601-01-01T00:00:00')) as last_visit_time  
     from keyword_search_terms kst left join urls u on kst.url_id == u.id;"""
 
     def __init__(self, path: str):
         super().__init__()
-        self.browser = "Chrome"
+        self.browser = "Edge"
         self._path = path
 
 
@@ -63,23 +55,9 @@ class ChromeHistory(IBrowserHistory):
             returned_list.append(download.__dict__)
         return returned_list
 
-    def _get_downloadsv2(self) -> List:
-
-        returned_list = []
-        for row in sqlite.execute_query(self._path, self.DOWNLOADSQUERYv2):
-            download = Download(path=self._path, browser=self.browser,
-                                site_url=row[0], target_path=row[1],
-                                start_time=row[2], received_bytes=row[3], total_bytes=row[4])
-            returned_list.append(download.__dict__)
-        return returned_list
-
     def get_downloads(self) -> List:
         try:
             return self._get_downloadsv1()
-        except:
-            pass
-        try:
-            return self._get_downloadsv2()
         except:
             pass
         return []

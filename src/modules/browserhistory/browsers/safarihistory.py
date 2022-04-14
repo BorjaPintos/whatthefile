@@ -8,8 +8,6 @@ from src.utils import sqlite
 
 class SafaryHistory(IBrowserHistory):
 
-    BROWSER = "Safari"
-
     VISITQUERYv1 = """
     select 
     hv.title, 
@@ -24,6 +22,8 @@ class SafaryHistory(IBrowserHistory):
     """
 
     def __init__(self, path: str):
+        super().__init__()
+        self.browser = "Safari"
         self._path = path
 
     def get_downloads(self) -> List:
@@ -32,7 +32,7 @@ class SafaryHistory(IBrowserHistory):
     def _get_visitesv1(self) -> List:
         returned_list = []
         for row in sqlite.execute_query(self._path, self.VISITQUERYv1):
-            visite = Visite(path=self._path, browser=self.BROWSER,
+            visite = Visite(path=self._path, browser=self.browser,
                             title=row[0], url=row[1], visit_count=row[2],
                             visit_time=row[3],
                             from_url=row[4], from_title=row[5])

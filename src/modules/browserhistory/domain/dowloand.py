@@ -3,6 +3,7 @@ from src.utils.time import Time
 class Download:
 
     def __init__(self, **kwargs):
+        self.type = "Download"
         self.path = kwargs.get("path")
         self.browser = kwargs.get("browser")
         self.site_url = kwargs.get("site_url", None)
@@ -13,4 +14,5 @@ class Download:
         self.mime_type = kwargs.get("mime_type", None)
         self.received_bytes = kwargs.get("received_bytes", None)
         self.total_bytes = kwargs.get("total_bytes", None)
+        self.timestamp = self.end_time
 

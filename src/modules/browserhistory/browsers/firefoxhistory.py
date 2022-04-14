@@ -10,8 +10,6 @@ from src.utils import sqlite
 
 class FirefoxHistory(IBrowserHistory):
 
-    BROWSER = "Firefox"
-
     VISITQUERYv1 = """
     select 
     mp.title, 
@@ -47,13 +45,15 @@ class FirefoxHistory(IBrowserHistory):
     from moz_keywords;"""
 
     def __init__(self, path: str):
+        super().__init__()
+        self.browser = "Firefox"
         self._path = path
 
     def _get_downloadsv1(self) -> List:
 
         returned_list = []
         for row in sqlite.execute_query(self._path, self.DOWNLOADSQUERYv1):
-            download = Download(path=self._path, browser=self.BROWSER,
+            download = Download(path=self._path, browser=self.browser,
                                 site_url=row[0], target_path=str(row[1]).replace("file://", ""),
                                 end_time=row[2])
             returned_list.append(download.__dict__)
@@ -69,7 +69,7 @@ class FirefoxHistory(IBrowserHistory):
     def _get_visitesv1(self) -> List:
         returned_list = []
         for row in sqlite.execute_query(self._path, self.VISITQUERYv1):
-            visite = Visite(path=self._path, browser=self.BROWSER,
+            visite = Visite(path=self._path, browser=self.browser,
                             title=row[0], url=row[1], visit_count=row[2],
                             visit_time=row[3], last_visit_time=row[4],
                             from_url=row[5], from_title=row[6])
@@ -87,7 +87,7 @@ class FirefoxHistory(IBrowserHistory):
     def _get_searchsv1(self) -> List:
         returned_list = []
         for row in sqlite.execute_query(self._path, self.SEARCHQUERYv1):
-            search = Search(path=self._path, browser=self.BROWSER,
+            search = Search(path=self._path, browser=self.browser,
                             term=row[0], url=row[1], title=row[2])
             returned_list.append(search.__dict__)
         return returned_list
@@ -95,7 +95,7 @@ class FirefoxHistory(IBrowserHistory):
     def _get_searchsv2(self) -> List:
         returned_list = []
         for row in sqlite.execute_query(self._path, self.SEARCHQUERYv2):
-            search = Search(path=self._path, browser=self.BROWSER,
+            search = Search(path=self._path, browser=self.browser,
                             term=row[0])
             returned_list.append(search.__dict__)
         return returned_list
