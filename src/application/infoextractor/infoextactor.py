@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import re
 from typing import List
+import coinaddrvalidator
 
 EMAILS = re.compile(r"[\w.+]+@[a-zA-Z_]+?\.[a-zA-Z]{2,4}")
 URLS = re.compile(r"""(([a-zA-Z]+://){1}[^'"\s]+)""")
@@ -27,7 +28,12 @@ class Infoextractor:
         return re.findall(IBAN, string)
 
     def _get_bitcoin_address(self, string: str) -> list:
-        return re.findall(BITCOIN, string)
+        valid_bitcoin_list = []
+        posible_bitcoin_list = re.findall(BITCOIN, string)
+        for btc_address in posible_bitcoin_list:
+            if coinaddrvalidator.validate('btc', btc_address).valid:
+                valid_bitcoin_list.append(btc_address)
+        return valid_bitcoin_list
 
     def _clean(self, result: dict) -> dict:
         properties = ["emails", "URLs", "IBANs", "Bitcoin"]
