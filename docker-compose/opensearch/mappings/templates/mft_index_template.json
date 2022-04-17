@@ -1,0 +1,85 @@
+{
+  "index_patterns": [
+    "whatthefile-mft*"
+  ],
+  "template": {
+    "settings": {
+      "number_of_shards": 1,
+      "number_of_replicas": 1
+    },
+    "mappings": {
+      "properties": {
+        "timestamp_indexed": {
+          "type": "date",
+          "format": "strict_date_optional_time||epoch_millis"
+        },
+        "fnatime": {
+          "type": "date",
+          "format": "strict_date_optional_time||epoch_millis"
+        },
+        "fnctime": {
+          "type": "date",
+          "format": "strict_date_optional_time||epoch_millis"
+        },
+        "fncrtime": {
+          "type": "date",
+          "format": "strict_date_optional_time||epoch_millis"
+        },
+        "fnmtime": {
+          "type": "date",
+          "format": "strict_date_optional_time||epoch_millis"
+        },
+        "siatime": {
+          "type": "date",
+          "format": "strict_date_optional_time||epoch_millis"
+        },
+        "sictime": {
+          "type": "date",
+          "format": "strict_date_optional_time||epoch_millis"
+        },
+        "sicrtime": {
+          "type": "date",
+          "format": "strict_date_optional_time||epoch_millis"
+        },
+        "simtime": {
+          "type": "date",
+          "format": "strict_date_optional_time||epoch_millis"
+        },
+        "path":{
+          "type": "keyword"
+        },
+        "filename":{
+          "type": "keyword"
+        },
+        "notes":{
+          "type": "keyword"
+        },
+        "file":{
+          "type": "boolean"
+        },
+        "folder":{
+          "type": "boolean"
+        },
+        "ads":{
+          "type": "integer"
+        },
+        "active":{
+          "type": "integer"
+        },
+        "recordnum":{
+          "type": "integer"
+        },
+        "seq":{
+          "type": "integer"
+        },
+        "size":{
+          "type": "integer"
+        },
+        "alloc_sizef":{
+          "type": "integer"
+        }
+      }
+    }
+  }
+}
+

@@ -11,6 +11,7 @@ import pypff
 from src.output import utils
 from src.utils.safe import Safe
 from src.utils.time import Time
+from src.utils.auxiliar import get_str_utf_8_from_bytes
 
 
 class Constructor(IModule):
@@ -38,7 +39,7 @@ class Constructor(IModule):
                         message = {}
                         try:
                             message["path"] = target_file.get_path()
-                            message["folder"] = item.name
+                            message["email_folder"] = item.name
                             message["identifier"] = item_message.get_identifier()
                             message["subject"] = item_message.get_subject()
                             message["creation_time"] = Time.change_output_date_format_from_epoch(
@@ -49,26 +50,25 @@ class Constructor(IModule):
                                 item_message.get_client_submit_time().timestamp())
                             message["sender_name"] = item_message.get_sender_name()
                             message["headers"] = item_message.get_transport_headers()
-                            message["html_body"] = item_message.get_html_body().decode() \
+                            message["html_body"] = get_str_utf_8_from_bytes(item_message.get_html_body()) \
                                 if item_message.get_html_body() is not None else ""
-                            message["plain_text_body"] = item_message.get_plain_text_body().decode() \
+                            message["plain_text_body"] = get_str_utf_8_from_bytes(item_message.get_plain_text_body()) \
                                 if item_message.get_plain_text_body() is not None else ""
                             message["n_attachments"] = item_message.get_number_of_attachments()
 
                             if item_message.get_number_of_attachments() > 0:
                                 message["attachments"] = []
                                 for i in range(0, item_message.get_number_of_attachments()):
-                                    base_path_to_save = message["folder"] + "/" + str(message[
+                                    base_path_to_save = message["email_folder"] + "/" + str(message[
                                         "identifier"]) + "/attachment/" + str(i)
                                     file_size =  item_message.get_attachment(i).get_size()
                                     binary = item_message.get_attachment(i).read_buffer(file_size)
                                     path_saved = Safe.create_file(
                                         os.path.join("./pstostparser", base_path_to_save), binary)
                                     message["attachments"].append(path_saved)
-
-                            result.append(message)
                         except:
                             pass
+                        result.append(message)
                         index += 1
 
                 result.extend(self._get_recursive(item, target_file))

@@ -1,0 +1,739 @@
+{
+	"index_patterns": [
+		"whatthefile-analysis*"
+	],
+	"template": {
+		"settings": {
+			"number_of_shards": 1,
+			"number_of_replicas": 1
+		},
+		"mappings": {
+			"properties": {
+				"path": {
+					"type": "keyword"
+				},
+				"directory": {
+					"type": "keyword"
+				},
+				"name": {
+					"type": "keyword"
+				},
+				"is_file": {
+					"type": "boolean"
+				},
+				"is_directory": {
+					"type": "boolean"
+				},
+				"is_link": {
+					"type": "boolean"
+				},
+				"type": {
+					"type": "keyword"
+				},
+				"st_atime": {
+					"type": "date",
+					"format": "strict_date_optional_time||epoch_millis"
+				},
+				"st_ctime": {
+					"type": "date",
+					"format": "strict_date_optional_time||epoch_millis"
+				},
+				"st_mtime": {
+					"type": "date",
+					"format": "strict_date_optional_time||epoch_millis"
+				},
+				"st_blksize": {
+					"type": "integer"
+				},
+				"st_blocks": {
+					"type": "integer"
+				},
+				"st_gid": {
+					"type": "integer"
+				},
+				"st_uid": {
+					"type": "integer"
+				},
+				"st_size": {
+					"type": "integer"
+				},
+				"st_mode": {
+					"type": "integer"
+				},
+				"st_device": {
+					"type": "text"
+				},
+				"st_birthtime": {
+					"type": "date",
+					"format": "strict_date_optional_time||epoch_millis"
+				},
+				"st_flags": {
+					"type": "integer"
+				},
+				"extension": {
+					"type": "keyword"
+				},
+				"begin_analysis": {
+					"type": "date",
+					"format": "strict_date_optional_time||epoch_millis"
+				},
+				"end_analysis": {
+					"type": "date",
+					"format": "strict_date_optional_time||epoch_millis"
+				},
+				"total_analysis_duration": {
+					"type": "float"
+				},
+				"browserhistory": {
+					"properties": {
+						"start_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"end_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"total_module_duration": {
+							"type": "float"
+						},
+						"error": {
+							"type": "keyword"
+						},
+						"browser": {
+							"type": "keyword"
+						},
+						"n_downloads": {
+							"type": "integer"
+						},
+						"n_visites": {
+							"type": "integer"
+						},
+						"n_searchs": {
+							"type": "integer"
+						}
+					}
+				},
+				"certificatereader": {
+					"properties": {
+						"start_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"end_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"total_module_duration": {
+							"type": "float"
+						},
+						"error": {
+							"type": "keyword"
+						},
+						"serial_number": {
+							"type": "text"
+						},
+						"version": {
+							"type": "keyword"
+						},
+						"extensions": {
+							"type": "keyword"
+						},
+						"nor_valid_after": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"nor_valid_before": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"issuer": {
+							"type": "keyword"
+						},
+						"subject": {
+							"type": "keyword"
+						},
+						"signature": {
+							"type": "keyword"
+						},
+						"signature_algorithm_hash": {
+							"type": "keyword"
+						},
+						"signature_algorithm": {
+							"type": "keyword"
+						},
+						"key_size": {
+							"type": "integer"
+						},
+						"public_key": {
+							"properties": {
+								"e": {
+									"type": "integer"
+								},
+								"n": {
+									"type": "text"
+								}
+							}
+						}
+					}
+				},
+				"commentextractor": {
+					"properties": {
+						"start_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"end_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"total_module_duration": {
+							"type": "float"
+						},
+						"error": {
+							"type": "keyword"
+						},
+						"//_/**/_comments": {
+							"type": "keyword"
+						},
+						"<!--->Comments": {
+							"type": "keyword"
+						},
+						"#_comments": {
+							"type": "keyword"
+						}
+					}
+				},
+				"entropy": {
+					"properties": {
+						"start_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"end_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"total_module_duration": {
+							"type": "float"
+						},
+						"error": {
+							"type": "keyword"
+						},
+						"shannon": {
+							"type": "float"
+						}
+					}
+				},
+				"evtxreader": {
+					"properties": {
+						"start_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"end_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"total_module_duration": {
+							"type": "float"
+						},
+						"error": {
+							"type": "keyword"
+						},
+						"n_events": {
+							"type": "integer"
+						}
+					}
+				},
+				"hashes": {
+					"properties": {
+						"start_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"end_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"total_module_duration": {
+							"type": "float"
+						},
+						"error": {
+							"type": "keyword"
+						},
+						"MD5": {
+							"type": "keyword"
+						},
+						"SHA1": {
+							"type": "keyword"
+						},
+						"SHA224": {
+							"type": "keyword"
+						},
+						"SHA256": {
+							"type": "keyword"
+						},
+						"SHA384": {
+							"type": "keyword"
+						},
+						"SHA512": {
+							"type": "keyword"
+						},
+						"SHA3_224": {
+							"type": "keyword"
+						},
+						"SHA3_256": {
+							"type": "keyword"
+						},
+						"SHA3_384": {
+							"type": "keyword"
+						},
+						"SHA3_512": {
+							"type": "keyword"
+						},
+						"SSDEEP": {
+							"type": "keyword"
+						}
+					}
+				},
+				"ignore": {
+					"properties": {
+						"start_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"end_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"total_module_duration": {
+							"type": "float"
+						},
+						"error": {
+							"type": "keyword"
+						},
+						"ignored": {
+							"type": "boolean"
+						}
+					}
+				},
+				"imagerecognitiontensorflow": {
+					"properties": {
+						"start_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"end_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"total_module_duration": {
+							"type": "float"
+						},
+						"error": {
+							"type": "keyword"
+						},
+						"prediction_names": {
+							"type": "keyword"
+						},
+						"probabilites": {
+							"type": "float"
+						}
+					}
+				},
+				"infoextractor": {
+					"properties": {
+						"error": {
+							"type": "keyword"
+						},
+						"emails": {
+							"type": "keyword"
+						},
+						"Bitcoin": {
+							"type": "keyword"
+						},
+						"URLs": {
+							"type": "keyword"
+						},
+						"IBANs": {
+							"type": "keyword"
+						}
+					}
+				},
+				"metadada": {
+					"properties": {
+						"start_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"end_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"total_module_duration": {
+							"type": "float"
+						},
+						"error": {
+							"type": "keyword"
+						},
+						"keys": {
+							"type": "keyword"
+						},
+						"values": {
+							"type": "keyword"
+						},
+						"key_values": {
+							"type": "keyword"
+						}
+					}
+				},
+				"mftparser": {
+					"properties": {
+						"start_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"end_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"total_module_duration": {
+							"type": "float"
+						},
+						"error": {
+							"type": "keyword"
+						},
+						"n_mft_objects": {
+							"type": "integer"
+						}
+					}
+				},
+				"ocrtesseract": {
+					"properties": {
+						"start_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"end_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"total_module_duration": {
+							"type": "float"
+						},
+						"error": {
+							"type": "keyword"
+						},
+						"Thresh": {
+							"type": "keyword"
+						},
+						"Blur": {
+							"type": "keyword"
+						}
+					}
+				},
+				"pstostparser": {
+					"properties": {
+						"start_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"end_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"total_module_duration": {
+							"type": "float"
+						},
+						"error": {
+							"type": "keyword"
+						},
+						"n_messages": {
+							"type": "integer"
+						}
+					}
+				},
+				"qrbcreader": {
+					"properties": {
+						"start_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"end_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"total_module_duration": {
+							"type": "float"
+						},
+						"error": {
+							"type": "keyword"
+						},
+						"values": {
+							"type": "keyword"
+						}
+					}
+				},
+				"strings": {
+					"properties": {
+						"start_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"end_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"total_module_duration": {
+							"type": "float"
+						},
+						"error": {
+							"type": "keyword"
+						},
+						"n_elements": {
+							"type": "integer"
+						},
+						"elements": {
+							"type": "keyword"
+						}
+					}
+				},
+				"tikaparser": {
+					"properties": {
+						"start_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"end_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"total_module_duration": {
+							"type": "float"
+						},
+						"error": {
+							"type": "keyword"
+						},
+						"content": {
+							"type": "keyword"
+						}
+					}
+				},
+				"virustotal": {
+					"properties": {
+						"start_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"end_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"total_module_duration": {
+							"type": "float"
+						},
+						"error": {
+							"type": "keyword"
+						},
+						"positives": {
+							"type": "integer"
+						},
+						"total": {
+							"type": "integer"
+						},
+						"skipped": {
+							"type": "keyword"
+						}
+					}
+				},
+				"windowsprefetch": {
+					"properties": {
+						"start_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"end_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"total_module_duration": {
+							"type": "float"
+						},
+						"error": {
+							"type": "keyword"
+						},
+						"version": {
+							"type": "keyword"
+						},
+						"executable_file_name": {
+							"type": "keyword"
+						},
+						"hash": {
+							"type": "keyword"
+						},
+						"number_of_files_accessed": {
+							"type": "integer"
+						},
+						"directories_accessed": {
+							"type": "keyword"
+						},
+						"number_of_volumes": {
+							"type": "integer"
+						},
+						"run_counts": {
+							"type": "integer"
+						},
+						"last_run_times": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"volume_timestamp": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"volume_device_path": {
+							"type": "keyword"
+						},
+						"volume_serial_number": {
+							"type": "keyword"
+						}
+					}
+				},
+				"windowsregistry": {
+					"properties": {
+						"start_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"end_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"total_module_duration": {
+							"type": "float"
+						},
+						"error": {
+							"type": "keyword"
+						},
+						"NTUSER": {
+							"properties": {
+								"persistence": {
+									"type": "keyword"
+								},
+								"runMRU": {
+									"type": "keyword"
+								},
+								"userAssist": {
+									"type": "keyword"
+								}
+							}
+						},
+						"SAM": {
+							"properties": {
+								"users": {
+									"type": "keyword"
+								}
+							}
+						},
+						"SOFTWARE": {
+							"properties": {
+								"LogonUI": {
+									"properties": {
+										"LastLoggedOnUser": {
+											"type": "keyword"
+										},
+										"LastLoggedOnSAMUser": {
+											"type": "keyword"
+										}
+									}
+								},
+								"SOCurrentVersion": {
+									"properties": {
+										"ProductName": {
+											"type": "keyword"
+										},
+										"ReleaseId": {
+											"type": "keyword"
+										}
+									}
+								},
+								"persistence": {
+									"type": "keyword"
+								},
+								"profileList": {
+								    "properties": {
+								        "Sid": {
+									        "type": "keyword"
+									    },
+									    "Guid": {
+									        "type": "keyword"
+									    },
+									    "ProfileImagePath": {
+									        "type": "keyword"
+									    }
+									}
+								},
+								"xp_wifis": {
+								    "type": "keyword"
+								}
+							}
+						},
+						"SYSTEM": {
+							"properties": {
+								"ComputerNames": {
+								    "properties": {
+								        "name": {
+									        "type": "keyword"
+									    }
+									}
+								},
+								"MountedDevices": {
+									"type": "keyword"
+								},
+								"USBSTOR": {
+								    "properties": {
+								        "name": {
+									        "device": "keyword"
+									    },
+									    "timestamp": {
+									        "type": "date",
+							                "format": "strict_date_optional_time||epoch_millis"
+									    }
+									}
+								}
+							}
+						}
+					}
+				},
+				"zipextractor": {
+					"properties": {
+						"start_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"end_module": {
+							"type": "date",
+							"format": "strict_date_optional_time||epoch_millis"
+						},
+						"total_module_duration": {
+							"type": "float"
+						},
+						"error": {
+							"type": "keyword"
+						},
+						"new_files": {
+							"type": "keyword"
+						},
+						"new_path_files": {
+							"type": "keyword"
+						},
+						"password": {
+							"type": "keyword"
+						}
+					}
+				}
+			}
+		}
+	}
+}
