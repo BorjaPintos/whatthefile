@@ -194,10 +194,12 @@
 							"type": "keyword"
 						},
 						"//_/**/_comments": {
-							"type": "keyword"
+							"type": "keyword",
+							"ignore_above" : 256
 						},
 						"<!--->Comments": {
-							"type": "keyword"
+							"type": "keyword",
+							"ignore_above" : 256
 						},
 						"#_comments": {
 							"type": "keyword"
@@ -693,8 +695,8 @@
 								},
 								"USBSTOR": {
 								    "properties": {
-								        "name": {
-									        "device": "keyword"
+								        "device": {
+									        "type": "keyword"
 									    },
 									    "timestamp": {
 									        "type": "date",
