@@ -37,6 +37,9 @@ class Infoextractor:
 
     def _clean(self, result: dict) -> dict:
         properties = ["emails", "URLs", "IBANs", "Bitcoin"]
+
+        result["emails"] = list(map(lambda x: x.lower(), result["emails"]))
+
         for property in properties:
             if len(result[property]) == 0:
                 del result[property]

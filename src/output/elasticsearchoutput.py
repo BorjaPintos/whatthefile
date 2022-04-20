@@ -3,7 +3,7 @@ import ssl
 from src.output.ioutput import IOutput
 from elasticsearch import Elasticsearch
 from ssl import create_default_context
-
+from src.utils.log import Log
 from src.utils import auxiliar
 from src.utils.time import Time
 
@@ -62,7 +62,9 @@ class ElasticsearchOutput(IOutput):
             body.append(entry)
             n_batch_elements = n_batch_elements + 1
             if n_batch_elements == max:
-                self._connection.bulk(index=self._index, body=body, request_timeout=int(self._elasticsearch_config["request_timeout"]))
+                result = self._connection.bulk(index=self._index, body=body, request_timeout=int(self._elasticsearch_config["request_timeout"]))
+                if "errors" in result and result["errors"]:
+                    Log.error("Hubo errores al volcar el resultado en el índice de Elastic: {0}".format(self._index))
                 n_batch_elements = 0
                 body.clear()
 

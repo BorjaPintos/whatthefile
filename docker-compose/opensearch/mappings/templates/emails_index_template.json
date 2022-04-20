@@ -1,0 +1,82 @@
+{
+  "index_patterns": [
+    "whatthefile-emails*"
+  ],
+  "template": {
+    
+    "settings": {
+      "number_of_shards": 1,
+      "number_of_replicas": 1
+    },
+    "mappings": {
+      "properties": {
+        "timestamp_indexed": {
+          "type": "date",
+          "format": "strict_date_optional_time||epoch_millis"
+        },
+        "client_submit_time": {
+          "type": "date",
+          "format": "strict_date_optional_time||epoch_millis"
+        },
+        "creation_time": {
+          "type": "date",
+          "format": "strict_date_optional_time||epoch_millis"
+        },
+        "delivery_time": {
+          "type": "date",
+          "format": "strict_date_optional_time||epoch_millis"
+        },
+        "path":{
+          "type": "keyword"
+        },
+        "email_folder":{
+          "type": "keyword"
+        },
+        "identifier":{
+          "type": "keyword"
+        },
+        "subject":{
+          "type": "keyword"
+        },
+        "sender_name":{
+          "type": "keyword"
+        },
+        "headers":{
+          "type": "keyword"
+        },
+        "html_body":{
+          "type": "keyword"
+        },
+        "plain_text_body":{
+          "type": "keyword"
+        },
+        "n_attachments":{
+          "type": "integer"
+        },
+        "attachments":{
+          "type": "keyword"
+        },
+        "infoextractor": {
+          "properties": {
+            "error": {
+              "type": "keyword"
+            },
+            "emails": {
+              "type": "keyword"
+            },
+            "Bitcoin": {
+              "type": "keyword"
+            },
+            "URLs": {
+              "type": "keyword"
+            },
+            "IBANs": {
+              "type": "keyword"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

@@ -135,3 +135,4 @@ class Constructor(IModule):
 
 ## Docker
 Para fácil ejecución, existe una carpeta con docker-compose para desplegar herramientas externas así como una versión del servidor web y una de la versión normal.
+No obstante, también existen carpetas por separado para levantar los dockers a gusto del consumidor

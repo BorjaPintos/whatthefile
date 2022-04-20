@@ -74,7 +74,7 @@ class TargetPath:
             pass
         try:
             #it depends on SO
-            result["st_birthtime"] = stat.st_birthtime
+            result["st_birthtime"] = Time.change_output_date_format_from_epoch(stat.st_birthtime)
         except:
             pass
         try:

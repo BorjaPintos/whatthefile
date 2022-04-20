@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+    opensearch:
+        image: opensearchproject/opensearch:1.3.1
+        env_file:
+            - opensearch/opensearch.env
+        volumes:
+            - ./data:/usr/share/opensearch/data
+        ports:
+            - 9200:9200/tcp
+            - 9300:9300/tcp
+        networks:
+            - opensearch-net
+            
+    opensearch-dashboards:
+        image: opensearchproject/opensearch-dashboards:1.3.1
+        ports:
+            - 5601:5601
+        env_file:
+            - opensearch/opensearchdashboards.env
+        networks:
+            - opensearch-net
+            
+    opensearch-config:
+        image: ubuntu
+        volumes:
+            - .:/config
+        environment:
+            - OPENSEARCH_HOST=https://opensearch:9200
+            - OPENSEARCH_AUTH=admin:admin
+            - OPENSEARCH_DASHBOARDS_HOST=http://opensearch-dashboards:5601
+        entrypoint:
+            - bash
+            - /config/entrypoint.sh
+        networks:
+            - opensearch-net
+
+networks:
+  opensearch-net:

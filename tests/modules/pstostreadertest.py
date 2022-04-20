@@ -17,7 +17,7 @@ class PSTOSTReaderTest(unittest.TestCase):
         self.assertTrue(module.is_valid_for(target_file))
         result = module.run(target_file, {})
         self.assertTrue('messages' in result)
-        self.assertEqual(len(result["messages"]), 532)
+        self.assertEqual(len(result["messages"]), 544)
 
     def test_parse_pst_with_second_output(self):
         path = "./tests/examples/emails.pst"

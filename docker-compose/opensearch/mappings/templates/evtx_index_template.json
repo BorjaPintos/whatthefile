@@ -1,0 +1,103 @@
+{
+  "index_patterns": [
+    "whatthefile-evtx*"
+  ],
+  "template": {
+    
+    "settings": {
+      "number_of_shards": 1,
+      "number_of_replicas": 1
+    },
+    "mappings": {
+      "dynamic": false,
+      "properties": {
+        "Timestamp": {
+          "type": "date",
+          "format": "strict_date_optional_time||epoch_millis"
+        },
+        "CallerProcessId":{
+          "type": "keyword"
+        },
+        "CallerProcessName":{
+          "type": "keyword"
+        },
+        "Channel": {
+          "type": "keyword"
+        },
+        "Command": {
+          "type": "keyword"
+        },
+        "Computer": {
+          "type": "keyword"
+        },
+        "Error": {
+          "type": "keyword"
+        },
+        "EventID": {
+          "type": "long"
+        },
+        "EventRecordID": {
+          "type": "keyword"
+        },
+        "Level": {
+          "type": "keyword"
+        },
+        "LogonType": {
+          "type": "keyword"
+        },
+        "path":{
+          "type": "keyword"
+        },
+        "Payload":{
+          "type": "keyword"
+        },
+        "PID":{
+          "type": "keyword"
+        },
+        "ProcessName":{
+          "type": "keyword"
+        },
+        "SessionId":{
+          "type": "keyword"
+        },
+        "SubjectDomainName": {
+          "type": "keyword"
+        },
+        "SubjectLogonId": {
+          "type": "keyword"
+        },
+        "SubjectUserName": {
+          "type": "keyword"
+        },
+        "SubjectUserSid": {
+          "type": "keyword"
+        },
+        "TargetDomainName": {
+          "type": "keyword"
+        },
+        "TargetLogonId": {
+          "type": "keyword"
+        },
+        "TargetUserName": {
+          "type": "keyword"
+        },
+        "TargetUserSid": {
+          "type": "keyword"
+        },
+        "TaskName": {
+          "type": "keyword"
+        },
+        "TSId": {
+          "type": "keyword"
+        },
+        "Type": {
+          "type": "keyword"
+        },
+        "UserSid": {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}
+

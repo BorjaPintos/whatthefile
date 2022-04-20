@@ -1,0 +1,86 @@
+{
+  "index_patterns": [
+    "whatthefile-browser*"
+  ],
+  "template": {
+    
+    "settings": {
+      "number_of_shards": 1,
+      "number_of_replicas": 1
+    },
+    "mappings": {
+      "properties": {
+        "timestamp_indexed": {
+          "type": "date",
+          "format": "strict_date_optional_time||epoch_millis"
+        },
+        "timestamp": {
+          "type": "date",
+          "format": "strict_date_optional_time||epoch_millis"
+        },
+        "last_visit_time": {
+          "type": "date",
+          "format": "strict_date_optional_time||epoch_millis"
+        },
+        "visit_time": {
+          "type": "date",
+          "format": "strict_date_optional_time||epoch_millis"
+        },
+        "start_time": {
+          "type": "date",
+          "format": "strict_date_optional_time||epoch_millis"
+        },
+        "end_time": {
+          "type": "date",
+          "format": "strict_date_optional_time||epoch_millis"
+        },
+        "browser":{
+          "type": "keyword"
+        },
+        "from_title":{
+          "type": "keyword"
+        },
+        "from_url":{
+          "type": "keyword"
+        },
+        "path":{
+          "type": "keyword"
+        },
+        "title":{
+          "type": "keyword"
+        },
+        "type":{
+          "type": "keyword"
+        },
+        "mime_type":{
+          "type": "keyword"
+        },
+        "site_url":{
+          "type": "keyword"
+        },
+        "tab_url":{
+          "type": "keyword"
+        },
+        "target_path":{
+          "type": "keyword"
+        },
+        "url":{
+          "type": "keyword"
+        },
+        "term":{
+          "type": "keyword"
+        },
+        "visit_count":{
+          "type": "integer"
+        },
+        "received_bytes":{
+          "type": "float"
+        },
+        "total_bytes":{
+          "type": "float"
+        }
+      }
+    }
+  }
+}
+
