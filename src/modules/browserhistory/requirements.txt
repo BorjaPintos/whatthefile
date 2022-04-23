@@ -1,1 +1,2 @@
 cryptography==3.4.6
+libesedb-python==20210424

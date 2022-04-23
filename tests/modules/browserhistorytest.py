@@ -125,6 +125,21 @@ class BrowserHistoryTest(unittest.TestCase):
         self.assertTrue(len(my_lyst_output.get_list()),
                         result["n_downloads"] + result["n_visites"] + result["n_searchs"])
 
+
+
+    def test_iexplorer_history(self):
+        path = "./tests/examples/browsers/iexplorer/WebCacheV01.dat"
+        target_file = TargetFile(path)
+        module = Constructor()
+        self.assertTrue(module.is_valid_for(target_file))
+        result = module.run(target_file, {})
+        print(result)
+        self.assertTrue(result["browser"], "IExplorer")
+        self.assertEqual(len(result["downloads"]), 0)
+        self.assertEqual(len(result["visites"]), 83)
+        self.assertEqual(result["visites"][0]["type"], "Visit")
+        self.assertEqual(len(result["searchs"]), 0)
+
     def test_invalid_file(self):
         path = "./tests/examples"
         target_file = TargetPath(path)

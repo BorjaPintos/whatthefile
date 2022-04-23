@@ -4,6 +4,7 @@ from typing import Any
 from src.domain.targetfile import TargetFile
 from src.modules.browserhistory.browsers.chromehistory import ChromeHistory
 from src.modules.browserhistory.browsers.edgehistory import EdgeHistory
+from src.modules.browserhistory.browsers.explorerhistory import IExplorerHistory
 from src.modules.browserhistory.browsers.firefoxhistory import FirefoxHistory
 from src.modules.browserhistory.browsers.ibrowserhistory import IBrowserHistory
 from src.modules.browserhistory.browsers.safarihistory import SafaryHistory
@@ -23,6 +24,8 @@ class Constructor(IModule):
 
     @staticmethod
     def _get_browser(target_file: TargetFile) -> IBrowserHistory:
+        if "WebCacheV01.dat" in target_file.get_name():
+            return IExplorerHistory(target_file.get_path())
         if "History" in target_file.get_name():
             if ".db" in target_file.get_extension():
                 return SafaryHistory(target_file.get_path())
@@ -47,8 +50,10 @@ class Constructor(IModule):
 
     def is_valid_for(self, target_file: TargetPath) -> bool:
         if target_file.is_file():
-            if "SQLite" in target_file.get_type() and ("History" in target_file.get_name() \
-                                                       or "places" in target_file.get_name()):
+            if "SQLite" in target_file.get_type() and \
+                    ("History" in target_file.get_name() or "places" in target_file.get_name()):
+                return True
+            if "Extensible storage engine DataBase" in target_file.get_type() and "WebCacheV01.dat" in target_file.get_name():
                 return True
         return False
 
