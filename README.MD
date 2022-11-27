@@ -38,6 +38,7 @@ Por las dependencias inseguras, este proyecto dejó de ser compatible con ![](ht
 - **strings**: extracción de strings
 - **tikaparser**: Obtención del texto de documentos offimáticos, pdfs...
 - **virustotal**: Comprobación de infección enviando el hash a virustotal
+- **whisper**: Módulo de IA que es capaz de transcribir el audio en texto
 - **windowsprefetch** Parseo de ficheros de windows prefetch
 - **windowsregisty** Extracción de claves importantes de los ficheros de registro hives de windows  
 - **zipextractor**: Extrae los ficheros de un zip, incluso aplicando fuerza bruta.
