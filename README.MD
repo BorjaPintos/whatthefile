@@ -13,9 +13,11 @@ Pensado para forensics o CTFs
 ![](https://img.shields.io/github/workflow/status/borjapintos/whatthefile/Docker%20Build%20Workflow)
 
 
-![](https://img.shields.io/badge/python-3.7-blue)
 ![](https://img.shields.io/badge/python-3.8-blue)
+![](https://img.shields.io/badge/python-3.9-blue)
+![](https://img.shields.io/badge/python-3.10-blue)
 
+Por las dependencias inseguras, este proyecto dejó de ser compatible con ![](https://img.shields.io/badge/python-3.7-red)
 
 # Módulos
 - **Básico**: Datos específicos del archivo, tipo, tamaño, uid, gid...
