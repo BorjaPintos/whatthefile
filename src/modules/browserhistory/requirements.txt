@@ -1,1 +1,1 @@
-libesedb-python==20210424
+libesedb-python==20220806

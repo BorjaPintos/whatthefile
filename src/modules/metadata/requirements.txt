@@ -1,1 +1,1 @@
-pyexiftool==0.4.5
+pyexiftool==0.4.13

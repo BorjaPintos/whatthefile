@@ -1,2 +1,2 @@
-evtx==0.6.11
-xmltodict==0.12.0
+evtx==0.8.1
+xmltodict==0.13.0

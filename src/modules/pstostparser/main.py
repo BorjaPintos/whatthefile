@@ -23,8 +23,11 @@ class Constructor(IModule):
         self._author = "BorjaPintos"
 
     def is_valid_for(self, target_file: TargetPath):
-        if target_file.is_file() and "Microsoft Outlook email" in target_file.get_type():
-            return True
+        if target_file.is_file():
+            if "Microsoft Outlook email" in target_file.get_type():
+                return True
+            if "Microsoft Outlook Personal Storage" in target_file.get_type():
+                return True
         return False
 
     def _get_recursive(self, pypff_folder: pypff.folder, target_file:TargetFile) -> List:

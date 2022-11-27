@@ -1,4 +1,4 @@
-FROM python:3.7.4-stretch
+FROM python:3.8-buster
 
 MAINTAINER Borja Pintos
 
@@ -8,13 +8,13 @@ RUN git clone https://github.com/BorjaPintos/whatthefile.git
 WORKDIR /whatthefile
 
 
-RUN pip3.7 install --upgrade pip
+RUN pip3 install --upgrade pip
 #install basics requirements
-RUN pip3.7 install -r requirements.txt
-RUN pip3.7 install -r requirementsunix.txt
+RUN pip3 install -r requirements.txt
+RUN pip3 install -r requirementsunix.txt
 
 #install module exiftool
-ENV EXIFTOOL_VERSION 12.41
+ENV EXIFTOOL_VERSION 12.51
 RUN curl --insecure https://exiftool.org/Image-ExifTool-${EXIFTOOL_VERSION}.tar.gz --output Image-ExifTool-${EXIFTOOL_VERSION}.tar.gz&& \
 tar -xf Image-ExifTool-${EXIFTOOL_VERSION}.tar.gz && \
 cd Image-ExifTool-${EXIFTOOL_VERSION} && \
@@ -25,7 +25,7 @@ make install &&\
 cd .. && \
 git clone https://github.com/smarnach/pyexiftool.git && \
 cd ./pyexiftool && \
-python3.7 ./setup.py install && \
+python3 ./setup.py install && \
 cd ..
 
 #install module ocrtesseract

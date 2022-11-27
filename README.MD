@@ -13,9 +13,11 @@ Pensado para forensics o CTFs
 ![](https://img.shields.io/github/workflow/status/borjapintos/whatthefile/Docker%20Build%20Workflow)
 
 
-![](https://img.shields.io/badge/python-3.7-blue)
 ![](https://img.shields.io/badge/python-3.8-blue)
+![](https://img.shields.io/badge/python-3.9-blue)
+![](https://img.shields.io/badge/python-3.10-blue)
 
+Por las dependencias inseguras, este proyecto dejó de ser compatible con ![](https://img.shields.io/badge/python-3.7-red)
 
 # Módulos
 - **Básico**: Datos específicos del archivo, tipo, tamaño, uid, gid...
@@ -45,14 +47,17 @@ Si algún módulo crea nuevos ficheros lo harán en un directorio especial para 
 
 # Requisitos
 
+- Instalación común para todos
+`pip install -r requirements.txt`
 
+
+Instalaciones especiales para cada uno:
 - Linux
-`pip install -r requirementesunix.txt`
+`pip install -r requirementsunix.txt`
 - Windows
-`pip install -r requirementeswindows.txt`
-
+`pip install -r requirementswindows.txt`
 - MacOS
-`pip install -r requirementesunix.txt`
+`pip install -r requirementsunix.txt`
 
 Se necesita instalar la librería libmagic
 En MacOS se puede hacer a través de Homebrew: (tambien sirve para Linux)
@@ -64,7 +69,11 @@ y una vez instalado:
 ### Módulos
 Dentro de cada módulo se explican las instrucciones de sus dependencias, por lo general tienen un fichero requirements.txt
 
-`pip install -r requirements.txt`
+`pip install -r MODULOPATH/requirements.txt`
+
+Existe el fichero installmodulesrequirements.sh que es un centralizador para instalar todos juntos:
+
+`sh installmodulesrequirements.sh`
 
 Algunos necesitan instalar algun software adicional de sistema operativo. Por ejemplo, exiftools
 
@@ -103,7 +112,10 @@ Para ejecutar el servidor web
 
 # Tests
 
-`python -m pytest`
+```
+pip install -r requirementstest.txt
+python -m pytest
+```
 
 # Desarrollo de módulos
 
