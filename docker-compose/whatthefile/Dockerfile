@@ -35,7 +35,7 @@ RUN apt update && apt install -y tesseract-ocr libgl1-mesa-glx
 RUN apt install -y libzbar0
 
 #install module whisper
-RUN apt install ffmpeg
+RUN apt install -y ffmpeg
 
 RUN sh installmodulesrequirements.sh
 
