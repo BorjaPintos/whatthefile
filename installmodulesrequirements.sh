@@ -7,6 +7,7 @@ pip install -r ./src/modules/ocrtesseract/requirements.txt
 pip install -r ./src/modules/pstostparser/requirements.txt
 pip install -r ./src/modules/qrbcreader/requirements.txt
 pip install -r ./src/modules/tikaparser/requirements.txt
+pip install -r ./src/modules/whisper/requirements.txt
 pip install -r ./src/modules/windowsprefetch/requirements.txt
 pip install -r ./src/modules/windowsregistry/requirements.txt
 pip install -r ./src/modules/zipextractor/requirements.txt

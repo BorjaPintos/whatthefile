@@ -9,6 +9,6 @@ while ! $(curl --insecure --output /dev/null --silent --head --fail -u admin:adm
     sleep 1
 done
 
-python3.7 whatthefile.py whatthefile.ini /input
+python3 whatthefile.py whatthefile.ini /input
 
 echo "Analysis Done!"
