@@ -23,6 +23,7 @@ class Constructor(IModule):
         self._author = "BorjaPintos"
 
     def is_valid_for(self, target_file: TargetPath):
+        print(target_file.get_type())
         if target_file.is_file() and "Microsoft Outlook email" in target_file.get_type():
             return True
         return False
