@@ -1,4 +1,4 @@
-python-magic==0.4.18
+python-magic==0.4.27
 elasticsearch==7.10.1
-loguru==0.5.3
+loguru==0.6.0
 coinaddrvalidator==1.1.3
