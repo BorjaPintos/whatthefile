@@ -8,10 +8,10 @@ RUN git clone https://github.com/BorjaPintos/whatthefile.git
 WORKDIR /whatthefile
 
 
-RUN pip3.7 install --upgrade pip
+RUN pip3 install --upgrade pip
 #install basics requirements
-RUN pip3.7 install -r requirements.txt
-RUN pip3.7 install -r requirementsunix.txt
+RUN pip3 install -r requirements.txt
+RUN pip3 install -r requirementsunix.txt
 
 #install module exiftool
 ENV EXIFTOOL_VERSION 12.51
@@ -25,7 +25,7 @@ make install &&\
 cd .. && \
 git clone https://github.com/smarnach/pyexiftool.git && \
 cd ./pyexiftool && \
-python3.7 ./setup.py install && \
+python3 ./setup.py install && \
 cd ..
 
 #install module ocrtesseract

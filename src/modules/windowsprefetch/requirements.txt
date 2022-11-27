@@ -1,1 +1,1 @@
-libscca-python==20200717
+libscca-python==20221027
