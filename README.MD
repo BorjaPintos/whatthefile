@@ -45,14 +45,17 @@ Si algún módulo crea nuevos ficheros lo harán en un directorio especial para 
 
 # Requisitos
 
+- Instalación común para todos
+`pip install -r requirements.txt`
 
+
+Instalaciones especiales para cada uno:
 - Linux
-`pip install -r requirementesunix.txt`
+`pip install -r requirementsunix.txt`
 - Windows
-`pip install -r requirementeswindows.txt`
-
+`pip install -r requirementswindows.txt`
 - MacOS
-`pip install -r requirementesunix.txt`
+`pip install -r requirementsunix.txt`
 
 Se necesita instalar la librería libmagic
 En MacOS se puede hacer a través de Homebrew: (tambien sirve para Linux)
@@ -64,7 +67,11 @@ y una vez instalado:
 ### Módulos
 Dentro de cada módulo se explican las instrucciones de sus dependencias, por lo general tienen un fichero requirements.txt
 
-`pip install -r requirements.txt`
+`pip install -r MODULOPATH/requirements.txt`
+
+Existe el fichero installmodulesrequirements.sh que es un centralizador para instalar todos juntos:
+
+`sh installmodulesrequirements.sh`
 
 Algunos necesitan instalar algun software adicional de sistema operativo. Por ejemplo, exiftools
 
@@ -103,7 +110,10 @@ Para ejecutar el servidor web
 
 # Tests
 
-`python -m pytest`
+```
+pip install -r requirementstest.txt
+python -m pytest
+```
 
 # Desarrollo de módulos
 
