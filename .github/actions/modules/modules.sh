@@ -45,7 +45,7 @@ fi
 
 #install module whisper
 if [ "$RUNNER_OS" == "Linux" ]; then
-  sudo apt-get ffmpeg
+  sudo apt-get install ffmpeg
 elif [ "$RUNNER_OS" == "macOS" ]; then
   brew install ffmpeg
 elif [ "$RUNNER_OS" == "Windows" ]; then
