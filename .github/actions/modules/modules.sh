@@ -1,4 +1,8 @@
 #!/bin/bash
+if [ "$RUNNER_OS" == "Linux" ]; then
+  sudo apt-get update
+fi
+
 #install module metadata
 EXIFTOOL_VERSION=12.51
 if [ "$RUNNER_OS" == "Windows" ]; then
