@@ -1,4 +1,8 @@
 #!/bin/bash
+if [ "$RUNNER_OS" == "Linux" ]; then
+  sudo apt-get update
+fi
+
 #install module metadata
 EXIFTOOL_VERSION=12.51
 if [ "$RUNNER_OS" == "Windows" ]; then
@@ -45,7 +49,7 @@ fi
 
 #install module whisper
 if [ "$RUNNER_OS" == "Linux" ]; then
-  sudo apt-get install ffmpeg
+  sudo apt-get install -y ffmpeg
 elif [ "$RUNNER_OS" == "macOS" ]; then
   brew install ffmpeg
 elif [ "$RUNNER_OS" == "Windows" ]; then
