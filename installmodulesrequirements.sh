@@ -5,6 +5,7 @@ pip install -r ./src/modules/imagerecognitiontensorflow/requirements.txt
 pip install -r ./src/modules/metadata/requirements.txt
 pip install -r ./src/modules/ocrtesseract/requirements.txt
 pip install -r ./src/modules/pstostparser/requirements.txt
+pip install -r ./src/modules/pysentimiento/requirements.txt
 pip install -r ./src/modules/qrbcreader/requirements.txt
 pip install -r ./src/modules/tikaparser/requirements.txt
 pip install -r ./src/modules/whisper/requirements.txt
