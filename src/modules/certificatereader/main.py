@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from types import BuiltinFunctionType
 from typing import List
 
 from cryptography.x509 import Extension
@@ -47,7 +48,7 @@ class Constructor(IModule):
             "signature_algorithm_hash": cert.signature_hash_algorithm.name,
             "signature_algorithm": cert.signature_algorithm_oid._name,
             "key_size": cert.public_key().key_size,
-            "public_key": self._parse_dict_value(cert.public_key().public_numbers().__dict__)
+            "public_key": self._parse_object_values(cert.public_key().public_numbers())
         }
 
     def _parse_extensions(self, extensions: List[Extension]) -> list:
@@ -65,6 +66,16 @@ class Constructor(IModule):
             # eliminamos la _ inicial
             values[key[1:]] = str(dict_values[key]) if type(dict_values[key]) is not bytes \
                 else str(dict_values[key].hex())
+        return values
+
+    def _parse_object_values(self, object) -> dict:
+        values = {}
+        for atribute in dir(object):
+            if not atribute.startswith("__"):
+                value = object.__getattribute__(atribute)
+                if not isinstance(value, BuiltinFunctionType):
+                    values[atribute] = str(value) if type(value) is not bytes \
+                        else str(value.hex())
         return values
 
     def is_valid_for(self, target_file: TargetPath):
