@@ -4,7 +4,7 @@ if [ "$RUNNER_OS" == "Linux" ]; then
 fi
 
 #install module metadata
-EXIFTOOL_VERSION=12.51
+EXIFTOOL_VERSION=12.78
 if [ "$RUNNER_OS" == "Windows" ]; then
   curl --output exiftool.zip --url https://exiftool.org/exiftool-$EXIFTOOL_VERSION.zip
   unzip -qq ./exiftool.zip -d "./exiftool"
