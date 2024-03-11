@@ -33,7 +33,8 @@ Por las dependencias inseguras, este proyecto dejó de ser compatible con ![](ht
 - **metadata**: extracción de metadatos con Exiftool
 - **mftparser**: Parsea el fichero de la MFT, y además permite enviar el resultado por un segundo canal de salida (por ejemplo otro índice de elasticsearch, u otro fichero distinto al del análisis) 
 - **ocrtesseract**: Extrae texto que se visualice en imágenes
-- **pstostparser**: Estrae correos electrónicos de ficheros pst/ost, y además permite enviarlos por un segundo canal de salida (por ejemplo otro índice de elasticsearch, u otro fichero distinto al del análisis) 
+- **pstostparser**: Extrae correos electrónicos de ficheros pst/ost, y además permite enviarlos por un segundo canal de salida (por ejemplo otro índice de elasticsearch, u otro fichero distinto al del análisis) 
+- **pysentimiento**: Realiza un análisis de sentimiento (positivo, nogativo, emoción, hate...) del resultado de otros módulos, como strings, tikaparser, whisper, y pstoostparser.
 - **qrbcreader**: Lector de código QR y Códigos de Barras
 - **strings**: extracción de strings
 - **tikaparser**: Obtención del texto de documentos offimáticos, pdfs...

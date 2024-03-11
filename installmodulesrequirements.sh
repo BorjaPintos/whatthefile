@@ -1,3 +1,4 @@
+pip install -r ./src/modules/analysispysentimiento/requirements.txt
 pip install -r ./src/modules/browserhistory/requirements.txt
 pip install -r ./src/modules/certificatereader/requirements.txt
 pip install -r ./src/modules/evtxreader/requirements.txt
