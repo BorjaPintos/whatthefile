@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from src.modules.analysis_pysentimiento.main import Constructor
+from src.modules.analysispysentimiento.main import Constructor
 
 
 class PySentimientoTest(unittest.TestCase):
