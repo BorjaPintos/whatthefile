@@ -167,7 +167,9 @@ class CoreTest(unittest.TestCase):
                          "module.qrbcreader": {"active": True}, "module.strings": {"active": True, "char_min": 4},
                          "module.virustotal": {"active": True}, "module.zipextractor": {"active": True},
                          "module.tikaparser": {"active": True},  "module.whisper": {"active": True}, "module.certificatereader": {"active": True},
-                         "module.browserhisstory": {"active": True}})
+                         "module.browserhisstory": {"active": True},
+                         "module.analysispysentimiento": {"active": True, "lang":"es"}
+                         })
         path = "./tests/examples/collie.jpg"
         output = OutputFactory.get_output_by_conf(conf)
         core = Core(conf, output)
