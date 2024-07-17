@@ -6,7 +6,7 @@ fi
 #install module metadata
 EXIFTOOL_VERSION=12.89
 if [ "$RUNNER_OS" == "Windows" ]; then
-  curl --output exiftool.zip --url https://exiftool.org/exiftool-$EXIFTOOL_VERSION_64.zip
+  curl --output exiftool.zip --url https://exiftool.org/exiftool-$EXIFTOOL_VERSION'_64'.zip
   unzip -qq ./exiftool.zip -d "./exiftool"
   cp "./exiftool/exiftool(-k).exe" "./exiftool/exiftool.exe"
   echo "./exiftool/" >> $GITHUB_PATH
