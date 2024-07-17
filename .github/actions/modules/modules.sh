@@ -38,6 +38,8 @@ if [ "$RUNNER_OS" == "Linux" ]; then
   sudo apt-get install -y libzbar0
 elif [ "$RUNNER_OS" == "macOS" ]; then
   brew install zbar
+  mkdir ~/lib
+  ln -s $(brew --prefix zbar)/lib/libzbar.dylib ~/lib/libzbar.dylib
 fi
 
 #strings
