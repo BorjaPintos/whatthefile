@@ -12,8 +12,6 @@ Pensado para forensics o CTFs
 ![](https://img.shields.io/github/actions/workflow/status/borjapintos/whatthefile/master-workflow.yml)
 ![](https://img.shields.io/github/actions/workflow/status/borjapintos/whatthefile/docker-build-workflow.yml)
 
-
-![](https://img.shields.io/badge/python-3.8-blue)
 ![](https://img.shields.io/badge/python-3.9-blue)
 ![](https://img.shields.io/badge/python-3.10-blue)
 

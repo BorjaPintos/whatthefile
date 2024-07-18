@@ -13,14 +13,14 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-version: ['3.8', '3.9', '3.10']
+        python-version: ['3.9', '3.10']
         os: [ubuntu-latest, macOS-latest, windows-latest]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
 
@@ -36,7 +36,7 @@ jobs:
         python -m pytest --cov=src --cov-report html:html-${{matrix.os}}-${{matrix.python-version}} --doctest-modules --junitxml=junit/test-results-${{matrix.os}}-${{matrix.python-version}}.xml
 
     - name: Upload pytest test results
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: pytest-results-${{matrix.os}}-${{matrix.python-version}}
         path: junit/test-results-${{matrix.os}}-${{ matrix.python-version }}.xml
@@ -52,7 +52,7 @@ jobs:
       run: zip -r html-${{matrix.os}}-${{matrix.python-version}}.zip html-${{matrix.os}}-${{matrix.python-version}}/
 
     - name: Upload cobertura results
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: html-${{matrix.os}}-${{matrix.python-version}}.zip
         path: html-${{matrix.os}}-${{matrix.python-version}}.zip

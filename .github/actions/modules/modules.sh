@@ -4,11 +4,12 @@ if [ "$RUNNER_OS" == "Linux" ]; then
 fi
 
 #install module metadata
-EXIFTOOL_VERSION=12.78
+EXIFTOOL_VERSION=12.89
 if [ "$RUNNER_OS" == "Windows" ]; then
-  curl --output exiftool.zip --url https://exiftool.org/exiftool-$EXIFTOOL_VERSION.zip
+  ARCH=_64
+  curl --output exiftool.zip --url https://exiftool.org/exiftool-$EXIFTOOL_VERSION$ARCH.zip
   unzip -qq ./exiftool.zip -d "./exiftool"
-  cp "./exiftool/exiftool(-k).exe" "./exiftool/exiftool.exe"
+  cp "./exiftool/exiftool-$EXIFTOOL_VERSION$ARCH/exiftool(-k).exe" "./exiftool/exiftool.exe"
   echo "./exiftool/" >> $GITHUB_PATH
 else
   wget https://exiftool.org/Image-ExifTool-$EXIFTOOL_VERSION.tar.gz --no-check-certificate
@@ -38,6 +39,8 @@ if [ "$RUNNER_OS" == "Linux" ]; then
   sudo apt-get install -y libzbar0
 elif [ "$RUNNER_OS" == "macOS" ]; then
   brew install zbar
+  mkdir ~/lib
+  ln -s $(brew --prefix zbar)/lib/libzbar.dylib ~/lib/libzbar.dylib
 fi
 
 #strings

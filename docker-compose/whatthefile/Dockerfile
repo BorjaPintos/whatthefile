@@ -1,4 +1,4 @@
-FROM python:3.8-buster
+FROM python:3.10-bullseye
 
 MAINTAINER Borja Pintos
 
@@ -14,7 +14,7 @@ RUN pip3 install -r requirements.txt
 RUN pip3 install -r requirementsunix.txt
 
 #install module exiftool
-ENV EXIFTOOL_VERSION 12.78
+ENV EXIFTOOL_VERSION 12.89
 RUN curl --insecure https://exiftool.org/Image-ExifTool-${EXIFTOOL_VERSION}.tar.gz --output Image-ExifTool-${EXIFTOOL_VERSION}.tar.gz&& \
 tar -xf Image-ExifTool-${EXIFTOOL_VERSION}.tar.gz && \
 cd Image-ExifTool-${EXIFTOOL_VERSION} && \
