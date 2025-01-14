@@ -56,6 +56,6 @@ elif [ "$RUNNER_OS" == "Windows" ]; then
   choco install ffmpeg
 fi
 
-sh ./installmodulesrequirements.sh
+bash ./installmodulesrequirements.sh
 
 
