@@ -4,9 +4,9 @@ if [ "$RUNNER_OS" == "Linux" ]; then
 fi
 
 #install module metadata
-EXIFTOOL_VERSION=12.78
+EXIFTOOL_VERSION=13.12
 if [ "$RUNNER_OS" == "Windows" ]; then
-  curl --output exiftool.zip --url https://exiftool.org/exiftool-$EXIFTOOL_VERSION.zip
+  curl --output exiftool.zip --url https://exiftool.org/exiftool-${EXIFTOOL_VERSION}_64.zip
   unzip -qq ./exiftool.zip -d "./exiftool"
   cp "./exiftool/exiftool(-k).exe" "./exiftool/exiftool.exe"
   echo "./exiftool/" >> $GITHUB_PATH
@@ -56,6 +56,6 @@ elif [ "$RUNNER_OS" == "Windows" ]; then
   choco install ffmpeg
 fi
 
-sh ./installmodulesrequirements.sh
+bash ./installmodulesrequirements.sh
 
 

@@ -1,4 +1,4 @@
-FROM python:3.8-buster
+FROM python:3.10-bullseye
 
 MAINTAINER Borja Pintos
 
@@ -14,10 +14,10 @@ RUN pip3 install -r requirements.txt
 RUN pip3 install -r requirementsunix.txt
 
 #install module exiftool
-ENV EXIFTOOL_VERSION 12.78
-RUN curl --insecure https://exiftool.org/Image-ExifTool-${EXIFTOOL_VERSION}.tar.gz --output Image-ExifTool-${EXIFTOOL_VERSION}.tar.gz&& \
-tar -xf Image-ExifTool-${EXIFTOOL_VERSION}.tar.gz && \
-cd Image-ExifTool-${EXIFTOOL_VERSION} && \
+ENV EXIFTOOL_VERSION 13.12
+RUN curl --insecure https://exiftool.org/Image-ExifTool-$EXIFTOOL_VERSION.tar.gz --output Image-ExifTool-$EXIFTOOL_VERSION.tar.gz && \
+tar -xf Image-ExifTool-$EXIFTOOL_VERSION.tar.gz && \
+cd Image-ExifTool-$EXIFTOOL_VERSION && \
 perl Makefile.PL && \
 make && \
 make test && \
@@ -44,8 +44,8 @@ RUN apt -y upgrade
 
 EXPOSE 8443
 # uncomment if you dont use tika
-#CMD ["python3.7","whatthefile.py", "whatthefile.ini", "/input"]
+#CMD ["python3","whatthefile.py", "whatthefile.ini", "/input"]
 # uncomment if you use tika
-CMD ["sh", "entrypoint.sh"] 
+CMD ["bash", "entrypoint.sh"] 
 
 
